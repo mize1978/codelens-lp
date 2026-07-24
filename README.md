@@ -8,7 +8,7 @@
 <p align="center">
   <a href="https://mize1978.github.io/codelens-lp/"><strong>🌐 Live Site →</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://codelens-ai.onrender.com">🛠 App</a>
+  <a href="https://codelens-ai-vplg.onrender.com">🛠 App</a>
   &nbsp;·&nbsp;
   <a href="https://github.com/mize1978/codelens-ai">📦 Source</a>
 </p>
@@ -35,7 +35,7 @@ Read → Understand → Remember → Grow
 | Layer | Role | Link |
 |---|---|---|
 | 🌐 **This LP** | **Why** — the Repository Intelligence idea | [Live](https://mize1978.github.io/codelens-lp/) |
-| 🛠 **CodeLens App** | **How** — actually review a repo | [codelens-ai.onrender.com](https://codelens-ai.onrender.com) |
+| 🛠 **CodeLens App** | **How** — actually review a repo | [codelens-ai-vplg.onrender.com](https://codelens-ai-vplg.onrender.com) |
 | 📚 **Notion** | **Remember** — knowledge, DNA, decisions, journal | Second Brain |
 | ✦ **Proof** | real improvement over time | RewardMe · **49 → 66** |
 
