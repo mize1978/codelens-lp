@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rewardme スコア推移 · CodeLensAI</title>
+<style>
+  :root{
+    --bg:#0b0e14; --surface:#12161f; --card:#161b26; --line:#252b3a; --line2:#2f3648;
+    --ink:#e8edf5; --sub:#9aa4b8; --mut:#6b7488;
+    --overall:#e8edf5; --quality:#d6a531; --security:#3fb950; --maint:#58a6ff;
+    --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:radial-gradient(1000px 500px at 70% -10%,#161d2c 0%,var(--bg) 55%);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.5;min-height:100vh}
+  .wrap{max-width:920px;margin:0 auto;padding:34px 26px 56px}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  .head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:6px}
+  .repo{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-family:var(--mono)}
+  h1{font-size:25px;font-weight:750;letter-spacing:-.3px;margin-top:4px}
+  h1 b{color:var(--security)}
+  .sub{color:var(--sub);font-size:13.5px;margin-top:5px}
+  .now{text-align:right;flex:none}
+  .now .n{font-size:34px;font-weight:750;color:var(--security);line-height:1}
+  .now .l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-family:var(--mono);margin-top:3px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 20px 14px;margin-top:22px}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:6px;padding:0 6px}
+  .lg{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--sub);cursor:pointer;user-select:none;transition:opacity .15s}
+  .lg.off{opacity:.32}
+  .lg .key{width:20px;height:0;border-top:3px solid;border-radius:2px}
+  .lg b{color:var(--ink);font-weight:600}
+
+  .chart-shell{position:relative}
+  svg{display:block;width:100%;height:auto;overflow:visible}
+  .gl{stroke:var(--line);stroke-width:1}
+  .axtx{fill:var(--mut);font-family:var(--mono);font-size:12px}
+  .xtx{fill:var(--sub);font-size:12px}
+  .xtx .d{fill:var(--mut);font-size:10.5px;font-family:var(--mono)}
+  .series{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;transition:opacity .15s}
+  .series.hero{stroke-width:3}
+  .endlab{font-family:var(--mono);font-weight:700;font-size:13px}
+  .anno{fill:var(--security);font-size:11.5px;font-weight:600;font-family:var(--mono)}
+  .anno-l{stroke:var(--security);stroke-width:1;stroke-dasharray:3 3;opacity:.5}
+
+  /* hover */
+  .cross{stroke:var(--line2);stroke-width:1;opacity:0}
+  .hit{fill:transparent;cursor:crosshair}
+  .tip{position:absolute;pointer-events:none;background:#0d1119;border:1px solid var(--line2);border-radius:10px;padding:10px 12px;font-size:12.5px;opacity:0;transition:opacity .1s;min-width:150px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:5}
+  .tip .th{font-size:11px;color:var(--mut);font-family:var(--mono);margin-bottom:7px}
+  .tip .tr{display:flex;align-items:center;gap:8px;margin:3px 0}
+  .tip .tr .k{width:10px;height:10px;border-radius:3px;flex:none}
+  .tip .tr .nm{color:var(--sub);flex:1}
+  .tip .tr .v{font-family:var(--mono);font-weight:700;color:var(--ink)}
+
+  /* table */
+  .tbl-h{display:flex;align-items:center;justify-content:space-between;margin:26px 4px 12px}
+  .tbl-h .t{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--sub);font-weight:600}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{text-align:left}
+  thead th{color:var(--mut);font-weight:600;font-size:12px;letter-spacing:.04em}
+  td{font-family:var(--mono);color:var(--sub)}
+  td:first-child{font-family:var(--sans);color:var(--ink)}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:last-child td{color:var(--ink);font-weight:600}
+  .cap{color:var(--mut);font-size:12px;margin-top:14px;padding:0 2px;line-height:1.6}
+  .foot-note{margin-top:8px;padding:0 2px;color:var(--mut);font-size:11.5px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <div class="repo">CodeLensAI · Score Trend</div>
+      <h1>mize1978/<b>rewardme</b> の成長</h1>
+      <div class="sub">5回のレビューで総合 49 → 66（+17）。<b style="color:var(--security)">セキュリティが最大の伸び（45 → 70）</b>。</div>
+    </div>
+    <div class="now">
+      <div class="n tnum">66</div>
+      <div class="l">GOOD · #50</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="legend" id="legend"></div>
+    <div class="chart-shell">
+      <svg id="chart" viewBox="0 0 860 400" role="img" aria-label="rewardme のスコア推移折れ線グラフ"></svg>
+      <div class="tip" id="tip"></div>
+    </div>
+  </div>
+
+  <div class="tbl-h"><div class="t">データ（レビュー順）</div><div class="t" style="color:var(--mut);font-family:var(--mono);text-transform:none;letter-spacing:0">出所: CodeLensAI スクリーンショット</div></div>
+  <table>
+    <thead><tr><th>レビュー</th><th>総合</th><th>品質</th><th>セキュリティ</th><th>保守性</th><th>commits</th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="foot-note">※ 「score.jpg」は日時記録のないREADME用スナップショット（175 commits）。それ以外は CodeLensAI のレビューID / 撮影時刻順。</div>
+
+</div>
+
+<script>
+const DATA = [
+  {label:"#10",   date:"7/18 19時",  overall:49, quality:52, security:45, maint:50, commits:175},
+  {label:"score", date:"README",     overall:51, quality:52, security:45, maint:55, commits:175},
+  {label:"#17",   date:"7/18 21時",  overall:59, quality:62, security:55, maint:60, commits:189},
+  {label:"#18",   date:"7/18 21時",  overall:61, quality:62, security:55, maint:65, commits:191},
+  {label:"#50",   date:"7/24 本番",  overall:66, quality:62, security:70, maint:65, commits:192},
+];
+const SERIES = [
+  {key:"overall",  name:"総合 Overall", color:"var(--overall)", hex:"#e8edf5", hero:true},
+  {key:"security", name:"セキュリティ", color:"var(--security)",hex:"#3fb950"},
+  {key:"quality",  name:"品質 Quality", color:"var(--quality)", hex:"#d6a531"},
+  {key:"maint",    name:"保守性",       color:"var(--maint)",   hex:"#58a6ff"},
+];
+
+// geometry
+const W=860,H=400, mL=46,mR=150,mT=26,mB=58;
+const plotW=W-mL-mR, plotH=H-mT-mB;
+const YMIN=40,YMAX=75;
+const x=i=> mL + (DATA.length===1?0:i*plotW/(DATA.length-1));
+const y=v=> mT + (YMAX-v)/(YMAX-YMIN)*plotH;
+
+const svg=document.getElementById('chart');
+const NS="http://www.w3.org/2000/svg";
+function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+const off={}; // toggled series
+
+function draw(){
+  svg.innerHTML="";
+  // gridlines + y ticks
+  for(let v=YMIN;v<=YMAX;v+=5){
+    const yy=y(v);
+    svg.appendChild(el('line',{class:'gl',x1:mL,y1:yy,x2:mL+plotW,y2:yy,opacity:(v%10===0?1:.45)}));
+    if(v%10===0){const t=el('text',{class:'axtx',x:mL-10,y:yy+4,'text-anchor':'end'});t.textContent=v;svg.appendChild(t);}
+  }
+  // x labels (review + date)
+  DATA.forEach((d,i)=>{
+    const g=el('text',{class:'xtx',x:x(i),y:mT+plotH+24,'text-anchor':'middle'});
+    g.textContent=d.label;
+    svg.appendChild(g);
+    const g2=el('text',{class:'xtx',x:x(i),y:mT+plotH+40,'text-anchor':'middle'});
+    const s=el('tspan',{class:'d'});s.textContent=d.date;g2.appendChild(s);
+    svg.appendChild(g2);
+  });
+
+  // security-jump annotation (between #18 and #50)
+  if(!off['security']){
+    const xa=(x(3)+x(4))/2, ya=(y(55)+y(70))/2-6;
+    svg.appendChild(el('line',{class:'anno-l',x1:x(3),y1:y(55),x2:x(4),y2:y(70)}));
+    const a=el('text',{class:'anno',x:x(4)-6,y:y(70)-10,'text-anchor':'end'});a.textContent="+15 セキュリティ強化";svg.appendChild(a);
+  }
+
+  // series lines
+  SERIES.forEach(s=>{
+    if(off[s.key])return;
+    const pts=DATA.map((d,i)=>`${x(i)},${y(d[s.key])}`).join(' ');
+    svg.appendChild(el('polyline',{class:'series'+(s.hero?' hero':''),points:pts,stroke:s.color}));
+  });
+  // markers (with surface ring) + end labels
+  SERIES.forEach(s=>{
+    if(off[s.key])return;
+    DATA.forEach((d,i)=>{
+      svg.appendChild(el('circle',{cx:x(i),cy:y(d[s.key]),r:s.hero?5:4,fill:s.color,stroke:'#161b26','stroke-width':2}));
+    });
+    const li=DATA.length-1;
+    const t=el('text',{class:'endlab',x:x(li)+12,y:y(DATA[li][s.key])+4,fill:s.color==='var(--overall)'?'#e8edf5':s.color});
+    t.textContent=DATA[li][s.key];
+    svg.appendChild(t);
+  });
+
+  // hover crosshair + hit bands
+  const cross=el('line',{class:'cross',id:'cross',x1:0,y1:mT,x2:0,y2:mT+plotH});
+  svg.appendChild(cross);
+  DATA.forEach((d,i)=>{
+    const bw=plotW/(DATA.length-1);
+    const hit=el('rect',{class:'hit',x:x(i)-bw/2,y:mT,width:bw,height:plotH});
+    hit.addEventListener('mouseenter',()=>showTip(i));
+    hit.addEventListener('mousemove',()=>showTip(i));
+    hit.addEventListener('mouseleave',hideTip);
+    svg.appendChild(hit);
+  });
+}
+
+const tip=document.getElementById('tip');
+function showTip(i){
+  const d=DATA[i];
+  const cross=document.getElementById('cross');
+  cross.setAttribute('x1',x(i));cross.setAttribute('x2',x(i));cross.style.opacity=1;
+  let rows=SERIES.filter(s=>!off[s.key]).map(s=>
+    `<div class="tr"><span class="k" style="background:${s.hex}"></span><span class="nm">${s.name}</span><span class="v">${d[s.key]}</span></div>`).join('');
+  tip.innerHTML=`<div class="th">${d.label} · ${d.date} · ${d.commits} commits</div>${rows}`;
+  // position: convert svg x to pixel
+  const rect=svg.getBoundingClientRect();
+  const scale=rect.width/W;
+  let px=x(i)*scale;
+  const tw=tip.offsetWidth||160;
+  if(px+tw+16>rect.width) px=px-tw-16; else px=px+16;
+  tip.style.left=px+'px';
+  tip.style.top=(y(d.overall)*scale-10)+'px';
+  tip.style.opacity=1;
+}
+function hideTip(){tip.style.opacity=0;const c=document.getElementById('cross');if(c)c.style.opacity=0;}
+
+// legend
+const legend=document.getElementById('legend');
+SERIES.forEach(s=>{
+  const b=document.createElement('div');b.className='lg';
+  b.innerHTML=`<span class="key" style="border-color:${s.hex}"></span><b>${s.name.split(' ')[0]}</b>`;
+  b.onclick=()=>{off[s.key]=!off[s.key];b.classList.toggle('off');draw();};
+  legend.appendChild(b);
+});
+
+// table
+const tbody=document.getElementById('tbody');
+DATA.forEach(d=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${d.label} · ${d.date}</td><td>${d.overall}</td><td>${d.quality}</td><td>${d.security}</td><td>${d.maint}</td><td>${d.commits}</td>`;
+  tbody.appendChild(tr);
+});
+
+draw();
+</script>
+</body>
+</html>

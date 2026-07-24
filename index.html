@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeLensAI — Repository Intelligence</title>
+<meta name="description" content="Understand your repository, not just your code. AIがリポジトリを理解し、レビュー・知識・成長まで記録する Repository Intelligence.">
+<style>
+  :root{
+    --bg:#0a0d16; --surface:#111624; --card:#141a2b; --card2:#1a2133;
+    --line:#232b40; --line2:#2e3752;
+    --ink:#eef2fa; --sub:#9aa6bf; --mut:#66708a;
+    --good:#3fb950; --info:#58a6ff; --warn:#e3b341; --serious:#e8873a; --crit:#f2585a; --brand:#7c6cff;
+    --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.55}
+  body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(140,160,255,.045) 1px,transparent 0);background-size:34px 34px;pointer-events:none;z-index:0}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+  .tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--info);font-weight:650}
+  section{padding:66px 0;border-bottom:1px solid var(--line)}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:20;background:rgba(10,13,22,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  nav .in{max-width:1120px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:16px}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:650;font-size:15px}
+  .logo .mk{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 210deg,#7c6cff,#2f8bff,#7c6cff);display:grid;place-items:center;font-size:12px}
+  nav .links{margin-left:auto;display:flex;align-items:center;gap:22px;font-size:13.5px;color:var(--sub)}
+  nav .links a:hover{color:var(--ink)}
+  .cta{background:linear-gradient(135deg,#7c6cff,#2f8bff);color:#fff;font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:9px;display:inline-block}
+  .cta.big{font-size:15px;padding:13px 24px;border-radius:11px;box-shadow:0 8px 30px rgba(90,110,255,.35)}
+  .cta.ghost{background:transparent;border:1px solid var(--line2);color:var(--ink);box-shadow:none}
+
+  /* hero */
+  .hero{padding:70px 0 60px;display:grid;grid-template-columns:1.25fr .75fr;gap:30px;align-items:center;border-bottom:1px solid var(--line)}
+  .hero h1{font-size:46px;font-weight:780;letter-spacing:-1px;line-height:1.1;margin:14px 0 0}
+  .hero h1 .g{background:linear-gradient(120deg,#8f9bff,#59c0ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero .lead{font-size:16.5px;color:var(--sub);margin-top:18px;max-width:520px}
+  .verbs{margin-top:18px;font-size:13.5px;color:var(--mut);letter-spacing:.02em;font-family:var(--mono)}
+  .verbs b{color:var(--info);font-weight:600}
+  .hero .btns{margin-top:28px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .hero-art{justify-self:center;position:relative}
+  .hero-art img{height:270px;width:auto;filter:drop-shadow(0 20px 55px rgba(90,110,255,.55))}
+  .hero-art .glow{position:absolute;inset:-30px;background:radial-gradient(closest-side,rgba(90,110,255,.22),transparent);z-index:-1}
+
+  /* section head */
+  .shead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:26px}
+  .shead h2{font-size:28px;font-weight:750;letter-spacing:-.4px;margin-top:8px}
+  .shead p{color:var(--sub);font-size:14px;margin-top:6px;max-width:560px}
+  .tag{font-size:11.5px;font-weight:700;letter-spacing:.08em;padding:5px 11px;border-radius:7px;background:rgba(88,166,255,.12);color:var(--info);border:1px solid rgba(88,166,255,.3)}
+
+  /* example dashboard */
+  .repobar{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-family:var(--mono)}
+  .repobar .rn{font-size:18px;font-weight:600}.repobar .rn .u{color:var(--sub)}
+  .repobar .live{margin-left:auto;font-size:12px;color:var(--good);display:inline-flex;align-items:center;gap:6px;font-family:var(--sans)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px rgba(63,185,80,.16)}
+  .grid3{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px}
+  .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-top:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:19px 21px}
+  .ch{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+  .ch .t{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--sub);font-weight:650}
+  .ch .a{margin-left:auto;font-size:11px;color:var(--mut);font-family:var(--mono)}
+  .health .big{font-size:40px;font-weight:750;letter-spacing:-1px;color:var(--serious)}
+  .health .big .f{font-size:18px;color:var(--warn);font-weight:700;margin-left:7px}
+  .health .base{font-size:12px;color:var(--mut);margin:5px 0 13px}
+  .hbar{height:9px;border-radius:6px;background:var(--card2);overflow:hidden;position:relative}
+  .hbar>i{display:block;height:100%;width:55%;background:linear-gradient(90deg,var(--crit),var(--serious),var(--warn))}
+  .hbar>.pin{position:absolute;top:-3px;left:55%;width:3px;height:15px;background:var(--ink);border-radius:2px;transform:translateX(-50%)}
+  .dna-cols{display:flex;gap:8px;text-align:center}
+  .dna-cols .d{flex:1}.dna-cols .lab{font-size:12px;color:var(--sub)}
+  .dna-cols .gr{font-size:28px;font-weight:750;font-family:var(--mono);margin:4px 0 2px}
+  .dna-cols .sc{font-size:11px;color:var(--mut);font-family:var(--mono)}
+  .g-b{color:var(--warn)}.g-c{color:var(--serious)}
+  .dna-foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--sub);line-height:1.9}
+  .dna-foot b{color:var(--ink);font-weight:600}
+  .evo .flow{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-weight:700}
+  .evo .from{font-size:24px;color:var(--crit)}.evo .arrow{color:var(--mut)}.evo .to{font-size:30px;color:var(--good)}
+  .evo .m{font-size:13px;color:var(--sub)}.evo .note{font-size:12px;color:var(--sub);margin-top:11px}
+  .rev .top{display:flex;align-items:baseline;gap:12px;margin-bottom:13px}
+  .rev .sc{font-size:34px;font-weight:750;color:var(--warn)}
+  .rev .bd{font-size:11px;font-weight:700;letter-spacing:.1em;padding:4px 9px;border-radius:6px;background:rgba(227,179,65,.14);color:var(--warn);border:1px solid rgba(227,179,65,.3)}
+  .iss{display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:9px}
+  .iss .lv{width:9px;height:9px;border-radius:50%;flex:none}.lv-c{background:var(--crit)}.lv-w{background:var(--serious)}.lv-s{background:var(--warn)}
+  .iss code{font-family:var(--mono);font-size:12px;color:var(--ink);background:var(--card2);padding:1px 6px;border-radius:5px}
+  .rev .verdict{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--ink);border-left:3px solid var(--warn);padding-left:13px;line-height:1.6}
+  .persona{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .persona .pt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:650;margin-bottom:10px}
+  .persona ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .persona li{display:flex;gap:9px;font-size:13px}.persona .yes li{color:var(--ink)}.persona .no li{color:var(--sub)}
+  .persona .mk{font-family:var(--mono);font-weight:800}.persona .yes .mk{color:var(--good)}.persona .no .mk{color:var(--crit)}
+
+  /* case study */
+  .case{background:linear-gradient(180deg,rgba(63,185,80,.05),transparent)}
+  .track{display:flex;align-items:stretch;gap:0;margin-top:8px}
+  .step{flex:1;text-align:center;position:relative;padding:0 8px}
+  .step:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:26px;color:var(--mut);font-size:20px}
+  .step .num{font-size:40px;font-weight:780;font-family:var(--mono);letter-spacing:-1px}
+  .step.s1 .num{color:var(--serious)}.step.s2 .num{color:var(--warn)}.step.s3 .num{color:var(--good)}
+  .step .st{font-size:12px;color:var(--mut);font-family:var(--mono);margin-top:2px}
+  .step .desc{font-size:12.5px;color:var(--sub);margin-top:12px;line-height:1.6}
+  .step .delta{display:inline-block;margin-top:9px;font-size:12px;font-weight:700;font-family:var(--mono);color:var(--good);background:rgba(63,185,80,.12);border:1px solid rgba(63,185,80,.3);padding:3px 9px;border-radius:7px}
+  .caseline{margin-top:26px;font-size:13.5px;color:var(--sub);text-align:center}
+  .caseline b{color:var(--ink)}
+
+  /* library */
+  .shelf{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:6px}
+  .book{position:relative;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px 16px;overflow:hidden;transition:.15s;display:block}
+  .book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+  .book:hover{transform:translateY(-3px);border-color:var(--line2)}
+  .book .ic{font-size:19px}.book .bt{font-weight:650;font-size:13.5px;margin-top:9px}
+  .book .bs{font-size:11.5px;color:var(--mut);margin-top:4px;min-height:30px}
+  .book .bv{margin-top:11px;font-size:12.5px;color:var(--sub)}.book .bv b{color:var(--ink)}
+  .bk1::before{background:#7c6cff}.bk2::before{background:#2f8bff}.bk3::before{background:#3fb950}.bk4::before{background:#a371f7}
+
+  /* final cta */
+  .final{text-align:center;border-bottom:none}
+  .final h2{font-size:32px;font-weight:780;letter-spacing:-.5px}
+  .final p{color:var(--sub);font-size:15px;margin:12px 0 26px}
+  .final .kun{height:120px;margin-bottom:8px;filter:drop-shadow(0 12px 34px rgba(90,110,255,.45))}
+
+  footer{padding:26px 0 40px;color:var(--mut);font-size:12.5px;display:flex;align-items:center;gap:12px}
+  footer .verbs{margin:0}footer .cp{margin-left:auto}
+
+  @media(max-width:860px){.hero{grid-template-columns:1fr}.hero-art{order:-1}.grid3,.grid2,.persona{grid-template-columns:1fr}.shelf{grid-template-columns:1fr 1fr}.track{flex-direction:column;gap:18px}.step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-16px;transform:translateX(-50%)}.hero h1{font-size:36px}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="in">
+    <div class="logo"><span class="mk">◎</span> CodeLensAI</div>
+    <div class="links">
+      <a href="#example">Live Example</a>
+      <a href="#case">Case Study</a>
+      <a href="#library">Library</a>
+      <a class="cta" href="https://codelens-ai.onrender.com" target="_blank">Review Your Repository</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div>
+      <span class="eyebrow">Repository Intelligence</span>
+      <h1>Understand your repository,<br><span class="g">not just your code.</span></h1>
+      <p class="lead">CodeLens AI はコードをレビューするだけで終わりません。リポジトリを<b style="color:var(--ink)">理解し・記録し・成長を追跡する</b>——すべてのレビューが、リポジトリの知識になる。</p>
+      <div class="verbs"><b>Read</b> → <b>Understand</b> → <b>Remember</b> → <b>Grow</b></div>
+      <div class="btns">
+        <a class="cta big" href="https://codelens-ai.onrender.com" target="_blank">▶ Review Your Repository</a>
+        <a class="cta big ghost" href="#example">Live Example を見る ↓</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="glow"></div>
+      <img src="codelens-kun.png" alt="CodeLensくん">
+    </div>
+  </header>
+
+  <!-- LIVE EXAMPLE -->
+  <section id="example">
+    <div class="shead">
+      <div>
+        <span class="tag">● Live Example</span>
+        <h2>実際の解析結果</h2>
+        <p>これはデモではなく、実在するリポジトリの本物のレビュー結果です。あなたのリポジトリでも同じように解析できます。</p>
+      </div>
+    </div>
+
+    <div class="repobar">
+      <span style="font-size:18px">🧬</span>
+      <span class="rn">mize1978<span class="u">/</span>debugme</span>
+      <span class="live"><span class="dot"></span> analyzed today</span>
+    </div>
+
+    <div class="grid3">
+      <div class="card health">
+        <div class="ch"><span>❤️</span><span class="t">Health</span></div>
+        <div class="big tnum">55<span class="f">· FAIR</span></div>
+        <div class="base">Baseline scan</div>
+        <div class="hbar"><i></i><span class="pin"></span></div>
+      </div>
+      <div class="card">
+        <div class="ch"><span>🧬</span><span class="t">Repository DNA</span></div>
+        <div class="dna-cols">
+          <div class="d"><div class="lab">Security</div><div class="gr g-c">C</div><div class="sc">45/100</div></div>
+          <div class="d"><div class="lab">Quality</div><div class="gr g-b">B</div><div class="sc">62/100</div></div>
+          <div class="d"><div class="lab">Maintainability</div><div class="gr g-c">C</div><div class="sc">58/100</div></div>
+        </div>
+        <div class="dna-foot"><b>Architecture:</b> Rails (MVC) · SSE<br><b>Style:</b> Experience-first　<b>Risk:</b> Medium</div>
+      </div>
+      <div class="card evo">
+        <div class="ch"><span>🌱</span><span class="t">Today's Evolution</span><span class="a">CodeLens reliability</span></div>
+        <div class="m" style="margin-bottom:10px">Review delivery — SHA caching</div>
+        <div class="flow"><span class="from tnum">49.9s</span><span class="arrow">→</span><span class="to tnum">1.5s</span></div>
+        <div class="note"><b style="color:var(--sub)">generated → cached</b>　同一コミットの再レビューを決定論化（CodeLens側の実装）</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card rev">
+        <div class="ch"><span>📘</span><span class="t">Latest Review</span><span class="a">analyzed 11 / 170 files</span></div>
+        <div class="top"><div class="sc tnum">55</div><span class="bd">FAIR</span></div>
+        <div class="iss"><span class="lv lv-c"></span>Prompt Injection 無防備 — 入力を LLM に素通し</div>
+        <div class="iss"><span class="lv lv-w"></span>Strong Parameters 未使用 — <code>params[:debug_log]</code> 直参照</div>
+        <div class="iss"><span class="lv lv-s"></span>Test coverage 薄い — 主要フロー未カバー</div>
+        <div class="verdict">「悩みをデバッグする」コンセプトは秀逸だが、Prompt Injection に丸裸・Strong Parameters 未使用と、セキュリティ自体が盛大にデバッグを必要としている状態。</div>
+      </div>
+      <div class="card">
+        <div class="ch"><span>🧠</span><span class="t">Personality</span></div>
+        <div class="persona">
+          <div><div class="pt">Prefers</div><ul class="yes">
+            <li><span class="mk">✓</span> Experience-first</li>
+            <li><span class="mk">✓</span> Streaming over reloads</li>
+            <li><span class="mk">✓</span> Consistent branding</li>
+          </ul></div>
+          <div><div class="pt">Avoids</div><ul class="no">
+            <li><span class="mk">✗</span> AI speaking first</li>
+            <li><span class="mk">✗</span> Generic UI</li>
+            <li><span class="mk">✗</span> Hidden complexity</li>
+          </ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDY -->
+  <section id="case" class="case">
+    <div class="shead">
+      <div>
+        <span class="tag" style="background:rgba(63,185,80,.12);color:var(--good);border-color:rgba(63,185,80,.3)">✦ Proof</span>
+        <h2>Case Study — リポジトリは、本当に育つ</h2>
+        <p>レビューは指摘して終わりではありません。RewardMe は CodeLens のレビューを受けて、実際にスコアを伸ばしました。これが Repository Intelligence の証拠です。</p>
+      </div>
+    </div>
+
+    <div class="repobar">
+      <span style="font-size:18px">🎮</span>
+      <span class="rn">mize1978<span class="u">/</span>rewardme</span>
+      <span class="live"><span class="dot"></span> 総合 49 → 66 · 5 reviews</span>
+    </div>
+
+    <div class="track">
+      <div class="step s1">
+        <div class="num tnum">49</div>
+        <div class="st">#10 · baseline · FAIR</div>
+        <div class="desc">初回レビュー。READMEは満点だが、空実装・未使用画像・テスト不足を指摘。</div>
+      </div>
+      <div class="step s2">
+        <div class="num tnum">61</div>
+        <div class="st">#18</div>
+        <div class="desc">未使用画像22枚を削除・テスト12本追加・Mailer の from を ENV 化・Dockerfile 最適化。</div>
+        <div class="delta">+12</div>
+      </div>
+      <div class="step s3">
+        <div class="num tnum">66</div>
+        <div class="st">#50 · GOOD</div>
+        <div class="desc">セキュリティを <b style="color:var(--ink)">45 → 70</b> まで強化（5回で最大の伸び）。指摘 → 修正 → 再評価のループが回った。</div>
+        <div class="delta">+5</div>
+      </div>
+    </div>
+    <div class="caseline">総合 <b>49 → 66</b>（+17）／ セキュリティ <b style="color:var(--good)">45 → 70</b>（+25・最大の伸び）。指摘して終わらず、<b>「理解 → 記録 → 改善 → 再評価」</b>のループが回るから、リポジトリが育つ。<br><a href="rewardme-score-trend.html" style="color:var(--info);font-weight:600">📈 5回のレビュー推移を詳しく見る →</a></div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section id="library">
+    <div class="shead">
+      <div>
+        <span class="eyebrow">Remember</span>
+        <h2>📚 知識は Notion に蓄積される</h2>
+        <p>すべてのレビューが本になる。Repository DNA・設計思想・成長日記・抽出された知識——リポジトリの「第二の脳」。</p>
+      </div>
+    </div>
+    <div class="shelf">
+      <a class="book bk1" href="https://app.notion.com/p/3a7d9f65223b8141baa0e501b4a42d01" target="_blank"><div class="ic">🧬</div><div class="bt">Repository DNA</div><div class="bs">コードベースの"人格"を可視化。</div><div class="bv">Updated <b>Today</b></div></a>
+      <a class="book bk3" href="https://app.notion.com/p/3a0d9f65223b81c5acaff8a6a09cf9c0" target="_blank"><div class="ic">📓</div><div class="bt">Development Journal</div><div class="bs">リポジトリの成長日記。</div><div class="bv">Day <b>8</b></div></a>
+      <a class="book bk4" href="https://app.notion.com/p/3a0d9f65223b8106b430db5dea35edec" target="_blank"><div class="ic">📖</div><div class="bt">Design Bible</div><div class="bs">設計の意思決定と、その理由。</div><div class="bv"><b>3</b> decisions</div></a>
+      <a class="book bk2" href="https://app.notion.com/p/3a0d9f65223b80d3aa2ce294c711a0ec" target="_blank"><div class="ic">🗂</div><div class="bt">Workspace</div><div class="bs">Knowledge · Ideas · Projects。</div><div class="bv"><b>Second Brain</b> →</div></a>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final">
+    <img class="kun" src="codelens-kun.png" alt="CodeLensくん">
+    <h2>あなたのリポジトリを、CodeLens に読ませてみる。</h2>
+    <p>GitHub の URL を貼るだけ。レビューが、リポジトリの知識になる。</p>
+    <a class="cta big" href="https://codelens-ai.onrender.com" target="_blank">▶ Review Your Repository</a>
+  </section>
+
+  <footer>
+    <span><b style="color:var(--sub)">CodeLensAI</b> — A Second Brain for your repositories.</span>
+    <span class="verbs" style="color:var(--mut)">Read · Understand · Remember · Grow</span>
+    <span class="cp">© 2026 MIZE</span>
+  </footer>
+
+</div>
+</body>
+</html>
