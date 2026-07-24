@@ -123,7 +123,7 @@
   .shelf{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:26px}
   .book{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 16px;overflow:hidden;transition:transform .15s,border-color .15s}
   .book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
-  .book:hover{transform:translateY(-3px);border-color:var(--line2)}
+  .book:hover{transform:translateY(-7px) scale(1.015);box-shadow:0 20px 44px rgba(0,0,0,.6),0 7px 14px rgba(0,0,0,.4);border-color:var(--line2)}
   .book .ic{font-size:20px}.book .bt{font-weight:650;font-size:14px;margin-top:9px}
   .book .bs{font-size:12px;color:var(--mut);margin-top:2px;font-family:var(--mono)}
   .bk1::before{background:#2f8bff}.bk2::before{background:#f2585a}.bk3::before{background:#3fb950}.bk4::before{background:#d6a531}.bk5::before{background:#8a6dfc}.bk6::before{background:#8a94a8}
@@ -146,10 +146,11 @@
     .proof-stats{grid-template-columns:1fr}
   }
 
-  .book{padding:0;background:#0c0f17}
+  .book{padding:0;background:#0c0f17;box-shadow:0 6px 18px rgba(0,0,0,.45),0 2px 5px rgba(0,0,0,.35)}
+  .book::after{content:"";position:absolute;right:0;top:6%;bottom:6%;width:4px;z-index:3;background:linear-gradient(90deg,transparent,rgba(255,255,255,.09));border-radius:0 3px 3px 0;pointer-events:none}
   .book .cover{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center 30%}
   .book .meta{padding:12px 14px 14px}
-  .book::before{display:none}
+  .book::before{display:block;content:"";position:absolute;left:0;top:0;bottom:0;width:7px;z-index:3;background:linear-gradient(90deg,rgba(0,0,0,.6),rgba(255,255,255,.07) 55%,rgba(0,0,0,.15));border-radius:14px 0 0 14px;pointer-events:none}
   .book .bt{margin-top:0}
   /* hero proof teaser */
   .proofbadge{display:inline-flex;align-items:center;gap:14px;margin-top:22px;background:rgba(63,185,80,.08);border:1px solid rgba(63,185,80,.28);border-radius:14px;padding:10px 18px}
@@ -274,7 +275,7 @@
   <div class="steps stagger">
     <div class="step"><div class="ic">🔍</div><div class="st"><span class="step-num">01</span> Read</div><div class="ss">ファイルツリーを走査し、重要ファイルをAIが選定</div></div>
     <div class="step"><div class="ic">🧠</div><div class="st"><span class="step-num">02</span> Understand</div><div class="ss">品質・セキュリティ・保守性をスコア化し講評</div></div>
-    <div class="step"><div class="ic">📚</div><div class="st"><span class="step-num">03</span> Remember</div><div class="ss">レビュー・DNA・学びをLibraryに蓄積</div></div>
+    <div class="step"><div class="ic">📚</div><div class="st"><span class="step-num">03</span> Remember</div><div class="ss">レビュー・DNA・学びを Archive に蓄積</div></div>
     <div class="step"><div class="ic">🌱</div><div class="st"><span class="step-num">04</span> Grow</div><div class="ss">修正案と再レビューでスコアを伸ばす</div></div>
   </div>
 
@@ -308,7 +309,7 @@
 <section class="sec"><div class="wrap">
   <div class="sec-tag" style="color:var(--crit)">02 — Live Example</div>
   <h2>CodeLens が、このリポジトリを解析する。</h2>
-  <p class="desc">GitHub の URL を入れると、CodeLens が<b>ファイルツリーを走査</b>し、重要ファイルを選び、レビューをストリーミングし、<b>Repository DNA を更新</b>して Library に保存する ── その一部始終を、そのまま。</p>
+  <p class="desc">GitHub の URL を入れると、CodeLens が<b>ファイルツリーを走査</b>し、重要ファイルを選び、レビューをストリーミングし、<b>Repository DNA を更新</b>して Archive に保存する ── その一部始終を、そのまま。</p>
   <div class="livepanel reveal">
     <div class="lp-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="lp-title">codelens — analyzing</span><span class="lp-live">LIVE</span></div>
     <div class="lp-body stagger">
@@ -317,7 +318,7 @@
       <div class="ln muted">→ 重要ファイルを選定 …</div>
       <div class="ln muted">→ レビューをストリーミング …</div>
       <div class="ln muted">→ Repository DNA を更新 …</div>
-      <div class="ln ok">✓ Library に保存しました</div>
+      <div class="ln ok">✓ Archive に保存しました</div>
     </div>
     <div class="lp-result">
       <div class="lp-score" data-countup="55">55</div>
@@ -371,12 +372,12 @@
 
 <!-- ===== LIBRARY ===== -->
 <section class="sec"><div class="wrap">
-  <div class="sec-tag" style="color:var(--purple)">04 — Archive</div>
+  <div class="sec-tag" style="color:var(--purple)">04 — Repository Intelligence Archive</div>
   <h2>プロジェクトには、それぞれの物語がある。</h2>
   <p class="desc">レビュー、設計判断、学んだパターン、アイデア。すべては <b>Repository Intelligence Archive</b> に本として綴じられていく。訪れる人は、各リポジトリの<b>記憶</b>を棚から開いて読む。<i>Every project has its own story.</i></p>
   <a href="archive.html" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:16px;padding:18px 22px;margin-bottom:16px;background:linear-gradient(135deg,rgba(124,108,255,.12),rgba(47,139,255,.05));border:1px solid var(--line2);border-radius:16px;text-decoration:none">
 <span style="font-size:30px">🧬</span>
-<div style="flex:1"><div style="font-weight:700;font-size:16px;color:var(--ink)">Repository DNA</div><div style="font-size:13px;color:var(--sub);margin-top:2px">構造・変化・価値観を継続記録した、Library の中核プロフィール</div></div>
+<div style="flex:1"><div style="font-weight:700;font-size:16px;color:var(--ink)">Repository DNA</div><div style="font-size:13px;color:var(--sub);margin-top:2px">構造・変化・価値観を継続記録した、Repository Intelligence Archive の中核</div></div>
 <span style="color:var(--info);font-size:18px;flex:none">→</span>
 </a>
     <div class="shelf stagger">
