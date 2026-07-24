@@ -155,50 +155,6 @@
   @keyframes flow{0%{top:0;opacity:0}20%{opacity:1}80%{opacity:1}100%{top:62px;opacity:0}}
   @media (prefers-reduced-motion: reduce){.core-orb,.core-orb.react,.corelink .dot{animation:none}.spread{transition:opacity .2s!important;transform:none!important}.corelink .dot{display:none}}
 </style>
-<style id="reader-ux">
-.spread{grid-template-columns:216px 1fr!important;max-width:980px!important}
-.pg.left.tocpane{overflow:hidden!important;display:flex;flex-direction:column}
-.pg.left .lrepo{margin-top:14px!important}
-.prog{height:4px;background:var(--line);border-radius:3px;margin-top:18px;overflow:hidden;flex:none}
-.prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--good),var(--info));transition:width .12s}
-.prog-n{font-family:var(--mono);font-size:11px;color:var(--mut);margin-top:6px;letter-spacing:.05em;flex:none}
-.toc{display:flex;flex-direction:column;gap:1px;margin-top:16px;overflow-y:auto;min-height:0;flex:1}
-.toc-i{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:7px;font-size:12.5px;color:var(--sub);text-decoration:none;line-height:1.35;transition:background .15s,color .15s}
-.toc-i:hover{background:rgba(150,170,255,.05)}
-.toc-i .mk{width:6px;height:6px;border-radius:50%;background:var(--line2);flex:none}
-.toc-i .tx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.toc-i.active{color:var(--ink);background:rgba(150,170,255,.07)}
-.toc-i.active .mk{background:var(--info);box-shadow:0 0 0 3px rgba(88,166,255,.16)}
-.toc-i.done{color:var(--mut)}.toc-i.done .mk{background:var(--good)}
-.reader{position:relative}
-.reader-inner{max-width:680px;margin:0 auto}
-.pg.right h3{scroll-margin-top:16px}
-#pgnav{display:none!important}
-@media(max-width:720px){.spread{grid-template-columns:1fr!important}.pg.left.tocpane{max-height:40vh}.reader-inner{max-width:none}}
-</style>
-<style id="reader-ux2">
-/* (1) left pane quieter */
-.spread{grid-template-columns:190px 1fr!important}
-.pg.left.tocpane{border-right:1px solid rgba(150,170,255,.12)}
-.pg.left .lic{font-size:31px}
-.pg.left .ltitle{font-size:18.5px}
-.pg.left .lsub{font-size:11.5px;opacity:.68}
-.toc-i{font-size:11.5px;color:var(--mut)}
-.toc-i.active{color:var(--ink)}
-/* (2) paper margins */
-.pg.right.reader{padding:40px 46px 66px}
-/* (3) chapter title page */
-.pg.right h3{max-width:680px;margin:58px auto 30px;padding-top:34px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:7px;text-align:center;text-transform:none!important;letter-spacing:normal!important;font-size:inherit!important;color:var(--ink)!important;font-weight:400}
-.pg.right h3:first-child{margin-top:6px;padding-top:0;border-top:none}
-.pg.right h3 .chnum{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut);font-weight:600}
-.pg.right h3 .chttl{font-size:22px;font-weight:750;letter-spacing:-.2px;color:var(--ink)}
-/* opening flash */
-.opening{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:56vh;animation:opIn .25s ease}
-@keyframes opIn{from{opacity:0}to{opacity:1}}
-.opening .oic{font-size:44px}
-.opening .ot{font-size:23px;font-weight:750;color:var(--ink)}
-.opening .or{font-family:var(--mono);font-size:12px;color:var(--mut);letter-spacing:.24em}
-</style>
 </head>
 <body>
 <div class="amb"></div>
@@ -267,18 +223,18 @@ const BOOKS = [
        <div class="ck"><span class="m" style="color:var(--crit)">✕</span> AI speaking first ── AI が先に喋る</div>
        <div class="ck"><span class="m" style="color:var(--crit)">✕</span> Generic UI ── どこかで見た UI</div>
        <div class="ck"><span class="m" style="color:var(--crit)">✕</span> Hidden complexity ── 隠された複雑さ</div>`,
-      `<h3>4 · Experience-first</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">DebugMe は機能表から設計していない。<b style="color:var(--ink)">「入力した瞬間に、AI が今読んでいる」</b>という体験から逆算した。<br><br>だから解析は SSE でストリーミングされ、システムコンソールに一行ずつ流れる。結果を待つのではなく、<b style="color:var(--ink)">考えが整理されていく過程そのもの</b>を見せる。体験が先、機能は後ろ。</p>`,
+      `<h3>4 · The "reading" experience</h3>
+       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">悩みを打つと、システムコンソールに解析が一行ずつ流れる ── <span style="font-family:var(--mono);font-size:12px;color:var(--info)">Booting… / Connecting to Claude API… / Listening to your thoughts…</span><br><br>結果を一枚のカードでポンと出さない。<b style="color:var(--ink)">AI が今あなたの言葉を読んでいる過程</b>を SSE で見せる。深刻度は 0–100%、そして次の一歩は<b style="color:var(--ink)">必ず3つまで</b>。多すぎる助言は、助言をやめる。</p>`,
       `<h3>5 · Architecture</h3>
        <div class="row"><span class="k">Pattern</span><span class="v">MVC</span></div>
        <div class="row"><span class="k">Realtime</span><span class="v">SSE / ActionController::Live</span></div>
        <div class="row"><span class="k">Risk</span><span class="v">Medium</span></div>
        <p style="font-size:13.5px;color:var(--sub);line-height:1.85;margin-top:10px">Rails 7.2 の MVC を土台に、Hotwire（Turbo + Stimulus）でフロントを構成。解析結果は <b style="color:var(--ink)">Server-Sent Events</b> でリアルタイムに流し込み、ページリロードを一切挟まない。</p>`,
-      `<h3>6 · Design Principles</h3>
-       <div class="ck"><span class="m">›</span> <b style="color:var(--ink)">User as protagonist</b> ── AI はインフラ、主役は人</div>
-       <div class="ck"><span class="m">›</span> <b style="color:var(--ink)">Reflection over answers</b> ── 答えより、映し返す</div>
-       <div class="ck"><span class="m">›</span> <b style="color:var(--ink)">Restraint matters</b> ── できることを、あえてしない</div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85;margin-top:10px">この3つは DebugMe だけでなく、CodeLens・RewardMe にも通底する「作り手の哲学」だ。</p>`,
+      `<h3>6 · Concrete decisions</h3>
+       <div class="ck"><span class="m">›</span> 次の一歩は<b style="color:var(--ink)">3つまで</b> ── 選択肢で溺れさせない</div>
+       <div class="ck"><span class="m">›</span> エラーログに<b style="color:var(--ink)">ユーモア</b>を ── 「Overthinking::LoopDetected」</div>
+       <div class="ck"><span class="m">›</span> 自己肯定感・行動力・コミュ力を<b style="color:var(--ink)">数値化</b> ── 曖昧な悩みに座標を与える</div>
+       <p style="font-size:13.5px;color:var(--sub);line-height:1.85;margin-top:10px">抽象的な原則ではなく、画面に落ちた具体的な判断。これらの積み重ねが「DebugMe らしさ」になる。</p>`,
       `<h3>7 · Technology</h3>
        <div class="tags">
         <span class="tag">Ruby 3.1.4</span><span class="tag">Rails 7.2</span><span class="tag">Hotwire</span><span class="tag">Import Maps</span>
@@ -311,7 +267,7 @@ const BOOKS = [
        <div class="jday"><div class="d">2026-07-24 · #50</div><div class="h">rewardme — 66 · GOOD</div><div class="b">5回で 49 → 66（+17）。セキュリティ 70 到達。→ 詳細は Case Study。</div></div>
        <div class="jday"><div class="d">2026-07-24</div><div class="h">debugme — 55 · FAIR</div><div class="b">本番公開。Prompt Injection・Strong Params を指摘。</div></div>
        <div class="jday"><div class="d">2026-07-22</div><div class="h">framelens — 68</div><div class="b">C++/OpenGL の 2x4 3D CAD。ASan/UBSan・入力バリデーション追加。</div></div>
-       <div class="jday"><div class="d">2026-07-20</div><div class="h">codelens-ai（自己レビュー）— 39 → 65</div><div class="b">「靴職人の子が裸足」状態から、セキュリティ強化で改善。</div></div>
+       <div class="jday"><div class="d">2026-07-20</div><div class="h">codelens-ai（自己レビュー）— 38〜65 で変動</div><div class="b">自作ツールで自分を採点したら、スコアが毎回揺れた（38〜65）。だから決定論的レビューを作った。今は 63 前後で安定。</div></div>
        <div class="jday"><div class="d">2026-07-18</div><div class="h">bug_generator — 72 · GOOD</div><div class="b">学習ポートフォリオとして誠実な一作。本番 DB だけ要修正。</div></div>`,
       `<h3>rewardme — 改善の記録</h3>
        <div class="big" style="font-size:30px">49 <span class="ar">→</span> <span class="to">66</span></div>
@@ -370,23 +326,22 @@ const BOOKS = [
        <div class="quote" style="font-size:18px">なぜ、UI から設計するのか。</div>
        <p style="font-size:13.5px;color:var(--sub);line-height:1.85">多くのツールは機能表から作られる。私は逆に、<b style="color:var(--ink)">「使った人が何を感じるか」</b>から設計する。CodeLens のレビュー完了で 95%→100% を 750ms 遅らせたのは、機能ではなく<b style="color:var(--ink)">「終わった、という気持ちよさ」</b>のためだ。体験が先、実装は後ろ。</p>`,
       `<h3>II · Repository Intelligence とは</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">CodeLens は「AI コードレビュー」ではない。<b style="color:var(--ink)">リポジトリの記憶装置</b>だ。<br><br>一度きりの解析で終わらせない。読み、理解し、<b style="color:var(--ink)">記憶し</b>、育てる。同じコミットに同じ評価を返せるようにした瞬間、CodeLens は「毎回答えが変わるデモ」から「<b style="color:var(--ink)">リポジトリの現在地を記録できる道具</b>」に変わった。</p>`,
+       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">私は CodeLens を「AI コードレビュー」として作っていない。<b style="color:var(--ink)">リポジトリの記憶装置</b>として作った。<br><br>一度きりの解析で終わらせない。読み、理解し、<b style="color:var(--ink)">記憶し</b>、育てる。同じコミットに同じ評価を返せるようにした瞬間、CodeLens は「毎回答えが変わるデモ」から「<b style="color:var(--ink)">リポジトリの現在地を記録できる道具</b>」に変わった。</p>`,
       `<h3>III · Never claim what isn't measured</h3>
        <div class="quote" style="font-size:18px">なぜ、数字を盛らないのか。</div>
        <p style="font-size:13.5px;color:var(--sub);line-height:1.85">RewardMe の Case Study で、セキュリティ 45→70 の全要因はまだ分析中だ。だから私は「確認できた修正のみ」と書き、残りは<b style="color:var(--ink)">「分析中」</b>と正直に添えた。<br><br>盛れば一瞬は良く見える。でも <b style="color:var(--ink)">測っていないことを主張した瞬間、すべての数字が疑わしくなる</b>。</p>`,
       `<h3>IV · Evidence over marketing</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">「すごいです」と言うより、<b style="color:var(--ink)">49 → 66</b> と見せる。「改善しました」と書くより、<b style="color:var(--ink)">直した3つの修正</b>を並べる。<br><br>ポートフォリオの9割は「完成品」を見せて終わる。CodeLens は<b style="color:var(--ink)">「軌跡」</b>を見せる。時間軸の証拠は、一番反論しづらい。</p>`,
+       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">私は「すごいです」と言う代わりに、<b style="color:var(--ink)">49 → 66</b> と見せる。「改善しました」と書く代わりに、<b style="color:var(--ink)">直した3つの修正</b>を並べる。<br><br>ポートフォリオの9割は「完成品」を見せて終わる。CodeLens は<b style="color:var(--ink)">「軌跡」</b>を見せる。時間軸の証拠は、一番反論しづらい。</p>`,
       `<h3>V · The user is the protagonist</h3>
-       <div class="quote" style="font-size:17px">DebugMe never speaks first.</div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85"><b style="color:var(--ink)">AI should support. Users should decide.</b><br><br>CodeLens も DebugMe も、AI を主役にしない。AI は舞台裏で読み、整理し、映し返す。決めるのは人。この <b style="color:var(--ink)">Human-First</b> の原則が、3つのプロダクト全部を貫いている。</p>`,
+       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">私はこの原則を、プロダクトごとに別の形にした。DebugMe では AI を「先に喋らせない」。CodeLens では、マスコットの <b style="color:var(--ink)">CodeLensくんを画面の主役にせず、末尾のガイド</b>に下げた。<br><br>ツールが賢く見えることより、<b style="color:var(--ink)">使う人が主役でいられること</b>を選ぶ。Human-First ── AI は舞台裏に徹する。これが私の設計の背骨だ。</p>`,
       `<h3>VI · Memory as a product</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">レビューは「終わり」ではなく「<b style="color:var(--ink)">入口</b>」だ。理解し、記憶し、育てる ── その入口がレビューだった。<br><br>だから CodeLens には Library がある。DNA、Review History、Case Study、Journal。<b style="color:var(--ink)">レビュー一件一件が、知識になって積み上がる。</b>記憶そのものを、プロダクトにする。</p>`,
+       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">私にとってレビューは「終わり」ではなく「<b style="color:var(--ink)">入口</b>」だ。理解し、記憶し、育てる ── その入口がレビューだった。<br><br>だから CodeLens には Library がある。DNA、Review History、Case Study、Journal。<b style="color:var(--ink)">レビュー一件一件が、知識になって積み上がる。</b>記憶そのものを、プロダクトにする。</p>`,
       `<h3>VII · Determinism</h3>
        <div class="quote" style="font-size:18px">同じコードには、同じ評価を。</div>
        <p style="font-size:13.5px;color:var(--sub);line-height:1.85">temperature を固定し、コミット SHA でキャッシュし、言語非依存のルーブリックを敷く。<br><br>「毎回ちがう点数を出す AI は<b style="color:var(--ink)">占い</b>。同じコミットに同じ評価を返せて、はじめて<b style="color:var(--ink)">道具</b>なんだ。」占いから道具への境界線 ── それが決定論だった。</p>`,
       `<h3>VIII · The repository remembers</h3>
        <div class="quote" style="font-size:20px">This is not documentation.<br>This repository <span style="color:var(--purple)">remembers</span>.</div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">作り切ることが第一歩。改善を続けることがエンジニアリング。<br><br>コードは動けば役目を果たす。でも、記録は「なぜそうしたか」を未来へ残す。<b style="color:var(--ink)">スコアより長く残るやつを、コードに刻む。</b>それが CodeLensAI の思想だ。</p>`
+       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">作り切ることが第一歩。改善を続けることがエンジニアリング。<br><br>コードは動けば役目を果たす。でも、記録は「なぜそうしたか」を未来へ残す。<b style="color:var(--ink)">スコアより長く残るやつを、コードに刻む。</b>それが、私が CodeLensAI に込めた思想だ。</p>`
     ]
   },
   {
@@ -446,55 +401,31 @@ BOOKS.slice(1).forEach((b,k)=>shelf.appendChild(makeBook(b,k+1)));
 
 // overlay logic
 const overlay=document.getElementById('overlay'), spread=document.getElementById('spread'), pgnav=document.getElementById('pgnav');
-let cur=0, leaf=0, seenFlash=false;
+let cur=0, leaf=0;
 const coreOrb=document.getElementById('coreOrb');
 function coreReact(){ if(!coreOrb)return; coreOrb.classList.remove('react'); void coreOrb.offsetWidth; coreOrb.classList.add('react'); }
-function openBook(i){ cur=i; overlay.classList.add('on'); document.body.style.overflow='hidden'; coreReact(); if(seenFlash){ render(); return; } seenFlash=true; const b=BOOKS[i]; spread.innerHTML='<div class="opening"><div class="oic">'+b.ic+'</div><div class="ot">'+b.title+'</div><div class="or">Reading\u2026</div></div>'; setTimeout(render,300); }
+function openBook(i){ cur=i; leaf=0; render(); overlay.classList.add('on'); document.body.style.overflow='hidden'; coreReact(); }
 function closeBook(){ overlay.classList.remove('on'); document.body.style.overflow=''; }
 function render(){
   const b=BOOKS[cur];
   spread.innerHTML=`
-    <div class="pg left tocpane">
+    <div class="pg left">
       <div class="lic">${b.ic}</div>
       <div class="ltitle">${b.title}</div>
       <div class="lsub">${b.sub}</div>
       <div class="lrepo">${b.repo}</div>
-      <div class="prog"><i id="progFill"></i></div>
-      <div class="prog-n" id="progN"></div>
-      <nav class="toc" id="toc"></nav>
     </div>
-    <div class="pg right reader" id="reader"><div class="reader-inner">${b.leaves.join('')}</div></div>`;
-  const reader=spread.querySelector('#reader');
-  const heads=[...reader.querySelectorAll('h3')];
-  const toc=spread.querySelector('#toc');
-  heads.forEach((h,idx)=>{
-    h.id='ch'+idx;
-    const raw=h.textContent;
-    const a=document.createElement('a');
-    a.className='toc-i'; a.href='#'+h.id;
-    a.innerHTML='<span class="mk"></span><span class="tx">'+raw+'</span>';
-    a.onclick=e=>{e.preventDefault(); h.scrollIntoView({behavior:'smooth',block:'start'});};
-    toc.appendChild(a);
-    const mm=raw.match(/^\s*(\S+)\s*[\u00b7\u30fb]\s*(.+)$/);
-    if(mm) h.innerHTML='<span class="chnum">Chapter '+mm[1]+'</span><span class="chttl">'+mm[2]+'</span>';
-  });
-  const items=[...toc.querySelectorAll('.toc-i')];
-  const progFill=spread.querySelector('#progFill'), progN=spread.querySelector('#progN');
-  function spy(){
-    const max=reader.scrollHeight-reader.clientHeight;
-    if(progFill) progFill.style.width=(max>0?Math.round(reader.scrollTop/max*100):100)+'%';
-    const rt=reader.getBoundingClientRect().top;
-    let active=0;
-    heads.forEach((hd,idx)=>{ if(hd.getBoundingClientRect().top-rt-60<=0) active=idx; });
-    items.forEach((it,idx)=>{ it.classList.toggle('active',idx===active); it.classList.toggle('done',idx<active); });
-    if(progN) progN.textContent=(active+1)+' / '+heads.length;
-  }
-  reader.addEventListener('scroll',spy,{passive:true});
-  spy();
+    <div class="pg right">${b.leaves[leaf]}</div>`;
+  // related-book links
   spread.querySelectorAll('[data-goto]').forEach(a=>a.addEventListener('click',e=>{
     e.preventDefault(); const id=a.getAttribute('data-goto'); const idx=BOOKS.findIndex(x=>x.id===id); if(idx>=0)openBook(idx);
   }));
-  pgnav.innerHTML='';
+  // page nav
+  const n=b.leaves.length;
+  pgnav.innerHTML = n>1 ? `<button ${leaf===0?'disabled':''} id="prev">‹ 戻る</button><span class="ind">${leaf+1} / ${n}</span><button ${leaf===n-1?'disabled':''} id="next">めくる ›</button>` : '';
+  const pv=document.getElementById('prev'), nx=document.getElementById('next');
+  if(pv)pv.onclick=()=>{if(leaf>0){leaf--;render();}};
+  if(nx)nx.onclick=()=>{if(leaf<n-1){leaf++;render();}};
 }
 document.getElementById('closeBtn').onclick=closeBook;
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeBook();});
