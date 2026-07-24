@@ -155,6 +155,27 @@
   @keyframes flow{0%{top:0;opacity:0}20%{opacity:1}80%{opacity:1}100%{top:62px;opacity:0}}
   @media (prefers-reduced-motion: reduce){.core-orb,.core-orb.react,.corelink .dot{animation:none}.spread{transition:opacity .2s!important;transform:none!important}.corelink .dot{display:none}}
 </style>
+<style id="reader-ux">
+.spread{grid-template-columns:216px 1fr!important;max-width:980px!important}
+.pg.left.tocpane{overflow:hidden!important;display:flex;flex-direction:column}
+.pg.left .lrepo{margin-top:14px!important}
+.prog{height:4px;background:var(--line);border-radius:3px;margin-top:18px;overflow:hidden;flex:none}
+.prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--good),var(--info));transition:width .12s}
+.prog-n{font-family:var(--mono);font-size:11px;color:var(--mut);margin-top:6px;letter-spacing:.05em;flex:none}
+.toc{display:flex;flex-direction:column;gap:1px;margin-top:16px;overflow-y:auto;min-height:0;flex:1}
+.toc-i{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:7px;font-size:12.5px;color:var(--sub);text-decoration:none;line-height:1.35;transition:background .15s,color .15s}
+.toc-i:hover{background:rgba(150,170,255,.05)}
+.toc-i .mk{width:6px;height:6px;border-radius:50%;background:var(--line2);flex:none}
+.toc-i .tx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toc-i.active{color:var(--ink);background:rgba(150,170,255,.07)}
+.toc-i.active .mk{background:var(--info);box-shadow:0 0 0 3px rgba(88,166,255,.16)}
+.toc-i.done{color:var(--mut)}.toc-i.done .mk{background:var(--good)}
+.reader{position:relative}
+.reader-inner{max-width:680px;margin:0 auto}
+.pg.right h3{scroll-margin-top:16px}
+#pgnav{display:none!important}
+@media(max-width:720px){.spread{grid-template-columns:1fr!important}.pg.left.tocpane{max-height:40vh}.reader-inner{max-width:none}}
+</style>
 </head>
 <body>
 <div class="amb"></div>
@@ -409,23 +430,44 @@ function closeBook(){ overlay.classList.remove('on'); document.body.style.overfl
 function render(){
   const b=BOOKS[cur];
   spread.innerHTML=`
-    <div class="pg left">
+    <div class="pg left tocpane">
       <div class="lic">${b.ic}</div>
       <div class="ltitle">${b.title}</div>
       <div class="lsub">${b.sub}</div>
       <div class="lrepo">${b.repo}</div>
+      <div class="prog"><i id="progFill"></i></div>
+      <div class="prog-n" id="progN"></div>
+      <nav class="toc" id="toc"></nav>
     </div>
-    <div class="pg right">${b.leaves[leaf]}</div>`;
-  // related-book links
+    <div class="pg right reader" id="reader"><div class="reader-inner">${b.leaves.join('')}</div></div>`;
+  const reader=spread.querySelector('#reader');
+  const heads=[...reader.querySelectorAll('h3')];
+  const toc=spread.querySelector('#toc');
+  heads.forEach((h,idx)=>{
+    h.id='ch'+idx;
+    const a=document.createElement('a');
+    a.className='toc-i'; a.href='#'+h.id;
+    a.innerHTML='<span class="mk"></span><span class="tx">'+h.textContent+'</span>';
+    a.onclick=e=>{e.preventDefault(); h.scrollIntoView({behavior:'smooth',block:'start'});};
+    toc.appendChild(a);
+  });
+  const items=[...toc.querySelectorAll('.toc-i')];
+  const progFill=spread.querySelector('#progFill'), progN=spread.querySelector('#progN');
+  function spy(){
+    const max=reader.scrollHeight-reader.clientHeight;
+    if(progFill) progFill.style.width=(max>0?Math.round(reader.scrollTop/max*100):100)+'%';
+    const rt=reader.getBoundingClientRect().top;
+    let active=0;
+    heads.forEach((hd,idx)=>{ if(hd.getBoundingClientRect().top-rt-60<=0) active=idx; });
+    items.forEach((it,idx)=>{ it.classList.toggle('active',idx===active); it.classList.toggle('done',idx<active); });
+    if(progN) progN.textContent=(active+1)+' / '+heads.length;
+  }
+  reader.addEventListener('scroll',spy,{passive:true});
+  spy();
   spread.querySelectorAll('[data-goto]').forEach(a=>a.addEventListener('click',e=>{
     e.preventDefault(); const id=a.getAttribute('data-goto'); const idx=BOOKS.findIndex(x=>x.id===id); if(idx>=0)openBook(idx);
   }));
-  // page nav
-  const n=b.leaves.length;
-  pgnav.innerHTML = n>1 ? `<button ${leaf===0?'disabled':''} id="prev">‹ 戻る</button><span class="ind">${leaf+1} / ${n}</span><button ${leaf===n-1?'disabled':''} id="next">めくる ›</button>` : '';
-  const pv=document.getElementById('prev'), nx=document.getElementById('next');
-  if(pv)pv.onclick=()=>{if(leaf>0){leaf--;render();}};
-  if(nx)nx.onclick=()=>{if(leaf<n-1){leaf++;render();}};
+  pgnav.innerHTML='';
 }
 document.getElementById('closeBtn').onclick=closeBook;
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeBook();});
