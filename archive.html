@@ -452,14 +452,25 @@ const BOOKS = [
   },
   {
     id:"journal", ic:"📘", cover:"images/cover-journal.png",
-    title:"Development Journal", sub:"唯一、生きている本 · 毎週増える", repo:"Day 1 → 8",
+    title:"Development Journal", sub:"唯一、生きている本 · 毎週増える", repo:"Day 1 → 15",
     leaves:[
       `<div style="font-size:11px;font-family:var(--mono);color:var(--good);margin-bottom:12px">● LIVING — この本だけ、毎週ページが増える</div>
        <div class="jday"><div class="d">DAY 1 · 07-17</div><div class="h">CodeLensくん誕生</div><div class="b">95%→100% を 750ms 遅らせるだけで「終わった気持ちよさ」が増した。演出は機能だ。</div></div>
-       <div class="jday"><div class="d">DAY 2 · 07-18</div><div class="h">RewardMe 49 → 61</div><div class="b">一番の価値はスコアじゃない。「49点のアプリ」から「AIを育てる教材」に変わったこと。スコアより長く残るやつをコードに刻んだ。</div></div>
-       <div class="jday"><div class="d">DAY 3 · 07-19</div><div class="h">Public Beta 公開</div><div class="b">13% で止まるバグ＝mixed content。答えはずっと一番手前にあった。自作AIが指摘した自分の脆弱性を、自分で塞いだ。</div></div>`,
-      `<div class="jday"><div class="d">DAY 6 · 07-22</div><div class="h">FrameLens 公開・自己レビュー 68</div><div class="b">作って終わりじゃない。自分のツールでレビューして、初めて完成する。Portfolio 品質と Production 品質は別軸だと気づいた。</div></div>
-       <div class="jday"><div class="d">DAY 8 · 07-24</div><div class="h">決定論的レビュー</div><div class="b">同じコミットに同じ評価を。CodeLens が「占い」から「道具」に変わった日。レビューは終わりじゃなく、入口だった。49.9s → 1.5s。</div></div>
+       <div class="jday"><div class="d">DAY 2 · 07-18</div><div class="h">RewardMe 49 → 61</div><div class="b">一番の価値はスコアじゃない。「49点のアプリ」から「AIを育てる教材」へ。スコアより長く残るやつをコードに刻んだ。</div></div>
+       <div class="jday"><div class="d">DAY 3 · 07-19</div><div class="h">Public Beta 公開</div><div class="b">13% で止まるバグ＝mixed content。答えはずっと一番手前にあった。The bug is never where it looks.</div></div>`,
+      `<div class="jday"><div class="d">DAY 4 · 07-20</div><div class="h">CI 構築（Milestone 2）</div><div class="b">「動く」と「これからも壊れない」は別物。緑のチェックは、今日の証明じゃなく明日への約束。</div></div>
+       <div class="jday"><div class="d">DAY 5 · 07-21</div><div class="h">FrameLens に集中</div><div class="b">Web とネイティブを行き来する日。道具は違っても、起点はいつも "どう伝わるか"。</div></div>
+       <div class="jday"><div class="d">DAY 6 · 07-22</div><div class="h">FrameLens 公開・自己レビュー 68</div><div class="b">作って終わりじゃない。自分のツールでレビューして初めて完成する。Portfolio 品質と Production 品質は別軸。</div></div>`,
+      `<div class="jday"><div class="d">DAY 7 · 07-23</div><div class="h">二軸評価</div><div class="b">一つの点数は意図を隠す。二軸が、それを見せる。「何点？」より「どっちを目指した？」。</div></div>
+       <div class="jday"><div class="d">DAY 8 · 07-24</div><div class="h">決定論的レビュー</div><div class="b">同じコミットに同じ評価を。CodeLens が「占い」から「道具」へ。レビューは終わりじゃなく、入口。49.9s → 1.5s。</div></div>
+       <div class="jday"><div class="d">DAY 9 · 07-25</div><div class="h">Experience First</div><div class="b">レビュー画面じゃなく "一冊のレポート" に。設計思想が一本通ると、実装はむしろ減る。</div></div>`,
+      `<div class="jday"><div class="d">DAY 10 · 07-26</div><div class="h">Repository Intelligence</div><div class="b">知性とは "何を読むか" を選ぶこと。賢いのはモデルじゃなく、何を見せるかの設計。</div></div>
+       <div class="jday"><div class="d">DAY 11 · 07-27</div><div class="h">Review Archive</div><div class="b">Archive を "本棚" にすると決めた。点が線に。倉庫でなく、図書館。</div></div>
+       <div class="jday"><div class="d">DAY 12 · 07-28</div><div class="h">Archive → Library</div><div class="b">情報は "どう並べると理解が生まれるか" がすべて。棚が繋がり、ひとつの図書館に。This archive is alive.</div></div>
+       <div class="jday"><div class="d">DAY 12·II · 07-28</div><div class="h">Workspace became home</div><div class="b">ホームを差し替えるのは "旅がどこから始まるか" を決めること。玄関は、最初の一度だけ。</div></div>`,
+      `<div class="jday"><div class="d">DAY 13 · 07-29</div><div class="h">The publisher was born</div><div class="b">CodeLensAI は "版元" になった。House Style は「どんな本なら出版していいか」まで決める編集憲章。増えるのは機能でなく蔵書。</div></div>
+       <div class="jday"><div class="d">DAY 14 · 07-30</div><div class="h">部屋はアナログ、本だけ未来</div><div class="b">技術は部屋を飾らない。本を開いた瞬間だけ現れる。宇宙＝知識／部屋＝記憶／本＝物語。</div></div>
+       <div class="jday"><div class="d">DAY 15 · 07-31</div><div class="h">事件は始まりに一度だけ</div><div class="b">Archive は "施設"。すべての部屋に役割、すべての移動に理由。入館も魔法も一度きり——だから忘れられない。</div></div>
        <div class="note">毎日3行だけ。半年後の自分への手紙。<br>── この本は完成しない。増え続ける。それが「生きている」ということ。</div>`
     ]
   }
