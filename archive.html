@@ -254,7 +254,7 @@
       <div class="living-cov"><img src="images/cover-journal-vol01.png" alt="Development Journal VOL.01"></div>
       <div class="living-cap"><span class="lv">VOL.01</span><br><span class="tt">Development Journal</span></div>
       <div class="living-note">唯一、生きている本。</div>
-      <div class="living-cta">Continue reading →</div>
+      <div class="living-cta">Open the journal →</div>
     </a>
   </div></div>
 
@@ -507,8 +507,8 @@ if(coreOrb){ coreOrb.addEventListener('click',coreHome);
   coreOrb.addEventListener('mouseenter',coreHb);
   coreOrb.addEventListener('animationend',function(e){ if(e.animationName==='coreHb') coreOrb.classList.remove('hb'); });
   coreOrb.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); coreHome(); } }); }
-function openBook(i){ cur=i; leaf=0; render(); overlay.classList.add('on'); document.body.style.overflow='hidden'; coreReact(); }
-function closeBook(){ overlay.classList.remove('on'); document.body.style.overflow=''; }
+function openBook(i){ cur=i; leaf=0; render(); overlay.classList.add('on'); document.body.style.overflow='hidden'; coreReact(); if(BOOKS[i]) history.replaceState(null,'','#'+BOOKS[i].id); }
+function closeBook(){ overlay.classList.remove('on'); document.body.style.overflow=''; history.replaceState(null,'',location.pathname+location.search); }
 function render(){
   const b=BOOKS[cur];
   spread.innerHTML=`
@@ -553,6 +553,10 @@ function render(){
 }
 document.getElementById('closeBtn').onclick=closeBook;
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeBook();});
+// deep-link：archive.html#dna などで該当の本を直接開く（「読み終えたら隣の本へ」導線用）
+function openByHash(){ const id=(location.hash||'').slice(1); if(!id)return; const idx=BOOKS.findIndex(x=>x.id===id); if(idx>=0 && !overlay.classList.contains('on')) openBook(idx); }
+window.addEventListener('hashchange',openByHash);
+openByHash();
 document.addEventListener('keydown',e=>{
   if(!overlay.classList.contains('on'))return;
   if(e.key==='Escape')closeBook();
