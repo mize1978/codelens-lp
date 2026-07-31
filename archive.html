@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Repository Intelligence Archive — CodeLensAI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#06070d; --bg2:#0a0c14; --card:#141a28; --line:#212739; --line2:#2c3348;
@@ -12,6 +15,7 @@
     --paper:#161c2b; --paper2:#1d2338;
     --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",system-ui,sans-serif;
+    --serif:"Playfair Display",Georgia,"Times New Roman",serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
@@ -43,9 +47,10 @@
     box-shadow:0 14px 36px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);
     transition:border-color .3s,box-shadow .3s}
   .book:hover::before{border-color:rgba(138,109,252,.28);box-shadow:0 16px 42px rgba(0,0,0,.55)}
-  .hero .kicker,.hero h1,.hero .lede,.hero .scrollhint{text-shadow:0 2px 20px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.7)}
+  .hero .tagline,.hero .kicker,.hero h1,.hero .lede,.hero .verbs{text-shadow:0 2px 22px rgba(0,0,0,.82),0 1px 3px rgba(0,0,0,.7)}
   .core-t,.core-s{text-shadow:0 2px 14px rgba(0,0,0,.75)}
-  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--purple);font-weight:600;margin-bottom:16px}
+  .hero .tagline{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;color:var(--sub);margin-bottom:20px}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--purple);font-weight:600;margin:14px 0 0}
   /* 暖炉の炎：見ようとしなければ気付かない程度に揺れる */
   .hearth{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;
     background:radial-gradient(38% 44% at 19% 61%,rgba(255,142,46,.20),rgba(255,120,30,0) 62%);
@@ -65,7 +70,7 @@
   .lens::before{content:"";position:absolute;inset:15px;border-radius:50%;background:#06070d;box-shadow:inset 0 0 0 6px rgba(120,150,255,.4)}
   .lens::after{content:"";position:absolute;inset:30px;border-radius:50%;background:radial-gradient(circle,#9fc4ff,#4a7fe0)}
   @keyframes breathe{0%,100%{box-shadow:0 0 50px rgba(90,110,255,.4);transform:scale(1)}50%{box-shadow:0 0 80px rgba(90,110,255,.65);transform:scale(1.03)}}
-  .hero h1{font-size:clamp(26px,4.3vw,44px);font-weight:800;letter-spacing:-.4px;line-height:1.1}
+  .hero h1{font-family:var(--serif);font-size:clamp(42px,6.6vw,86px);font-weight:700;letter-spacing:.4px;line-height:1.04}
   .hero h1 .a{display:block;color:var(--sub);font-weight:600;font-size:.62em;letter-spacing:.02em;margin-top:6px}
   .hero .lede{margin-top:22px;font-size:clamp(15px,2vw,19px);color:var(--sub);font-style:italic}
   .hero .verbs{margin-top:20px;font-family:var(--mono);font-size:13px;color:var(--mut);letter-spacing:.06em}
@@ -283,10 +288,11 @@
 <div class="content">
 
   <section class="hero">
-    <div class="kicker">Repository Intelligence Archive</div>
+    <div class="tagline">知識を記憶し、未来を設計する。</div>
     <h1>The Library</h1>
-    <p class="lede">一冊ずつ、リポジトリの記憶を開いて読む。</p>
-    <div class="scrollhint">↓ 蔵書を選ぶ</div>
+    <div class="kicker">Repository Intelligence Archive · CodeLensAI</div>
+    <p class="lede">一冊ずつが、リポジトリの記憶。暖炉のそばで、開く本を選ぶ。</p>
+    <div class="verbs">Read · Understand · Remember · Grow</div>
   </section>
 
   <!-- SHELF -->
