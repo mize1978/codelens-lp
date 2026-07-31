@@ -32,13 +32,11 @@
   /* ── fireplace reading room：Hero〜Archive を同じ部屋にする ── */
   .roombg{position:fixed;inset:0;z-index:0;pointer-events:none;
     background:url("images/bg-library.jpg") center/cover no-repeat;
-    filter:blur(2px) brightness(.82) saturate(1.03);transform:scale(1.06)}
+    filter:blur(.8px);transform:scale(1.03)}
   .roomveil{position:fixed;inset:0;z-index:0;pointer-events:none;
     background:
-      radial-gradient(85% 52% at 50% 7%,rgba(6,7,13,.58),rgba(6,7,13,0) 60%),
-      radial-gradient(120% 95% at 19% 84%,rgba(255,140,50,.15),rgba(255,140,50,0) 46%),
-      radial-gradient(95% 80% at 50% 42%,rgba(6,7,13,0),rgba(6,7,13,.28) 82%),
-      linear-gradient(180deg,rgba(6,7,13,.44) 0%,rgba(6,7,13,.30) 30%,rgba(6,7,13,.42) 70%,rgba(6,7,13,.82) 100%)}
+      radial-gradient(85% 55% at 50% 6%,rgba(8,8,12,.40),rgba(8,8,12,0) 58%),
+      linear-gradient(rgba(8,8,12,.44),rgba(8,8,12,.44))}
   /* cards become glass display cases over the painting */
   .book::before{content:"";position:absolute;inset:-14px -12px;border-radius:16px;z-index:-1;
     background:rgba(22,26,40,.34);
@@ -52,11 +50,19 @@
   .hero .tagline{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;color:var(--sub);margin-bottom:20px}
   .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--purple);font-weight:600;margin:14px 0 0}
   /* 暖炉の炎：見ようとしなければ気付かない程度に揺れる */
-  .hearth{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;
-    background:radial-gradient(38% 44% at 19% 61%,rgba(255,142,46,.20),rgba(255,120,30,0) 62%);
-    animation:flicker 5.5s ease-in-out infinite}
-  @keyframes flicker{0%{opacity:.72}12%{opacity:.9}23%{opacity:.66}37%{opacity:.97}48%{opacity:.8}61%{opacity:1}72%{opacity:.7}85%{opacity:.88}100%{opacity:.72}}
-  @media (prefers-reduced-motion:reduce){.hearth{animation:none;opacity:.85}}
+  .fire{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;
+    background:
+      radial-gradient(22% 26% at 20% 62%,rgba(255,146,52,.34),rgba(255,120,30,0) 70%),
+      radial-gradient(62% 62% at 22% 60%,rgba(255,138,46,.13),rgba(255,110,25,0) 72%);
+    animation:fireFlicker 6s ease-in-out infinite}
+  @keyframes fireFlicker{0%{opacity:.95;filter:brightness(1)}25%{opacity:1;filter:brightness(1.03)}50%{opacity:.9;filter:brightness(.98)}75%{opacity:.98;filter:brightness(1.01)}100%{opacity:.95;filter:brightness(1)}}
+  .lamp{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;
+    background:
+      radial-gradient(9% 13% at 7% 75%,rgba(255,172,84,.22),rgba(255,150,60,0) 72%),
+      radial-gradient(7% 10% at 33% 30%,rgba(255,176,92,.14),rgba(255,150,60,0) 72%);
+    animation:lampFlicker 6s ease-in-out infinite}
+  @keyframes lampFlicker{0%{opacity:.92}25%{opacity:.85}50%{opacity:.99}75%{opacity:.9}100%{opacity:.92}}
+  @media (prefers-reduced-motion:reduce){.fire,.lamp{animation:none}}
 
   /* masthead banner (same as LP → command room continuity) */
   .masthead{position:relative;width:100%;height:clamp(240px,32vw,420px);overflow:hidden;background:#05070f;border-bottom:1px solid var(--line)}
@@ -283,7 +289,8 @@
 <body>
 <div class="roombg"></div>
 <div class="roomveil"></div>
-<div class="hearth"></div>
+<div class="fire"></div>
+<div class="lamp"></div>
 <div class="amb"></div>
 <div class="content">
 
