@@ -213,6 +213,25 @@
 .reader{position:relative}
 .reader-inner{max-width:680px;margin:0 auto}
 .pg.right h3{scroll-margin-top:16px}
+/* Journal：1ページ＝1日・めくる本 */
+.jpage{max-width:600px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+.jpage .living{font-family:var(--mono);font-size:11px;color:var(--good);letter-spacing:.04em;margin-bottom:26px}
+.jpage .jd{font-family:var(--mono);font-size:12px;color:var(--purple);letter-spacing:.12em}
+.jpage .jt{font-size:29px;font-weight:760;letter-spacing:-.4px;line-height:1.22;margin:12px 0 22px}
+.jpage .jb{font-size:16px;line-height:1.95;color:var(--ink);opacity:.92}
+.jpage .jmore{margin-top:22px;font-family:var(--mono);font-size:12.5px}
+.jpage .jmore a{color:var(--info);text-decoration:none}
+.jpage .jmore a:hover{text-decoration:underline}
+.jnav{margin-top:auto;border-top:1px dashed var(--line2);padding-top:16px;display:flex;justify-content:space-between;gap:18px}
+.jnav button{background:none;border:none;cursor:pointer;padding:0;max-width:46%;text-align:left;font-family:inherit}
+.jnav button.next{text-align:right}
+.jnav button:disabled{opacity:.28;cursor:default}
+.jnav .dir{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:.08em}
+.jnav .lbl{font-size:12.5px;margin-top:5px;line-height:1.35;color:var(--sub)}
+.jnav button:hover:not(:disabled) .lbl{color:var(--ink)}
+.reader.turn .jpage{animation:pageturn .28s ease}
+@keyframes pageturn{from{opacity:0;transform:translateX(var(--tx,12px)) rotateY(var(--ry,4deg))}to{opacity:1;transform:none}}
+@media(max-width:720px){.jpage .jt{font-size:24px}.jpage .jb{font-size:15px}}
 #pgnav{display:none!important}
 #reader{max-height:86vh!important;overflow-y:auto!important;min-height:0!important;-webkit-overflow-scrolling:touch}
 @media(max-width:720px){.spread{grid-template-columns:1fr!important}.pg.left.tocpane{max-height:40vh}.reader-inner{max-width:none}#reader{max-height:44vh!important}}
@@ -453,25 +472,23 @@ const BOOKS = [
   {
     id:"journal", ic:"📘", cover:"images/cover-journal.png",
     title:"Development Journal", sub:"唯一、生きている本 · 毎週増える", repo:"Day 1 → 15",
-    leaves:[
-      `<div style="font-size:11px;font-family:var(--mono);color:var(--good);margin-bottom:12px">● LIVING — この本だけ、毎週ページが増える</div>
-       <div class="jday"><div class="d">DAY 1 · 07-17</div><div class="h">CodeLensくん誕生</div><div class="b">95%→100% を 750ms 遅らせるだけで「終わった気持ちよさ」が増した。演出は機能だ。</div></div>
-       <div class="jday"><div class="d">DAY 2 · 07-18</div><div class="h">RewardMe 49 → 61</div><div class="b">一番の価値はスコアじゃない。「49点のアプリ」から「AIを育てる教材」へ。スコアより長く残るやつをコードに刻んだ。</div></div>
-       <div class="jday"><div class="d">DAY 3 · 07-19</div><div class="h">Public Beta 公開</div><div class="b">13% で止まるバグ＝mixed content。答えはずっと一番手前にあった。The bug is never where it looks.</div></div>`,
-      `<div class="jday"><div class="d">DAY 4 · 07-20</div><div class="h">CI 構築（Milestone 2）</div><div class="b">「動く」と「これからも壊れない」は別物。緑のチェックは、今日の証明じゃなく明日への約束。</div></div>
-       <div class="jday"><div class="d">DAY 5 · 07-21</div><div class="h">FrameLens に集中</div><div class="b">Web とネイティブを行き来する日。道具は違っても、起点はいつも "どう伝わるか"。</div></div>
-       <div class="jday"><div class="d">DAY 6 · 07-22</div><div class="h">FrameLens 公開・自己レビュー 68</div><div class="b">作って終わりじゃない。自分のツールでレビューして初めて完成する。Portfolio 品質と Production 品質は別軸。</div></div>`,
-      `<div class="jday"><div class="d">DAY 7 · 07-23</div><div class="h">二軸評価</div><div class="b">一つの点数は意図を隠す。二軸が、それを見せる。「何点？」より「どっちを目指した？」。</div></div>
-       <div class="jday"><div class="d">DAY 8 · 07-24</div><div class="h">決定論的レビュー</div><div class="b">同じコミットに同じ評価を。CodeLens が「占い」から「道具」へ。レビューは終わりじゃなく、入口。49.9s → 1.5s。</div></div>
-       <div class="jday"><div class="d">DAY 9 · 07-25</div><div class="h">Experience First</div><div class="b">レビュー画面じゃなく "一冊のレポート" に。設計思想が一本通ると、実装はむしろ減る。</div></div>`,
-      `<div class="jday"><div class="d">DAY 10 · 07-26</div><div class="h">Repository Intelligence</div><div class="b">知性とは "何を読むか" を選ぶこと。賢いのはモデルじゃなく、何を見せるかの設計。</div></div>
-       <div class="jday"><div class="d">DAY 11 · 07-27</div><div class="h">Review Archive</div><div class="b">Archive を "本棚" にすると決めた。点が線に。倉庫でなく、図書館。</div></div>
-       <div class="jday"><div class="d">DAY 12 · 07-28</div><div class="h">Archive → Library</div><div class="b">情報は "どう並べると理解が生まれるか" がすべて。棚が繋がり、ひとつの図書館に。This archive is alive.</div></div>
-       <div class="jday"><div class="d">DAY 12·II · 07-28</div><div class="h">Workspace became home</div><div class="b">ホームを差し替えるのは "旅がどこから始まるか" を決めること。玄関は、最初の一度だけ。</div></div>`,
-      `<div class="jday"><div class="d">DAY 13 · 07-29</div><div class="h">The publisher was born</div><div class="b">CodeLensAI は "版元" になった。House Style は「どんな本なら出版していいか」まで決める編集憲章。増えるのは機能でなく蔵書。</div></div>
-       <div class="jday"><div class="d">DAY 14 · 07-30</div><div class="h">部屋はアナログ、本だけ未来</div><div class="b">技術は部屋を飾らない。本を開いた瞬間だけ現れる。宇宙＝知識／部屋＝記憶／本＝物語。</div></div>
-       <div class="jday"><div class="d">DAY 15 · 07-31</div><div class="h">事件は始まりに一度だけ</div><div class="b">Archive は "施設"。すべての部屋に役割、すべての移動に理由。入館も魔法も一度きり——だから忘れられない。</div></div>
-       <div class="note">毎日3行だけ。半年後の自分への手紙。<br>── この本は完成しない。増え続ける。それが「生きている」ということ。</div>`
+    days:[
+      {n:"DAY 1",    date:"2026-07-17", t:"CodeLensくん誕生",              b:`95%→100% を 750ms 遅らせるだけで「終わった気持ちよさ」が増した。演出は機能だ。`},
+      {n:"DAY 2",    date:"2026-07-18", t:"RewardMe 49 → 61",             b:`一番の価値はスコアじゃない。「49点のアプリ」から「AIを育てる教材」へ。スコアより長く残るやつをコードに刻んだ。`},
+      {n:"DAY 3",    date:"2026-07-19", t:"Public Beta 公開",             b:`13% で止まるバグ＝mixed content。答えはずっと一番手前にあった。The bug is never where it looks.`},
+      {n:"DAY 4",    date:"2026-07-20", t:"CI 構築（Milestone 2）",       b:`「動く」と「これからも壊れない」は別物。緑のチェックは、今日の証明じゃなく明日への約束。`},
+      {n:"DAY 5",    date:"2026-07-21", t:"FrameLens に集中",             b:`Web とネイティブを行き来する日。道具は違っても、起点はいつも "どう伝わるか"。`},
+      {n:"DAY 6",    date:"2026-07-22", t:"FrameLens 公開・自己レビュー 68", b:`作って終わりじゃない。自分のツールでレビューして初めて完成する。Portfolio 品質と Production 品質は別軸。`},
+      {n:"DAY 7",    date:"2026-07-23", t:"二軸評価",                     b:`一つの点数は意図を隠す。二軸が、それを見せる。「何点？」より「どっちを目指した？」。`},
+      {n:"DAY 8",    date:"2026-07-24", t:"決定論的レビュー",             b:`同じコミットに同じ評価を。CodeLens が「占い」から「道具」へ。レビューは終わりじゃなく、入口。49.9s → 1.5s。`},
+      {n:"DAY 9",    date:"2026-07-25", t:"Experience First",            b:`レビュー画面じゃなく "一冊のレポート" に。設計思想が一本通ると、実装はむしろ減る。`},
+      {n:"DAY 10",   date:"2026-07-26", t:"Repository Intelligence",     b:`知性とは "何を読むか" を選ぶこと。賢いのはモデルじゃなく、何を見せるかの設計。`},
+      {n:"DAY 11",   date:"2026-07-27", t:"Review Archive",             b:`Archive を "本棚" にすると決めた。点が線に。倉庫でなく、図書館。`},
+      {n:"DAY 12",   date:"2026-07-28", t:"Archive → Library",          b:`情報は "どう並べると理解が生まれるか" がすべて。棚が繋がり、ひとつの図書館に。This archive is alive.`},
+      {n:"DAY 12·II", date:"2026-07-28", t:"Workspace became home",       b:`ホームを差し替えるのは "旅がどこから始まるか" を決めること。玄関は、最初の一度だけ。`},
+      {n:"DAY 13",   date:"2026-07-29", t:"The publisher was born",     b:`CodeLensAI は "版元" になった。House Style は「どんな本なら出版していいか」まで決める編集憲章。増えるのは機能でなく蔵書。`},
+      {n:"DAY 14",   date:"2026-07-30", t:"部屋はアナログ、本だけ未来",   b:`技術は部屋を飾らない。本を開いた瞬間だけ現れる。宇宙＝知識／部屋＝記憶／本＝物語。`},
+      {n:"DAY 15",   date:"2026-07-31", t:"事件は始まりに一度だけ",       b:`Archive は "施設"。すべての部屋に役割、すべての移動に理由。入館も魔法も一度きり——だから忘れられない。`}
     ]
   }
 ];
@@ -494,7 +511,9 @@ BOOKS.slice(1).forEach((b,k)=>shelf.appendChild(makeBook(b,k+1)));
 
 // overlay logic
 const overlay=document.getElementById('overlay'), spread=document.getElementById('spread'), pgnav=document.getElementById('pgnav');
-let cur=0, leaf=0;
+let cur=0, leaf=0, jcur=0;
+// Journal「続きを読む →」の全文先。※新扉ページ公開後に 3aed9f65…（Development Journal 扉ページ）へ差し替える
+const JOURNAL_URL="https://glaze-turn-b67.notion.site/Development-Journal-3a0d9f65223b81c5acaff8a6a09cf9c0";
 const coreOrb=document.getElementById('coreOrb');
 function coreReact(){ if(!coreOrb)return; coreOrb.classList.remove('react'); void coreOrb.offsetWidth; coreOrb.classList.add('react'); }
 // 🏠 Core = Home：心臓に触れると、シアンを上へ送り出して Live Workspace へ戻る（循環を閉じる）
@@ -507,10 +526,11 @@ if(coreOrb){ coreOrb.addEventListener('click',coreHome);
   coreOrb.addEventListener('mouseenter',coreHb);
   coreOrb.addEventListener('animationend',function(e){ if(e.animationName==='coreHb') coreOrb.classList.remove('hb'); });
   coreOrb.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); coreHome(); } }); }
-function openBook(i){ cur=i; leaf=0; render(); overlay.classList.add('on'); document.body.style.overflow='hidden'; coreReact(); if(BOOKS[i]) history.replaceState(null,'','#'+BOOKS[i].id); }
+function openBook(i){ cur=i; leaf=0; jcur=0; render(); overlay.classList.add('on'); document.body.style.overflow='hidden'; coreReact(); if(BOOKS[i]) history.replaceState(null,'','#'+BOOKS[i].id); }
 function closeBook(){ overlay.classList.remove('on'); document.body.style.overflow=''; history.replaceState(null,'',location.pathname+location.search); }
 function render(){
   const b=BOOKS[cur];
+  if(b.days){ renderJournal(b); return; }
   spread.innerHTML=`
     <div class="pg left tocpane">
       <div class="lic">${b.ic}</div>
@@ -551,6 +571,59 @@ function render(){
   }));
   pgnav.innerHTML='';
 }
+// Journal：1ページ＝1日。めくる本＋← Yesterday / Tomorrow →
+function renderJournal(b){
+  if(jcur<0)jcur=0; if(jcur>b.days.length-1)jcur=b.days.length-1;
+  const d=b.days[jcur], prev=b.days[jcur-1], next=b.days[jcur+1];
+  spread.innerHTML=`
+    <div class="pg left tocpane">
+      <div class="lic">${b.ic}</div>
+      <div class="ltitle">${b.title}</div>
+      <div class="lsub">${b.sub}</div>
+      <div class="prog"><i id="progFill"></i></div>
+      <div class="prog-n">${jcur+1} / ${b.days.length}</div>
+      <nav class="toc" id="jtoc"></nav>
+    </div>
+    <div class="pg right reader" id="reader">
+      <div class="jpage">
+        <div class="living">● LIVING — この本だけ、毎週ページが増える</div>
+        <div class="jd">${d.n} · ${d.date}</div>
+        <div class="jt">${d.t}</div>
+        <div class="jb">${d.b}</div>
+        <div class="jmore"><a href="${JOURNAL_URL}" target="_blank" rel="noopener">続きを読む → Notion で全文</a></div>
+        <div class="jnav">
+          <button class="prev" ${prev?'':'disabled'}>
+            <div class="dir">← Yesterday</div>
+            <div class="lbl">${prev?prev.n+'　'+prev.t:'これが最初のページ'}</div>
+          </button>
+          <button class="next" ${next?'':'disabled'}>
+            <div class="dir">Tomorrow →</div>
+            <div class="lbl">${next?next.n+'　'+next.t:'続きは、明日書かれる'}</div>
+          </button>
+        </div>
+      </div>
+    </div>`;
+  const pf=spread.querySelector('#progFill'); if(pf) pf.style.width=Math.round((jcur+1)/b.days.length*100)+'%';
+  const jtoc=spread.querySelector('#jtoc');
+  b.days.forEach((dd,idx)=>{
+    const a=document.createElement('a');
+    a.className='toc-i'+(idx===jcur?' active':'')+(idx<jcur?' done':'');
+    a.href='#'; a.innerHTML='<span class="mk"></span><span class="tx">'+dd.n+'　'+dd.t+'</span>';
+    a.onclick=e=>{e.preventDefault(); flipTo(idx);};
+    jtoc.appendChild(a);
+  });
+  const act=jtoc.querySelector('.toc-i.active'); if(act) act.scrollIntoView({block:'nearest'});
+  const pv=spread.querySelector('.jnav .prev'), nx=spread.querySelector('.jnav .next');
+  if(pv&&prev) pv.onclick=()=>flipTo(jcur-1);
+  if(nx&&next) nx.onclick=()=>flipTo(jcur+1);
+  pgnav.innerHTML='';
+}
+function flipTo(idx){
+  const b=BOOKS[cur]; if(!b.days||idx<0||idx>=b.days.length||idx===jcur)return;
+  const dir=idx>jcur?1:-1; jcur=idx; renderJournal(b);
+  const r=spread.querySelector('#reader');
+  if(r){ r.style.setProperty('--tx',(dir*14)+'px'); r.style.setProperty('--ry',(dir*4)+'deg'); r.classList.remove('turn'); void r.offsetWidth; r.classList.add('turn'); }
+}
 document.getElementById('closeBtn').onclick=closeBook;
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeBook();});
 // deep-link：archive.html#dna などで該当の本を直接開く（「読み終えたら隣の本へ」導線用）
@@ -559,8 +632,13 @@ window.addEventListener('hashchange',openByHash);
 openByHash();
 document.addEventListener('keydown',e=>{
   if(!overlay.classList.contains('on'))return;
-  if(e.key==='Escape')closeBook();
+  if(e.key==='Escape'){closeBook();return;}
   const b=BOOKS[cur];
+  if(b.days){
+    if(e.key==='ArrowRight')flipTo(jcur+1);
+    if(e.key==='ArrowLeft')flipTo(jcur-1);
+    return;
+  }
   if(e.key==='ArrowRight'&&leaf<b.leaves.length-1){leaf++;render();}
   if(e.key==='ArrowLeft'&&leaf>0){leaf--;render();}
 });
