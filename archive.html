@@ -43,8 +43,15 @@
     box-shadow:0 14px 36px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);
     transition:border-color .3s,box-shadow .3s}
   .book:hover::before{border-color:rgba(138,109,252,.28);box-shadow:0 16px 42px rgba(0,0,0,.55)}
-  .hero h1,.hero .lede,.hero .verbs,.hero .scrollhint{text-shadow:0 2px 20px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.7)}
+  .hero .kicker,.hero h1,.hero .lede,.hero .scrollhint{text-shadow:0 2px 20px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.7)}
   .core-t,.core-s{text-shadow:0 2px 14px rgba(0,0,0,.75)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--purple);font-weight:600;margin-bottom:16px}
+  /* 暖炉の炎：見ようとしなければ気付かない程度に揺れる */
+  .hearth{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;
+    background:radial-gradient(38% 44% at 19% 61%,rgba(255,142,46,.20),rgba(255,120,30,0) 62%);
+    animation:flicker 5.5s ease-in-out infinite}
+  @keyframes flicker{0%{opacity:.72}12%{opacity:.9}23%{opacity:.66}37%{opacity:.97}48%{opacity:.8}61%{opacity:1}72%{opacity:.7}85%{opacity:.88}100%{opacity:.72}}
+  @media (prefers-reduced-motion:reduce){.hearth{animation:none;opacity:.85}}
 
   /* masthead banner (same as LP → command room continuity) */
   .masthead{position:relative;width:100%;height:clamp(240px,32vw,420px);overflow:hidden;background:#05070f;border-bottom:1px solid var(--line)}
@@ -71,7 +78,7 @@
   .shelf-h .t{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--purple);font-weight:600}
   .shelf-h .s{color:var(--sub);font-size:14px;margin-top:8px}
   .shelf{display:grid;grid-template-columns:repeat(5,1fr);gap:22px 16px}
-  .featured{max-width:300px;margin:0 auto 30px}
+  .featured{max-width:322px;margin:0 auto 34px}
   .featured .book .cov{box-shadow:0 0 30px rgba(120,110,255,.13)}
   .featured .book:hover .cov{box-shadow:0 0 30px rgba(138,109,252,.19),0 0 18px rgba(120,150,255,.15),0 16px 32px rgba(0,0,0,.5),inset 0 0 26px rgba(88,166,255,.06)}
   .featured .book .bt{font-size:19px}
@@ -271,25 +278,19 @@
 <body>
 <div class="roombg"></div>
 <div class="roomveil"></div>
+<div class="hearth"></div>
 <div class="amb"></div>
 <div class="content">
 
   <section class="hero">
-    <h1>Repository Intelligence Archive</h1>
-    <p class="lede">Choose a volume.</p>
-    <div class="verbs">Read · Understand · Remember · Grow</div>
-    <div class="scrollhint">↓ 本棚へ</div>
+    <div class="kicker">Repository Intelligence Archive</div>
+    <h1>The Library</h1>
+    <p class="lede">一冊ずつ、リポジトリの記憶を開いて読む。</p>
+    <div class="scrollhint">↓ 蔵書を選ぶ</div>
   </section>
 
   <!-- SHELF -->
   <section class="shelf-sec"><div class="wrap">
-    <div class="core">
-      <div class="core-orb" id="coreOrb" role="button" tabindex="0" title="Return to Live Workspace"></div>
-      <div class="core-t">Repository Core</div>
-      <div class="core-s">一冊ずつが、リポジトリの記憶。開いて読む。</div>
-      <div class="core-home">⚡ Return to Live Workspace</div>
-    </div>
-    <div class="corelink"><span class="dot"></span></div>
     <div class="featured" id="featured"></div>
     <div class="plank"></div>
     <div class="shelf" id="shelf"></div>
@@ -311,6 +312,7 @@
   <footer><div class="wrap">
     <div><b>Repository Intelligence Archive</b> · CodeLensAI</div>
     <div style="margin-top:6px">This is not documentation. This repository remembers.</div>
+    <div style="margin-top:16px"><a href="https://codelens-ai-vplg.onrender.com/preview" style="font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--info)">⚡ Return to Live Workspace →</a></div>
   </div></footer>
 
 </div>
