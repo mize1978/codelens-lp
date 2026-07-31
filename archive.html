@@ -218,7 +218,17 @@
 .jpage .living{font-family:var(--mono);font-size:11px;color:var(--good);letter-spacing:.04em;margin-bottom:26px}
 .jpage .jd{font-family:var(--mono);font-size:12px;color:var(--purple);letter-spacing:.12em}
 .jpage .jt{font-size:29px;font-weight:760;letter-spacing:-.4px;line-height:1.22;margin:12px 0 22px}
-.jpage .jb{font-size:16px;line-height:1.95;color:var(--ink);opacity:.92}
+.jpage .jblk{margin-bottom:19px}
+.jpage .jh{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);font-weight:600;margin-bottom:6px}
+.jpage .jbody{font-size:15px;line-height:1.85;color:var(--ink);opacity:.9}
+.jpage .jbody.hi{color:var(--ink);opacity:1;font-weight:560}
+#jtoc .toc-i{align-items:flex-start;padding:7px 8px}
+#jtoc .toc-i .mk{margin-top:5px}
+#jtoc .ix{display:flex;flex-direction:column;gap:1px;overflow:hidden}
+#jtoc .ix b{font-family:var(--mono);font-size:9.5px;font-weight:600;color:var(--mut);letter-spacing:.06em}
+#jtoc .toc-i.active .ix b{color:var(--info)}
+#jtoc .ixt{font-size:12px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#jtoc .toc-i.active .ixt{color:var(--ink)}
 .jpage .jmore{margin-top:22px;font-family:var(--mono);font-size:12.5px}
 .jpage .jmore a{color:var(--info);text-decoration:none}
 .jpage .jmore a:hover{text-decoration:underline}
@@ -471,24 +481,76 @@ const BOOKS = [
   },
   {
     id:"journal", ic:"📘", cover:"images/cover-journal.png",
-    title:"Development Journal", sub:"唯一、生きている本 · 毎週増える", repo:"Day 1 → 15",
+    title:"Development Journal", sub:"唯一、生きている本 · 毎週増える", repo:"Day 1 → 16",
     days:[
-      {n:"DAY 1",    date:"2026-07-17", t:"CodeLensくん誕生",              b:`95%→100% を 750ms 遅らせるだけで「終わった気持ちよさ」が増した。演出は機能だ。`},
-      {n:"DAY 2",    date:"2026-07-18", t:"RewardMe 49 → 61",             b:`一番の価値はスコアじゃない。「49点のアプリ」から「AIを育てる教材」へ。スコアより長く残るやつをコードに刻んだ。`},
-      {n:"DAY 3",    date:"2026-07-19", t:"Public Beta 公開",             b:`13% で止まるバグ＝mixed content。答えはずっと一番手前にあった。The bug is never where it looks.`},
-      {n:"DAY 4",    date:"2026-07-20", t:"CI 構築（Milestone 2）",       b:`「動く」と「これからも壊れない」は別物。緑のチェックは、今日の証明じゃなく明日への約束。`},
-      {n:"DAY 5",    date:"2026-07-21", t:"FrameLens に集中",             b:`Web とネイティブを行き来する日。道具は違っても、起点はいつも "どう伝わるか"。`},
-      {n:"DAY 6",    date:"2026-07-22", t:"FrameLens 公開・自己レビュー 68", b:`作って終わりじゃない。自分のツールでレビューして初めて完成する。Portfolio 品質と Production 品質は別軸。`},
-      {n:"DAY 7",    date:"2026-07-23", t:"二軸評価",                     b:`一つの点数は意図を隠す。二軸が、それを見せる。「何点？」より「どっちを目指した？」。`},
-      {n:"DAY 8",    date:"2026-07-24", t:"決定論的レビュー",             b:`同じコミットに同じ評価を。CodeLens が「占い」から「道具」へ。レビューは終わりじゃなく、入口。49.9s → 1.5s。`},
-      {n:"DAY 9",    date:"2026-07-25", t:"Experience First",            b:`レビュー画面じゃなく "一冊のレポート" に。設計思想が一本通ると、実装はむしろ減る。`},
-      {n:"DAY 10",   date:"2026-07-26", t:"Repository Intelligence",     b:`知性とは "何を読むか" を選ぶこと。賢いのはモデルじゃなく、何を見せるかの設計。`},
-      {n:"DAY 11",   date:"2026-07-27", t:"Review Archive",             b:`Archive を "本棚" にすると決めた。点が線に。倉庫でなく、図書館。`},
-      {n:"DAY 12",   date:"2026-07-28", t:"Archive → Library",          b:`情報は "どう並べると理解が生まれるか" がすべて。棚が繋がり、ひとつの図書館に。This archive is alive.`},
-      {n:"DAY 12·II", date:"2026-07-28", t:"Workspace became home",       b:`ホームを差し替えるのは "旅がどこから始まるか" を決めること。玄関は、最初の一度だけ。`},
-      {n:"DAY 13",   date:"2026-07-29", t:"The publisher was born",     b:`CodeLensAI は "版元" になった。House Style は「どんな本なら出版していいか」まで決める編集憲章。増えるのは機能でなく蔵書。`},
-      {n:"DAY 14",   date:"2026-07-30", t:"部屋はアナログ、本だけ未来",   b:`技術は部屋を飾らない。本を開いた瞬間だけ現れる。宇宙＝知識／部屋＝記憶／本＝物語。`},
-      {n:"DAY 15",   date:"2026-07-31", t:"事件は始まりに一度だけ",       b:`Archive は "施設"。すべての部屋に役割、すべての移動に理由。入館も魔法も一度きり——だから忘れられない。`}
+      {n:"DAY 1", date:"2026-07-17", t:"CodeLensくん誕生",
+        today:"95%→100% のプログレスを 750ms 遅らせるだけで、レビューが「終わった」瞬間の気持ちよさが増えた。Notion MCP も導入した。",
+        learned:"演出は機能だ。気持ちよさは装飾ではなく、体験そのものだった。",
+        tomorrow:"RewardMe を作り直す。スコアより長く残るものをコードに刻む。"},
+      {n:"DAY 2", date:"2026-07-18", t:"RewardMe 49 → 61",
+        today:"RewardMe を 49点 から 61点 へ。「49点のアプリ」を「AIを育てる教材」に作り替えた。",
+        learned:"一番の価値はスコアじゃない。長く残るやつをコードに刻む。借りものでなく、自分の哲学を。",
+        tomorrow:"Public Beta を世に出す。"},
+      {n:"DAY 3", date:"2026-07-19", t:"Public Beta 公開",
+        today:"非同期Job化・Coverage表示・top_priorities構造化・GitHubジャンプ。13% で止まるバグの真因は mixed content だった。",
+        learned:"AIはもう「ここが問題」と言わない。「ここから始めて」と言う。答えはずっと一番手前にあった。",
+        tomorrow:"「動く」の次は「壊れない」。CI を敷く。"},
+      {n:"DAY 4", date:"2026-07-20", t:"CI 構築（Milestone 2）",
+        today:"Public Beta の翌日、真っ先に CI を置いた。",
+        learned:"「動く」と「これからも壊れない」は別物。緑のチェックは、今日の証明でなく未来の自分への約束。",
+        tomorrow:"FrameLens に集中する。"},
+      {n:"DAY 5", date:"2026-07-21", t:"FrameLens に集中",
+        today:"Web(Rails/Laravel) と ネイティブ(C++/OpenGL) を一日で行き来。CodeLens＝体験を設計、FrameLens＝見えないものを見せる。",
+        learned:"道具は違っても、起点はいつも \"どう伝わるか\"。根は同じ、使う人がどう理解するか。",
+        tomorrow:"FrameLens を公開し、自分のツールで自分をレビューする。"},
+      {n:"DAY 6", date:"2026-07-22", t:"FrameLens 公開・自己レビュー 68",
+        today:"FrameLens を公開。自分のツール（CodeLens）で自分の作品をレビューした。結果は 68点。",
+        learned:"作って終わりじゃない。自分のツールでレビューして、初めて完成する。",
+        tomorrow:"点数の見せ方を変える。一つでなく、二軸で。"},
+      {n:"DAY 7", date:"2026-07-23", t:"二軸評価",
+        today:"Portfolio Quality / Production Readiness の二軸評価を設計。プロダクトが互いに育て合う流れができた。",
+        learned:"一つの点数は意図を隠す。二軸が、それを見せる。「何点？」より「どっちを目指した？」。",
+        tomorrow:"同じコードに同じ評価を。決定論的レビューへ。"},
+      {n:"DAY 8", date:"2026-07-24", t:"決定論的レビュー",
+        today:"temperature 固定 ＋ コミットSHAキャッシュ。同じコミットに同じ評価。49.9s → 1.5s。",
+        learned:"レビューが「占い」から「道具」へ。そしてレビューは終わりでなく、入口になった。",
+        tomorrow:"表示から体験へ。レビューを \"一冊のレポート\" にする。"},
+      {n:"DAY 9", date:"2026-07-25", t:"Experience First",
+        today:"レビュー画面を、開いて・読んで・最後に何か残る \"一冊のレポート\" に作り替えた。",
+        learned:"表示から体験へ。設計思想が一本通ると、実装はむしろ減る。",
+        tomorrow:"何を読むかを選ぶ知性 — Repository Intelligence へ。"},
+      {n:"DAY 10", date:"2026-07-26", t:"Repository Intelligence",
+        today:"丸投げでなく \"どのファイルを読むか\" を設計。三層 Reviews / Articles / Docs に整理した。",
+        learned:"知性とは \"何を読むか\" を選ぶこと。賢いのはモデルでなく、何を見せるかの設計。",
+        tomorrow:"溜まったレビューを \"本棚\" にする。"},
+      {n:"DAY 11", date:"2026-07-27", t:"Review Archive",
+        today:"Review Archive と Case Study を実装。点が線に、線が読み物になった。",
+        learned:"Archive は倉庫でなく図書館。積み重なるほど価値が増える資産。",
+        tomorrow:"棚を繋いで、ひとつの図書館にする。"},
+      {n:"DAY 12", date:"2026-07-28", t:"Archive → Library",
+        today:"Archive を Library に。LP＝玄関 / Workspace＝家 / Archive＝図書館 / Journal＝生きた本 が一つの世界に。",
+        learned:"情報は \"どう並べると理解が生まれるか\" がすべて。This archive is alive.",
+        tomorrow:"旅の始まりを差し替える。Workspace を home に。"},
+      {n:"DAY 12·II", date:"2026-07-28", t:"Workspace became home",
+        today:"ホームを v2 Workspace に差し替え、v1 は展示室として残した。",
+        learned:"ホーム差し替えはルート変更でなく \"旅がどこから始まるか\" を決めること。玄関は、最初の一度だけ。",
+        tomorrow:"CodeLensAI を \"版元\" として定義する。"},
+      {n:"DAY 13", date:"2026-07-29", t:"The publisher was born",
+        today:"House Style を制定。「どんな本なら出版していいか」まで決める編集憲章にした。",
+        learned:"CodeLensAI は「サービス」から版元（publisher）へ。増えるのは機能でなく、蔵書。",
+        tomorrow:"部屋の世界観を決める。アナログな部屋、未来の本。"},
+      {n:"DAY 14", date:"2026-07-30", t:"部屋はアナログ、本だけ未来",
+        today:"部屋はアナログ、本を開いた瞬間だけ技術が現れる設計に。宇宙＝知識 / 部屋＝記憶 / 本＝物語。",
+        learned:"技術は部屋を飾らない。魔法に見せる。レトロなのに、死ぬほどハイテク。",
+        tomorrow:"施設としての設計原則を、一言に落とす。"},
+      {n:"DAY 15", date:"2026-07-31", t:"事件は始まりに一度だけ",
+        today:"Archive を \"施設\" と定義。すべての部屋に役割、すべての移動に理由を与えた。",
+        learned:"二つの憲法 —「Every room has a purpose. Every transition has a reason.」と「事件は始まりに一度だけ」。だから忘れられない。",
+        tomorrow:"このプロジェクト全体の \"根\" を、一文にする。"},
+      {n:"DAY 16", date:"2026-08-01", t:"Every repository deserves to be remembered",
+        today:"プロジェクト全体の \"根\" を一文に。棚＝知識 / 机＝編集された一冊 / DB＝育つ記録 の三層に分けた。",
+        learned:"「Development Journal は本でない。DBでもない。3行日記でもない。」分けた瞬間、役割がぶつからなくなった。",
+        tomorrow:"この本を \"日めくり\" にする。試し読みを厚くして、一冊の本として立たせる。"},
     ]
   }
 ];
@@ -589,7 +651,9 @@ function renderJournal(b){
         <div class="living">● LIVING — この本だけ、毎週ページが増える</div>
         <div class="jd">${d.n} · ${d.date}</div>
         <div class="jt">${d.t}</div>
-        <div class="jb">${d.b}</div>
+        <div class="jblk"><div class="jh">Today</div><div class="jbody">${d.today}</div></div>
+        <div class="jblk"><div class="jh">Learned</div><div class="jbody hi">${d.learned}</div></div>
+        <div class="jblk"><div class="jh">Tomorrow</div><div class="jbody">${d.tomorrow}</div></div>
         <div class="jmore"><a href="${JOURNAL_URL}" target="_blank" rel="noopener">続きを読む → Notion で全文</a></div>
         <div class="jnav">
           <button class="prev" ${prev?'':'disabled'}>
@@ -608,7 +672,7 @@ function renderJournal(b){
   b.days.forEach((dd,idx)=>{
     const a=document.createElement('a');
     a.className='toc-i'+(idx===jcur?' active':'')+(idx<jcur?' done':'');
-    a.href='#'; a.innerHTML='<span class="mk"></span><span class="tx">'+dd.n+'　'+dd.t+'</span>';
+    a.href='#'; a.innerHTML='<span class="mk"></span><span class="ix"><b>'+dd.n+'</b><span class="ixt">'+dd.t+'</span></span>';
     a.onclick=e=>{e.preventDefault(); flipTo(idx);};
     jtoc.appendChild(a);
   });
