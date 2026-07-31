@@ -39,9 +39,9 @@
       linear-gradient(rgba(8,8,12,.44),rgba(8,8,12,.44))}
   /* cards become glass display cases over the painting */
   .book::before{content:"";position:absolute;inset:-14px -12px;border-radius:16px;z-index:-1;
-    background:rgba(22,26,40,.34);
-    -webkit-backdrop-filter:blur(8px) saturate(1.08);backdrop-filter:blur(8px) saturate(1.08);
-    border:1px solid rgba(188,202,255,.15);
+    background:rgba(16,20,38,.24);
+    -webkit-backdrop-filter:blur(5px) saturate(1.06);backdrop-filter:blur(5px) saturate(1.06);
+    border:1px solid rgba(120,150,255,.20);
     box-shadow:0 14px 36px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);
     transition:border-color .3s,box-shadow .3s}
   .book:hover::before{border-color:rgba(138,109,252,.28);box-shadow:0 16px 42px rgba(0,0,0,.55)}
@@ -50,19 +50,21 @@
   .hero .tagline{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;color:var(--sub);margin-bottom:20px}
   .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--purple);font-weight:600;margin:14px 0 0}
   /* 暖炉の炎：見ようとしなければ気付かない程度に揺れる */
-  .fire{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;
-    background:
-      radial-gradient(22% 26% at 20% 62%,rgba(255,146,52,.34),rgba(255,120,30,0) 70%),
-      radial-gradient(62% 62% at 22% 60%,rgba(255,138,46,.13),rgba(255,110,25,0) 72%);
-    animation:fireFlicker 6s ease-in-out infinite}
-  @keyframes fireFlicker{0%{opacity:.95;filter:brightness(1)}25%{opacity:1;filter:brightness(1.03)}50%{opacity:.9;filter:brightness(.98)}75%{opacity:.98;filter:brightness(1.01)}100%{opacity:.95;filter:brightness(1)}}
+  .fire{position:fixed;left:8%;top:40%;width:clamp(220px,24vw,320px);height:clamp(200px,22vw,300px);z-index:0;pointer-events:none;mix-blend-mode:screen;
+    background:radial-gradient(circle,rgba(255,170,60,.42),rgba(255,120,0,.16) 45%,rgba(255,120,0,0) 70%);
+    animation:fireFlicker 3s ease-in-out infinite}
+  @keyframes fireFlicker{0%{opacity:.72;transform:scale(1)}30%{opacity:.96;transform:scale(1.035)}60%{opacity:.64;transform:scale(.985)}100%{opacity:.8;transform:scale(1)}}
+  .fireroom{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;
+    background:radial-gradient(48% 52% at 20% 52%,rgba(255,140,46,.10),rgba(255,110,25,0) 72%);
+    animation:fireroom 3s ease-in-out infinite}
+  @keyframes fireroom{0%{opacity:.58}30%{opacity:.85}60%{opacity:.52}100%{opacity:.66}}
   .lamp{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;
     background:
-      radial-gradient(9% 13% at 7% 75%,rgba(255,172,84,.22),rgba(255,150,60,0) 72%),
-      radial-gradient(7% 10% at 33% 30%,rgba(255,176,92,.14),rgba(255,150,60,0) 72%);
-    animation:lampFlicker 6s ease-in-out infinite}
-  @keyframes lampFlicker{0%{opacity:.92}25%{opacity:.85}50%{opacity:.99}75%{opacity:.9}100%{opacity:.92}}
-  @media (prefers-reduced-motion:reduce){.fire,.lamp{animation:none}}
+      radial-gradient(9% 13% at 7% 75%,rgba(255,172,84,.24),rgba(255,150,60,0) 72%),
+      radial-gradient(7% 10% at 33% 30%,rgba(255,176,92,.15),rgba(255,150,60,0) 72%);
+    animation:lampFlicker 3s ease-in-out infinite}
+  @keyframes lampFlicker{0%{opacity:.92}30%{opacity:.82}60%{opacity:.99}100%{opacity:.9}}
+  @media (prefers-reduced-motion:reduce){.fire,.fireroom,.lamp{animation:none}}
 
   /* masthead banner (same as LP → command room continuity) */
   .masthead{position:relative;width:100%;height:clamp(240px,32vw,420px);overflow:hidden;background:#05070f;border-bottom:1px solid var(--line)}
@@ -102,11 +104,12 @@
   .shelf .book:nth-child(5){transform:translateY(-1px)}
   .book{position:relative;cursor:pointer;perspective:1000px}
   .book .cov{position:relative;border-radius:12px;overflow:hidden;border:1px solid transparent;
-    background:linear-gradient(180deg,rgba(27,33,48,.85),rgba(15,19,28,.8)) padding-box,linear-gradient(135deg,rgba(88,166,255,.55),rgba(138,109,252,.5) 55%,rgba(88,166,255,.32)) border-box;
+    background:linear-gradient(180deg,rgba(20,26,44,.42),rgba(12,16,28,.36)) padding-box,linear-gradient(135deg,rgba(88,166,255,.55),rgba(138,109,252,.5) 55%,rgba(88,166,255,.32)) border-box;
     box-shadow:0 0 22px rgba(88,166,255,.12),0 14px 34px rgba(0,0,0,.42),inset 0 0 26px rgba(88,166,255,.05);
     transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s;transform-origin:left center}
   .book .cov img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 30%}
-  .book .glow{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(6,7,13,.85));opacity:.8;transition:opacity .3s}
+  .book .glow{position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(6,7,13,.60));opacity:.7;transition:opacity .3s}
+  .book .bt,.book .bs{text-shadow:0 1px 6px rgba(0,0,0,.85)}
   .book .meta{position:absolute;left:0;right:0;bottom:0;padding:16px 16px 15px;z-index:2}
   .book .ic{font-size:22px}
   .book .bt{font-weight:700;font-size:16px;margin-top:6px}
@@ -127,7 +130,7 @@
   .plate .p2{color:var(--sub);font-size:14px;margin-top:8px}
   .living{display:inline-block;margin-top:26px;text-decoration:none;color:inherit}
   .living-cov{width:150px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid transparent;
-    background:linear-gradient(180deg,rgba(27,33,48,.85),rgba(15,19,28,.8)) padding-box,linear-gradient(135deg,rgba(88,166,255,.5),rgba(138,109,252,.45) 55%,rgba(88,166,255,.3)) border-box;
+    background:linear-gradient(180deg,rgba(20,26,44,.42),rgba(12,16,28,.36)) padding-box,linear-gradient(135deg,rgba(88,166,255,.5),rgba(138,109,252,.45) 55%,rgba(88,166,255,.3)) border-box;
     box-shadow:0 0 24px rgba(138,109,252,.16),0 14px 30px rgba(0,0,0,.45);transition:transform .3s,box-shadow .3s}
   .living-cov img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover}
   .living:hover .living-cov{transform:translateY(-4px);box-shadow:0 0 36px rgba(138,109,252,.30),0 0 20px rgba(88,166,255,.24),0 18px 34px rgba(0,0,0,.5)}
@@ -290,6 +293,7 @@
 <div class="roombg"></div>
 <div class="roomveil"></div>
 <div class="fire"></div>
+<div class="fireroom"></div>
 <div class="lamp"></div>
 <div class="amb"></div>
 <div class="content">
