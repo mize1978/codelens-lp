@@ -7,16 +7,22 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;background:#0b1424;font-family:"Newsreader",Georgia,serif}
 .book{position:fixed;inset:0;overflow:hidden}
+.homelink{position:fixed;top:16px;left:18px;z-index:40;display:inline-flex;align-items:center;gap:7px;font-family:"Inter",sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#e6cf95;text-decoration:none;padding:9px 15px;border:1px solid rgba(200,155,84,.42);border-radius:40px;background:rgba(9,15,28,.5);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);transition:background .2s,border-color .2s,color .2s}
+.homelink:hover{background:rgba(200,155,84,.16);border-color:rgba(200,155,84,.7);color:#f4e6bf}
 .track{display:flex;height:100%;transition:transform .62s cubic-bezier(.66,0,.2,1);will-change:transform}
 .panel{flex:0 0 100vw;height:100vh;overflow-y:auto;overflow-x:hidden;position:relative}
 .panel::-webkit-scrollbar{width:9px}.panel::-webkit-scrollbar-thumb{background:rgba(176,132,47,.35);border-radius:6px}
 /* --- day (cream page) --- */
 .day{background:#0a1120}
-.col{max-width:648px;margin:0 auto;padding:34px clamp(24px,5vw,40px) 60px}
-.day .col{background:#f7f3ea;max-width:768px;min-height:100vh;box-shadow:0 0 48px rgba(0,0,0,.36)}
-.runhead{display:flex;justify-content:space-between;align-items:center;font-family:"Inter",sans-serif;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#b0a789;padding-bottom:14px;border-bottom:1px solid rgba(176,132,47,.28);margin-bottom:8px}
+.day .col{background:#f7f3ea;max-width:768px;box-shadow:0 0 48px rgba(0,0,0,.36)}
+.col{width:100%;max-width:648px;min-height:100vh;margin:0 auto;padding:26px clamp(24px,5vw,40px) 22px;display:flex;flex-direction:column}
+.core{flex:1;display:flex;flex-direction:column;justify-content:safe center;padding:24px 0}
+.runhead{display:flex;justify-content:space-between;align-items:center;font-family:"Inter",sans-serif;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#b0a789;padding-bottom:14px;border-bottom:1px solid rgba(176,132,47,.28)}
 .runhead span:last-child{font-family:ui-monospace,Menlo,monospace;letter-spacing:.12em;color:#b0842f}
-.chapter{display:flex;align-items:center;gap:22px;margin:46px 0 34px}
+.metrics{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:-16px 0 4px}
+.metrics span{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.06em;color:#b0842f;border:1px solid rgba(176,132,47,.4);border-radius:20px;padding:4px 12px;background:rgba(176,132,47,.05)}
+.parttag{text-align:center;font-family:"Inter",sans-serif;font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:#a8863f;margin:0 0 22px}
+.chapter{display:flex;align-items:center;gap:22px;margin:0 0 30px}
 .chapter .ln{flex:1;height:1px;background:linear-gradient(90deg,rgba(176,132,47,0),rgba(176,132,47,.5),rgba(176,132,47,0))}
 .chapter .lbl{text-align:center;white-space:nowrap}
 .chapter .bid{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;color:#b0842f;border:1px solid rgba(176,132,47,.45);border-radius:4px;padding:3px 9px;background:rgba(176,132,47,.05);margin-bottom:12px}
@@ -77,12 +83,26 @@ html,body{height:100%;overflow:hidden;background:#0b1424;font-family:"Newsreader
 .edge:hover{background:rgba(200,155,84,.2)}
 .edge.left{left:18px}.edge.right{right:18px}
 .edge.hide{opacity:0;pointer-events:none}
-.homelink{position:fixed;top:16px;left:18px;z-index:40;display:inline-flex;align-items:center;gap:7px;font-family:"Inter",sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#e6cf95;text-decoration:none;padding:9px 15px;border:1px solid rgba(200,155,84,.42);border-radius:40px;background:rgba(9,15,28,.5);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);transition:background .2s,border-color .2s,color .2s}
-.homelink:hover{background:rgba(200,155,84,.16);border-color:rgba(200,155,84,.7);color:#f4e6bf}
 .counter{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:30;font-family:ui-monospace,Menlo,monospace;
   font-size:11px;letter-spacing:.14em;color:#b0842f;background:rgba(20,16,10,.3);border:1px solid rgba(200,155,84,.3);
   border-radius:20px;padding:5px 14px;backdrop-filter:blur(3px)}
 @media(max-width:520px){.edge{display:none}}
+/* bookmark ribbon + contents */
+.ribbon{position:fixed;top:0;right:38px;z-index:45;width:30px;height:62px;border:none;cursor:pointer;padding:9px 0 0;
+  background:linear-gradient(180deg,#c8a24a,#9c7523);clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%);
+  box-shadow:0 5px 13px rgba(0,0,0,.32);display:flex;align-items:flex-start;justify-content:center;transition:transform .3s}
+.ribbon:hover{transform:translateY(4px)}
+.toc-overlay{position:fixed;inset:0;z-index:50;background:rgba(8,10,16,.5);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .32s;display:flex;justify-content:flex-end}
+.toc-overlay.on{opacity:1;pointer-events:auto}
+.toc-card{width:min(384px,86vw);height:100%;background:#f4efe4;box-shadow:-24px 0 60px rgba(0,0,0,.45);overflow-y:auto;transform:translateX(40px);transition:transform .4s cubic-bezier(.2,.7,.2,1);padding:44px 30px 60px}
+.toc-overlay.on .toc-card{transform:none}
+.toc-h{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:25px;color:#3a3026}
+.toc-sub{font-family:"Inter",sans-serif;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#a99a72;margin:6px 0 22px}
+.toc-part{font-family:"Inter",sans-serif;font-size:9.5px;letter-spacing:.36em;text-transform:uppercase;color:#a8863f;margin:18px 0 6px;text-align:center}
+.toc-row{display:flex;gap:14px;align-items:baseline;width:100%;background:none;border:none;text-align:left;cursor:pointer;padding:9px 8px;border-radius:6px;transition:background .2s}
+.toc-row:hover{background:rgba(176,132,47,.12)}
+.toc-row .tn{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#b0842f;min-width:64px;flex-shrink:0}
+.toc-row .tl{font-family:"Newsreader",serif;font-size:14.5px;color:#34302a;line-height:1.4}
 </style></head>
 <body>
 <div class="book">
@@ -100,185 +120,288 @@ html,body{height:100%;overflow:hidden;background:#0b1424;font-family:"Newsreader
   </section>
   <section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-001 · 1/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-001 · 1/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-001</div>
           <div class="ch">Chapter I</div><div class="d">Day 1</div><div class="dt">July 17, 2026</div>
         </div><div class="ln"></div></div>
+        
         <div class="sec"><div class="h">Repository</div><ul><li>95%演出追加</li><li>CodeLensくん誕生</li><li>Notion MCP導入</li><li>Review Complete改善</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p>「終わった気持ちよさ」を設計する。95%→100% をあえて 750ms 遅らせ、「完了の余韻」を作ると決めた。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>95%→100%を750ms遅らせるだけで、レビューが終わった気持ちよさがかなり増えた。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>ランキング修正</li><li>HUD追加</li><li>README改善</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">CodeLensくんが初めて動いた日。</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── レビューは速さより、終わったと感じる気持ちよさが大事なんだ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Cover</button><button class="pt next" data-fwd>Day 2 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-002 · 2/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-002 · 2/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-002</div>
           <div class="ch">Chapter II</div><div class="d">Day 2</div><div class="dt">July 18, 2026</div>
         </div><div class="ln"></div></div>
+        <div class="metrics"><span>49 → 61</span></div>
         <div class="sec"><div class="h">Repository</div><ul><li>RewardMe コードレビュー対応（49 → 61点）</li><li>未使用画像22枚削除・Capybara削除・テスト12本追加・Dockerfile最適化</li><li>CodeLensAI の良い点セクションに締めの一言を追加（066796c）</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p>066796c — たった2行で、レビューの締めに <b>CodeLensAI 自身の哲学</b> を刻む。「引用ではなく、自分の言葉」と決めた日。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>今日は49点から始まり、修正を重ねて61点まで改善した。でも、一番価値があったのはスコアではなかった。「49点を取るアプリ」から「レビューAIを育てるための教材」へ変わったこと。</p><p>066796c はたった2行の追加だったけれど、CodeLensAI がどういうプロダクトでありたいかという意思をコードに刻んだコミットになった。コミットメッセージはこう残した ── <i>CodeLensAI's own philosophy, not a quote.</i></p><p><b>作り切ることが第一歩。改善を続けることがエンジニアリング。</b> コードは動けば役目を果たす。でも、コミットは「なぜそうしたか」を未来へ残せる。今日の学びは、61点になったことではない。<b>スコアより長く残るものをコードに刻んだこと。</b></p></div>
         
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">スコアより、長く残るものをコードに刻んだ。</div><div class="rule b"></div></div>
         
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 1</button><button class="pt next" data-fwd>Day 3 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-003 · 3/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-003 · 3/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-003</div>
           <div class="ch">Chapter III</div><div class="d">Day 3</div><div class="dt">July 19, 2026</div>
         </div><div class="ln"></div></div>
+        <div class="metrics"><span>Milestone 1 · Public Beta</span><span>62 · GOOD</span></div>
         <div class="sec"><div class="h">Repository</div><ul><li><b>Public Beta 公開</b> — Render に本番デプロイ、公開URL稼働（Milestone 1 達成）</li><li>「診断が 13% で止まる」バグ修正 — 真因は route() の http://localhost 生成 → mixed content。相対URLで解決</li><li><b>セキュリティ強化</b> — プロンプトインジェクション対策／ /fix レート制限（20回/日）／セキュリティヘッダー Middleware／1MB超ファイルをスキップ</li><li>max_tokens 2048→8192、config:cache 対策（env() → config() 経由へ）</li><li>「一瞬で伝わるバナー」制作（README / LAPRAS / LP 用途別に展開）</li><li>自己診断 62 GOOD</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>Public Beta を世に出す。</b> 「動くもの」を公開し、同時に自作AIが指摘した脆弱性を自分で塞ぐと決めた。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>症状の場所と、原因の場所は違う。「13% で止まる」は worker やキューの問題に見えたが、真因はフロントのプロトコル不一致だった。裏ではジョブはとっくに完成していて、画面が答えを取りに行けなかっただけ。原因を上流だと思い込んでいる間、答えはずっと一番手前にあった。</p><p>そしてこの日、禅問答に答えが出た ── 自作AIが指摘した自分のプロンプトインジェクション脆弱性を、自分で塞いだ。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>Milestone 2: テスト + GitHub Actions（CIバッジ）</li><li>プロンプトインジェクション対策の深化</li><li>worker 常駐化で解析アニメを復活（sync 脱却）</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">The bug is never where it looks. — 止まって見えた場所の、一番手前に原因があった。</div><div class="rule b"></div></div>
         
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 2</button><button class="pt next" data-fwd>Day 4 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-004 · 4/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-004 · 4/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-004</div>
           <div class="ch">Chapter IV</div><div class="d">Day 4</div><div class="dt">July 20, 2026</div>
         </div><div class="ln"></div></div>
+        
         <div class="sec"><div class="h">Repository</div><ul><li><b>Milestone 2 着手</b> — GitHub Actions で CI 構築、テスト自動実行＆CIバッジを README に</li><li>worker を常駐化し、解析アニメーションを復活（sync 脱却＝"待つ"体験が戻った）</li><li>プロンプトインジェクション対策を深化（file_content 隔離まわりを再点検）</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>機能より先に CI。</b> 「増やす」より「未来の自分が壊さない仕組み」を優先する、と順番を決めた。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>「動く」と「これからも壊れない」は別物だった。Public Beta を出した翌日に真っ先に CI を置いたのは象徴的で、機能を増やすより先に"未来の自分が壊さない仕組み"を用意した。緑のチェックは、今日の証明じゃなく明日への約束だ。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>FrameLens の整備に着手 ／ 二軸評価の構想</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">A green check is a promise to future me. — CIは、未来の自分への約束。</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── テストが通る緑のチェックは、"今動く"の証明じゃない。"これからも壊さない"って未来へ差し出す約束なんだ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 3</button><button class="pt next" data-fwd>Day 5 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-005 · 5/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-005 · 5/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-005</div>
           <div class="ch">Chapter V</div><div class="d">Day 5</div><div class="dt">July 21, 2026</div>
         </div><div class="ln"></div></div>
+        
         <div class="sec"><div class="h">Repository</div><ul><li>FrameLens に集中 — 2×4 軸組の手続き生成・レイピッキング・寸法表示を詰める</li><li>外部ライブラリに頼らず、行列演算・JSONパーサ・寸法フォントを自作で押し切る方針を固める</li><li>v1.0 に向けて README の骨子を準備</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>自作で押し切る。</b> 行列演算もパーサも寸法フォントも外部に頼らず、自分の手で通す方針を固めた。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>Web（Rails・Laravel）とネイティブ（C++・OpenGL）を行き来する日。CodeLens は「体験を設計する」、FrameLens は「見えないものを見せる」。方向は違うのに、根っこの"使う人がどう理解するか"は同じだと気づいた。手を動かすほど、自分の軸が一本なのが分かってくる。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>FrameLens README 完成・GitHub 公開（v1.0）</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">Different tools, one instinct. — 道具は違っても、起点はいつも"どう伝わるか"。</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── 3Dでも、コードレビューでも、やってることは同じだよ。"見えないもの"を、読める形にしてるんだ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 4</button><button class="pt next" data-fwd>Day 6 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-006 · 6/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-006 · 6/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-006</div>
           <div class="ch">Chapter VI</div><div class="d">Day 6</div><div class="dt">July 22, 2026</div>
         </div><div class="ln"></div></div>
+        <div class="metrics"><span>v1.0 Release</span><span>Self-review 68</span></div>
         <div class="sec"><div class="h">Repository</div><ul><li>FrameLens README完成・GitHub公開（v1.0 Release）</li><li>GIF追加・Features冒頭配置・Stats・Mermaid Architecture図・Why I Built This を整備</li><li>CodeLensAI に FrameLens を読み込ませ自己レビューを実施（スコア 68）</li><li>AddressSanitizer / UBSan 追加、JSON入力バリデーション追加、パーサ境界チェック強化</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>単一スコアをやめる。</b> Portfolio Quality / Production Readiness の <b>二軸評価</b> へ舵を切ると決めた。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>「作って終わり」ではなく、自分のツールでレビューし、改善し、その結果まで確認したことが今日一番の価値だった。面接で「品質をどう確認しましたか？」と聞かれたら、この自己レビューサイクルを具体例として話せる。</p><p>また、CodeLensAI に改善案が見えた。単一スコアではなく <b>Portfolio Quality / Production Readiness</b> の二軸評価の方が、作品の意図を正しく伝えられる。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>CodeLensAI 二軸評価の実装検討</li><li>LAPRAS / LP への展開</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">作って終わりじゃない。自分のツールでレビューして、初めて完成する。</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── ポートフォリオ品質と、プロダクション品質は別軸なんだ。どちらを目指すかを最初に決めることが、一番大事なレビューだよ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 5</button><button class="pt next" data-fwd>Day 7 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-007 · 7/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-007 · 7/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-007</div>
           <div class="ch">Chapter VII</div><div class="d">Day 7</div><div class="dt">July 23, 2026</div>
         </div><div class="ln"></div></div>
+        
         <div class="sec"><div class="h">Repository</div><ul><li><b>二軸評価</b> の実装を検討 — 単一スコアをやめ、Portfolio Quality / Production Readiness の2軸へ</li><li><b>決定論的レビュー</b> の設計に着手（temperature 固定・コミットSHAキャッシュの構想）</li><li>DebugMe の公開準備（OGP・本番デプロイの段取り）</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>決定論的レビューへ着手。</b> temperature 固定・コミットSHAキャッシュ。「占い」をやめ「道具」にする設計を選んだ。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>FrameLens の自己レビューで見えた「二軸」の気づきを、そのまま CodeLens に返す日になった。作品を作る → 自分のツールでレビューする → その学びを次の改善に回す。プロダクトが一つずつ独立してるんじゃなくて、互いに育て合っている。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>決定論的レビューの実装（Reliability milestone）／ DebugMe 本番公開</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">One score hides the intent. Two axes reveal it. — 一つの点数は意図を隠す。二軸が、それを見せる。</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── "何点？"より"どっちを目指した？"の方が大事なんだ。ポートフォリオ品質とプロダクション品質は、別の山なんだよ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 6</button><button class="pt next" data-fwd>Day 8 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-008 · 8/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-008 · 8/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-008</div>
           <div class="ch">Chapter VIII</div><div class="d">Day 8</div><div class="dt">July 24, 2026</div>
         </div><div class="ln"></div></div>
+        <div class="metrics"><span>49.9s → 1.5s</span><span>55 · FAIR</span></div>
         <div class="sec"><div class="h">Repository</div><ul><li><b>Reliability milestone</b> — CodeLens に「決定論的レビュー」を実装。temperature 固定 + コミットSHAキャッシュ + 言語非依存ルーブリック</li><li>同一コミットの再レビューがキャッシュから返るように（49.9s → 1.5s、2回目は Claude を呼ばない）</li><li>ランキングを「1リポジトリ = 最新評価1件」に集約</li><li>DebugMe を本番公開＆OGP整備。CodeLens で自己レビュー → <b>55 / FAIR</b></li><li>Notion に <b>Repository DNA</b> を新設（Second Brain 構想の第一歩）</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>Repository DNA を新設。</b> レビューを「終わり」から <b>「入口」</b> へ。同じコミットに同じ評価を返す道具にすると決めた。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>今日、CodeLens のカテゴリが変わった。これまでは「解析して終わり」だった。でも同じコミットに同じ評価を返せるようにした瞬間、CodeLens は "毎回答えが変わるデモ" から <b>リポジトリの現在地を記録できる道具</b> になった。</p><p>一番の学びはスコアでも速度でもない。<b>「レビューは終わりではなく、入口だ」</b> と気づいたこと。理解し、記憶し、育てる ── その入口がレビューだった。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>Repository DNA / Development Journal を AI が自動生成する導線</li><li>Knowledge / Archive Book の育成</li><li>CodeLens 公開（X）</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">同じコードには、同じ評価を。— レビューが「入口」になった日。</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── 毎回ちがう点数を出すAIは、占い。同じコミットに同じ評価を返せて、はじめて"道具"なんだ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 7</button><button class="pt next" data-fwd>Day 9 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-009 · 9/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-009 · 9/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-009</div>
           <div class="ch">Chapter IX</div><div class="d">Day 9</div><div class="dt">July 25, 2026</div>
         </div><div class="ln"></div></div>
+        
         <div class="sec"><div class="h">Repository</div><ul><li><b>Experience First への転換</b> — CodeLens を「レビューを表示するアプリ」から「レビューを"読む"体験」へ再定義</li><li>レビューを"一冊のレポート"として読み進められる流れに作り替え始める</li><li>Day 8 の Repository DNA を土台に、"AIが何を読むか"＝<b>Repository Intelligence</b> を軸に据える</li><li>CodeLens を X で公開（Day 8 の宿題を消化）</li></ul></div>
-        <div class="sec"><div class="h">Reflection</div><p>決定論的レビューで「レビューは入口だ」と気づいた翌日、その入口の"体験"そのものに手をつけた。『表示から体験へ』── 言葉にすれば一行だけど、やってみると全然違った。これは画面をきれいにする話じゃない。レビューの結果を"どの順で、どう出会わせるか"を、最初から設計し直すという話だった。人が本を開いて読み進めるように、CodeLens のレビューも、開いて、読んで、最後に何かが残る。そういう"一冊のレポート"にしたかった。</p><p>面白いのは、そう決めた瞬間に、作るものが増えたんじゃなくて削れたこと。設計思想が一本通ると、実装はむしろ減る。今日はそれを頭じゃなく手で理解した。</p></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>Experience First。</b> UI → 建築、レビュー画面 → <b>一冊のレポート</b>。「表示から体験へ」設計し直すと決めた。</p></div>
+        <div class="sec"><div class="h">Reflection</div><p>決定論的レビューで「レビューは入口だ」と気づいた翌日、その入口の"体験"そのものに手をつけた。『表示から体験へ』── 言葉にすれば一行だけど、やってみると全然違った。これは画面をきれいにする話じゃない。レビューの結果を"どの順で、どう出会わせるか"を、最初から設計し直すという話だった。人が本を開いて読み進めるように、CodeLens のレビューも、開いて、読んで、最後に何かが残る。そういう"一冊のレポート"にしたかった。</p><p>面白いのは、そう決めた瞬間に、作るものが増えたんじゃなくて削れたこと。「これは表示のための機能」「これは体験のための機能」と切り分けられるようになって、判断が速くなった。設計思想が一本通ると、実装はむしろ減る。今日はそれを頭じゃなく手で理解した。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>三層構造（Reviews / Articles / Docs）の設計 ／ 重要ファイル選定ロジックの具体化</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">Not a screen — a report you read. — レビュー画面じゃなく、"一冊のレポート"になった日。</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── レビューは"出力"じゃない。最初から最後まで読み進められて、はじめて"レポート"なんだ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 8</button><button class="pt next" data-fwd>Day 10 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-010 · 10/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-010 · 10/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-010</div>
           <div class="ch">Chapter X</div><div class="d">Day 10</div><div class="dt">July 26, 2026</div>
         </div><div class="ln"></div></div>
+        
         <div class="sec"><div class="h">Repository</div><ul><li><b>Repository Intelligence</b> を具体化 — AIに丸投げせず、"どのファイルを読むか"をこちらで設計・選定</li><li>三層構造 <b>Reviews / Articles / Docs</b> を設計（単発のレビュー / 読み物 / 恒久参照）</li><li>情報の並べ方（Information Flow）を軸に、レポートの導線を組み直す</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>Repository Intelligence。</b> 全部読むAI → <b>「何を読むか」を選ぶAI</b>。情報は量ではなく「並べる順番」だと定めた。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>リポジトリを丸ごと渡しても良いレビューにはならない。人が大事なところから読むように、AIにも優先順位がいる。"AIに読ませる"んじゃなくて、"AIが何を読むか"を私が設計する ── ここが CodeLens の心臓だと確信した。賢いのはモデルじゃなくて、何を見せるかの設計の方だ。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>Review Archive / Case Study の構築 ／ Archive を"積み重ね"として読める形に</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">Intelligence is choosing what to read. — 知性とは、"何を読むか"を選ぶこと。</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── 全部読ませるのは、実は何も選んでないのと同じ。大事な一枚を先に選ぶのが、いちばん頭を使うところなんだよ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 9</button><button class="pt next" data-fwd>Day 11 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-011 · 11/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-011 · 11/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-011</div>
           <div class="ch">Chapter XI</div><div class="d">Day 11</div><div class="dt">July 27, 2026</div>
         </div><div class="ln"></div></div>
+        
         <div class="sec"><div class="h">Repository</div><ul><li><b>Review Archive</b> を構築 — 過去のレビューを一度きりで消さず、積み重ねて読める形に</li><li><b>Case Study</b> を追加 — 個々のレビューを"事例"として読み物化</li><li>Reviews → Articles → Docs → Archive の回遊が成立し始める</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>Archive → Library。</b> カード一覧 → 本棚。「倉庫」ではなく <b>「図書館」</b> を選ぶ、と見立てを決めた。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>レビューを一度出して終わりにしていたのが、ずっともったいなかった。せっかく"リポジトリの現在地"を記録できるようになったのに、それが流れて消えていく。</p><p>今日 Archive を作った瞬間、一本一本のレビューが"点"から"線"になった。Case Study にするとさらに"読み物"になる。そこで気づいた ── これはもう「リンクの一覧」じゃない。棚に本が一冊ずつ並んでいく感覚だ。だったら、いっそ本棚にしてしまえばいい。</p><p>Archive をリンク集のままにするか、本棚にするか。たった一つの見立ての違いなのに、プロダクトの性格が変わる。前者は"倉庫"、後者は"図書館"。私は後者を選ぶ。積み重なるほど価値が増えて、あとから誰か（半年後の自分を含めて）が歩いて読める場所。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>Archive を <b>CodeLens Library</b> として束ねる ／ Development Journal を"生きた一冊"として置く</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">An archive should be a bookshelf, not a list. — Archive を"本棚"にすると決めた日。</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── レビューは、出した瞬間がゴールじゃない。積み重なって、あとから読めて、はじめて"資産"になるんだ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 10</button><button class="pt next" data-fwd>Day 12 →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-012 · 12/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-012 · 12/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-012</div>
           <div class="ch">Chapter XII</div><div class="d">Day 12</div><div class="dt">July 28, 2026</div>
         </div><div class="ln"></div></div>
+        
         <div class="sec"><div class="h">Repository</div><ul><li>Archive を Library として完成</li><li>Development Journal VOL.01 を追加</li><li>Notion を最新刊として接続</li><li>外部画像化（base64 → images）</li><li>GitHub Pages へデプロイ</li></ul></div>
-        <div class="sec"><div class="h">Reflection</div><p class="lead">Information isn't something we collect — it's something we arrange.</p><p>情報は"あるかないか"じゃなく、<b>"どう並べると理解が生まれるか"</b> がすべてだった。Archive をリンク集から Library にした瞬間、CodeLens は「レビューを出す道具」から「知を積み、育て、読む場所」に変わった。Reviews で読み、Articles で思想を読み、Docs で知識を読み、最後に ── 今も更新され続けている一冊、Development Journal へ。この一本の導線が通ったとき、バラバラだった機能が、ひとつの"図書館"として立ち上がった。</p><p>棚に並ぶ本のうち、Journal だけは"完結していない一冊"だ。だから他の本より 5〜10% だけ生命感を足した。「この一冊だけ、今も書かれている」と伝わるだけで、棚全体の空気が変わる。</p><p>最初の頃のJournalは"作業"の記録だった。でも最近は"設計思想"を書く割合が増えている。これはたぶん、私が成長したというより、CodeLens 自身が「動くもの」から「考えて作るもの」へ成熟した証拠だ。だから最後に、アーカイブにこの一行を刻んだ。<b>This archive is alive.</b></p></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>Notion = CodeLens Library の最新刊。</b> Continue reading — 外部リンク → 本の続き。Development Journal を <b>唯一、生きている本</b> に。</p></div>
+        <div class="sec"><div class="h">Reflection</div><p class="lead">Information isn't something we collect — it's something we arrange.</p><p>情報は"あるかないか"じゃなく、<b>"どう並べると理解が生まれるか"</b> がすべてだった。Archive をリンク集から Library にした瞬間、CodeLens は「レビューを出す道具」から「知を積み、育て、読む場所」に変わった。Reviews で読み、Articles で思想を読み、Docs で知識を読み、最後に ── 今も更新され続けている一冊、Development Journal へ。この一本の導線が通ったとき、バラバラだった機能が、ひとつの"図書館"として立ち上がった。</p><p>本が並んだ日が完成じゃない。<b>最後の1ページが、次の1ページへ続いた日に、ライブラリは完成した。</b> 棚に並ぶ本のうち、Journal だけは"完結していない一冊"だ。だから他の本より 5〜10% だけ生命感を足した。ホバーで表紙がわずかに光り、平常時もかすかに呼吸する。強い演出じゃない。でも「この一冊だけ、今も書かれている」と伝わるだけで、棚全体の空気が変わる。</p><p>そして今日、この数日を振り返って気づいた。最初の頃の Journal は「バグを直した／テストを書いた」という"作業"の記録だった。でも最近は"設計思想"を書く割合が増えている。これはたぶん、私が成長したというより、CodeLens 自身が「動くもの」から「考えて作るもの」へ成熟した証拠だ。Journal は、その変化まで静かに記録してくれていた。だから最後に、アーカイブにこの一行を刻んだ ── <b>This archive is alive.</b> この書架は、生きている。</p></div>
         <div class="sec tom"><div class="h">Tomorrow</div><ul><li>CodeLensAI 本体（Laravel v2 / Repository Intelligence）を Render へデプロイ</li><li>/ を /preview の新ワールドへ差し替え</li></ul></div>
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">Transform Archive into a living library.</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── 本棚は、リンクの一覧じゃない。歩いて、手に取って、読む場所なんだ。だから一冊だけ"生きてる"本があると、棚全体が呼吸しはじめるんだよ。</div>
+        </div>
         <div class="pageturn"><button class="pt prev" data-back>← Day 11</button><button class="pt next" data-fwd>Day 12 · II →</button></div>
       </div>
     </section><section class="panel day">
       <div class="col">
-        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-012b · 13/13</span></div>
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-012b · 13/15</span></div>
+        <div class="core">
+        
         <div class="chapter"><div class="ln"></div><div class="lbl">
           <div class="bid">JL-012b</div>
           <div class="ch">Chapter XII · Part II</div><div class="d">Day 12</div><div class="dt">July 28, 2026</div>
         </div><div class="ln"></div></div>
+        
         <div class="sec"><div class="h">Repository</div><ul><li>Promoted Workspace v2 to the homepage.</li><li>Preserved v1 as an archive.</li><li>Verified deployment pipeline.</li><li>Completed the transition to the new experience.</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>Workspace is the home. The landing page is only the entrance.</b> LP は玄関、住まいは Workspace。v1 は消さず「展示室」として残すと決めた。</p></div>
         <div class="sec"><div class="h">Reflection</div><p>Replacing the homepage wasn't about changing a route. It was about deciding where the journey begins.</p></div>
         
         <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">Workspace became home.</div><div class="rule b"></div></div>
         <div class="clbubble">💬 <b>CodeLensくん</b> ── 玄関は、最初の一度だけ。二度目からは、Workspaceが「帰ってくる場所」になるんだ。</div>
-        <div class="pageturn"><button class="pt prev" data-back>← Day 12</button><button class="pt next" data-fwd>Index →</button></div>
+        </div>
+        <div class="pageturn"><button class="pt prev" data-back>← Day 12</button><button class="pt next" data-fwd>Day 13 →</button></div>
+      </div>
+    </section><section class="panel day">
+      <div class="col">
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-013 · 14/15</span></div>
+        <div class="core">
+        <div class="parttag">— Book Two · The Creator —</div>
+        <div class="chapter"><div class="ln"></div><div class="lbl">
+          <div class="bid">JL-013</div>
+          <div class="ch">Chapter XIII</div><div class="d">Day 13</div><div class="dt">July 29, 2026</div>
+        </div><div class="ln"></div></div>
+        
+        <div class="sec"><div class="h">Repository</div><ul><li>Development Journal を <b>HTML作品として再設計</b></li><li><b>横ページ送り</b>（本をめくる導線）を実装</li><li>Library との導線を見直し ── <b>Projects → Journal</b> に整理</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>Journal を Notion資料 → HTML作品へ。</b> 「読む」より「めくる」体験を選び、導線を <b>Projects → Journal</b> に定めた。本に、ページをめくる感覚を与える。</p></div>
+        <div class="sec"><div class="h">Reflection</div><p>本は完成していた。中身も、装丁も、蔵書番号も揃っていた。足りなかったのは、たった一つ ── <b>ページをめくる感覚</b>だった。</p><p>Notion に置いた時点では「資料」だったものが、HTML作品として組み直し、横にめくれるようにした瞬間、はじめて「本」になった。The Library を作った次の章は、その本に息を吹き込むことだった。</p></div>
+        
+        <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">The book learned to breathe.</div><div class="rule b"></div></div>
+        <div class="clbubble">💬 <b>CodeLensくん</b> ── 本棚に並べただけじゃ、本は眠ってる。ページをめくれるようにして、はじめて息をしはじめるんだ。</div>
+        </div>
+        <div class="pageturn"><button class="pt prev" data-back>← Day 12 · II</button><button class="pt next" data-fwd>Day 14 →</button></div>
+      </div>
+    </section><section class="panel day">
+      <div class="col">
+        <div class="runhead"><span>Development Journal · VOL.01</span><span>JL-014 · 15/15</span></div>
+        <div class="core">
+        
+        <div class="chapter"><div class="ln"></div><div class="lbl">
+          <div class="bid">JL-014</div>
+          <div class="ch">Chapter XIV</div><div class="d">Day 14</div><div class="dt">July 30, 2026</div>
+        </div><div class="ln"></div></div>
+        
+        <div class="sec"><div class="h">Repository</div><ul><li>Portfolio の <b>Hero を刷新</b></li><li><b>タイポグラフィ</b>を2026年基準で再設計</li><li><b>Creator Desk</b> 完成 ── 制作者の机そのものを Hero に</li></ul></div>
+        <div class="sec"><div class="h commit">Commit</div><p><b>ポートフォリオ → 制作者の机（Creator Desk）。</b> 作品を「並べる」のをやめ、「今つくっている現場」そのものを見せると決めた。2026年のタイポで全面刷新。</p></div>
+        <div class="sec"><div class="h">Reflection</div><p>作品を並べるポートフォリオではなく、<b>制作者の机そのもの</b>を見せる場所になった。</p><p>Creator Desk には、作りかけの本があり、開いた Journal があり、まだ書かれていないページがある。「何を作ったか」より「今、何を作っているか」。見せるものが、成果物から「制作の現在地」へ移った。</p></div>
+        
+        <div class="oneline"><div class="rule"></div><div class="en">One Line</div><div class="txt">The creator became the product.</div><div class="rule b"></div></div>
+        <div class="clbubble">💬 <b>CodeLensくん</b> ── 完成品を並べる机は、店。作りかけを見せる机は、工房。人は工房のほうに、心を惹かれるんだ。</div>
+        </div>
+        <div class="pageturn"><button class="pt prev" data-back>← Day 13</button><button class="pt next" data-fwd>Index →</button></div>
       </div>
     </section>
   <section class="panel spine">
@@ -286,8 +409,8 @@ html,body{height:100%;overflow:hidden;background:#0b1424;font-family:"Newsreader
       <div class="runhead"><span>Development Journal · VOL.01</span><span>Index</span></div>
       <div class="sh">One Line · 背表紙</div>
       <div class="ss">その日の空気を、一行で。上から下へ「作業」から「設計思想」へ移る。</div>
-      <div class="tlrow"><span class="tld">Day 1</span><span class="tldt">07-17</span><span class="tlt">CodeLensくんが初めて動いた日。</span></div><div class="tlrow"><span class="tld">Day 2</span><span class="tldt">07-18</span><span class="tlt">スコアより、長く残るものをコードに刻んだ。</span></div><div class="tlrow"><span class="tld">Day 3</span><span class="tldt">07-19</span><span class="tlt">The bug is never where it looks.</span></div><div class="tlrow"><span class="tld">Day 4</span><span class="tldt">07-20</span><span class="tlt">A green check is a promise to future me.</span></div><div class="tlrow"><span class="tld">Day 5</span><span class="tldt">07-21</span><span class="tlt">Different tools, one instinct.</span></div><div class="tlrow"><span class="tld">Day 6</span><span class="tldt">07-22</span><span class="tlt">作って終わりじゃない。自分のツールでレビューして、初めて完成する。</span></div><div class="tlrow"><span class="tld">Day 7</span><span class="tldt">07-23</span><span class="tlt">One score hides the intent. Two axes reveal it.</span></div><div class="tlrow"><span class="tld">Day 8</span><span class="tldt">07-24</span><span class="tlt">同じコードには、同じ評価を。</span></div><div class="tlrow"><span class="tld">Day 9</span><span class="tldt">07-25</span><span class="tlt">Not a screen — a report you read.</span></div><div class="tlrow"><span class="tld">Day 10</span><span class="tldt">07-26</span><span class="tlt">Intelligence is choosing what to read.</span></div><div class="tlrow"><span class="tld">Day 11</span><span class="tldt">07-27</span><span class="tlt">An archive should be a bookshelf, not a list.</span></div><div class="tlrow"><span class="tld">Day 12</span><span class="tldt">07-28</span><span class="tlt">Transform Archive into a living library. 📖</span></div>
-      <div class="pageturn"><button class="pt prev" data-back>← Day 12 · II</button><button class="pt next" data-fwd>Finis →</button></div>
+      <div class="tlrow"><span class="tld">Day 1</span><span class="tldt">07-17</span><span class="tlt">CodeLensくんが初めて動いた日。</span></div><div class="tlrow"><span class="tld">Day 2</span><span class="tldt">07-18</span><span class="tlt">スコアより、長く残るものをコードに刻んだ。</span></div><div class="tlrow"><span class="tld">Day 3</span><span class="tldt">07-19</span><span class="tlt">The bug is never where it looks.</span></div><div class="tlrow"><span class="tld">Day 4</span><span class="tldt">07-20</span><span class="tlt">A green check is a promise to future me.</span></div><div class="tlrow"><span class="tld">Day 5</span><span class="tldt">07-21</span><span class="tlt">Different tools, one instinct.</span></div><div class="tlrow"><span class="tld">Day 6</span><span class="tldt">07-22</span><span class="tlt">作って終わりじゃない。自分のツールでレビューして、初めて完成する。</span></div><div class="tlrow"><span class="tld">Day 7</span><span class="tldt">07-23</span><span class="tlt">One score hides the intent. Two axes reveal it.</span></div><div class="tlrow"><span class="tld">Day 8</span><span class="tldt">07-24</span><span class="tlt">同じコードには、同じ評価を。</span></div><div class="tlrow"><span class="tld">Day 9</span><span class="tldt">07-25</span><span class="tlt">Not a screen — a report you read.</span></div><div class="tlrow"><span class="tld">Day 10</span><span class="tldt">07-26</span><span class="tlt">Intelligence is choosing what to read.</span></div><div class="tlrow"><span class="tld">Day 11</span><span class="tldt">07-27</span><span class="tlt">An archive should be a bookshelf, not a list.</span></div><div class="tlrow"><span class="tld">Day 12</span><span class="tldt">07-28</span><span class="tlt">Transform Archive into a living library. 📖</span></div><div class="tlrow"><span class="tld">Day 13</span><span class="tldt">07-29</span><span class="tlt">The book learned to breathe.</span></div><div class="tlrow"><span class="tld">Day 14</span><span class="tldt">07-30</span><span class="tlt">The creator became the product.</span></div>
+      <div class="pageturn"><button class="pt prev" data-back>← Day 14</button><button class="pt next" data-fwd>Finis →</button></div>
     </div>
   </section>
   <section class="panel endp">
@@ -302,12 +425,17 @@ html,body{height:100%;overflow:hidden;background:#0b1424;font-family:"Newsreader
 <button class="edge left hide" id="eleft" data-back>‹</button>
 <button class="edge right" id="eright" data-fwd>›</button>
 <div class="counter" id="counter">01 / 01</div>
+<button class="ribbon" id="ribbon" aria-label="Contents"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 6h14M5 12h14M5 17h9" stroke="#f7f3ea" stroke-width="2" fill="none" stroke-linecap="round"/></svg></button>
+<div class="toc-overlay" id="toc"><div class="toc-card">
+  <div class="toc-h">Contents</div><div class="toc-sub">Development Journal · Vol.01</div>
+  <button class="toc-row" data-goto="0"><span class="tn">✦</span><span class="tl">Cover · 表紙</span></button><button class="toc-row" data-goto="1"><span class="tn">Day 1</span><span class="tl">CodeLensくんが初めて動いた日</span></button><button class="toc-row" data-goto="2"><span class="tn">Day 2</span><span class="tl">スコアより、長く残るものをコードに刻んだ</span></button><button class="toc-row" data-goto="3"><span class="tn">Day 3</span><span class="tl">The bug is never where it looks.</span></button><button class="toc-row" data-goto="4"><span class="tn">Day 4</span><span class="tl">A green check is a promise to future m</span></button><button class="toc-row" data-goto="5"><span class="tn">Day 5</span><span class="tl">Different tools, one instinct.</span></button><button class="toc-row" data-goto="6"><span class="tn">Day 6</span><span class="tl">作って終わりじゃない</span></button><button class="toc-row" data-goto="7"><span class="tn">Day 7</span><span class="tl">One score hides the intent. Two axes r</span></button><button class="toc-row" data-goto="8"><span class="tn">Day 8</span><span class="tl">同じコードには、同じ評価を</span></button><button class="toc-row" data-goto="9"><span class="tn">Day 9</span><span class="tl">Not a screen</span></button><button class="toc-row" data-goto="10"><span class="tn">Day 10</span><span class="tl">Intelligence is choosing what to read.</span></button><button class="toc-row" data-goto="11"><span class="tn">Day 11</span><span class="tl">An archive should be a bookshelf, not </span></button><button class="toc-row" data-goto="12"><span class="tn">Day 12</span><span class="tl">Transform Archive into a living librar</span></button><button class="toc-row" data-goto="13"><span class="tn">Day 12 · II</span><span class="tl">Workspace became home.</span></button><div class="toc-part">— Book Two · The Creator —</div><button class="toc-row" data-goto="14"><span class="tn">Day 13</span><span class="tl">The book learned to breathe.</span></button><button class="toc-row" data-goto="15"><span class="tn">Day 14</span><span class="tl">The creator became the product.</span></button><div class="toc-part">— Appendix —</div><button class="toc-row" data-goto="16"><span class="tn">✦</span><span class="tl">One Line · 背表紙</span></button><button class="toc-row" data-goto="17"><span class="tn">✦</span><span class="tl">End of Volume 01</span></button>
+</div></div>
 <script>
 (function(){
   var track=document.getElementById('track');
   var panels=Array.prototype.slice.call(track.children);
   var n=panels.length, i=0;
-  var eL=document.getElementById('eleft'), eR=document.getElementById('eright'), ct=document.getElementById('counter');
+  var eL=document.getElementById('eleft'), eR=document.getElementById('eright'), ct=document.getElementById('counter'), toc=document.getElementById('toc');
   function pad(x){return (x<10?'0':'')+x;}
   function go(x){
     i=Math.max(0,Math.min(n-1,x));
@@ -318,10 +446,17 @@ html,body{height:100%;overflow:hidden;background:#0b1424;font-family:"Newsreader
     ct.textContent=pad(i+1)+' / '+pad(n);
   }
   document.addEventListener('click',function(e){
+    if(e.target.closest('#ribbon')){ toc.classList.toggle('on'); return; }
+    var g2=e.target.closest('[data-goto]');
+    if(g2){ go(parseInt(g2.getAttribute('data-goto'),10)); toc.classList.remove('on'); return; }
     var f=e.target.closest('[data-fwd]'), b=e.target.closest('[data-back]');
-    if(f) go(i+1); else if(b) go(i-1);
+    if(f){ go(i+1); return; }
+    if(b){ go(i-1); return; }
+    if(toc.classList.contains('on') && !e.target.closest('.toc-card')) toc.classList.remove('on');
   });
   document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){ toc.classList.remove('on'); return; }
+    if(toc.classList.contains('on')) return;
     if(e.key==='ArrowRight'||e.key==='PageDown'){go(i+1);}
     else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1);}
   });
