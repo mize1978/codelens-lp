@@ -146,7 +146,7 @@
   footer b{color:var(--sub);font-weight:600}
   .curator{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
   .curator .curated{font-size:12px;letter-spacing:.12em;color:var(--sub)}
-  .curator .curated b{color:var(--ink);font-weight:700;letter-spacing:.05em}
+  .curator .curated b{color:#8fbaff;font-weight:700;letter-spacing:.05em}
   .curator-links{margin-top:13px;display:flex;gap:24px;justify-content:center}
   .curator-links a{font-size:13px;letter-spacing:.06em;color:var(--info);transition:color .2s,transform .2s;display:inline-block}
   .curator-links a:hover{color:var(--ink);transform:translateY(-1px)}
@@ -343,8 +343,8 @@
     <div class="curator">
       <div class="curated">Curated by <b>Mize</b></div>
       <div class="curator-links">
-        <a href="https://mize1978.github.io" target="_blank" rel="noopener">Portfolio ↗</a>
-        <a href="https://github.com/mize1978" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="https://mize1978.github.io" target="_blank" rel="noopener">Visit Portfolio ↗</a>
+        <a href="https://github.com/mize1978" target="_blank" rel="noopener">GitHub Repository ↗</a>
       </div>
     </div>
     <div class="wsback"><a href="https://codelens-ai-vplg.onrender.com/preview">⚡ Return to Live Workspace →</a></div>
@@ -354,13 +354,15 @@
 
 <!-- END CARD ─ 作品を見終えた人が CodeLensAI（プロダクト）へ帰る一枚絵。CTAでなくエンドカード。 -->
 <style>
-  .end-card{ display:block; max-width:400px; margin:38px auto 56px; padding:0 24px; text-decoration:none; }
+  .end-card{ display:block; max-width:280px; margin:14px auto 60px; padding:0 24px; text-decoration:none; }
+  .mainsite-label{ text-align:center; font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--mut); max-width:560px; margin:36px auto 0; padding-top:26px; border-top:1px solid var(--line); }
   .end-card img{ width:100%; height:auto; display:block; border-radius:12px;
     filter:brightness(.82); box-shadow:0 12px 32px rgba(0,0,0,.42);
     transition:filter .6s ease, transform .6s ease; }
   .end-card:hover img{ filter:brightness(1); transform:translateY(-2px); }
   @media (prefers-reduced-motion: reduce){ .end-card img{ transition:none } }
 </style>
+<div class="mainsite-label">Explore the main site ↗</div>
 <a class="end-card" href="https://codelens-ai-vplg.onrender.com" aria-label="CodeLensAI">
   <img src="images/banner-latest.jpg" alt="CodeLensAI — Your repository remembers. Repository Intelligence, built on memory.">
 </a>
