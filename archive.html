@@ -104,11 +104,11 @@
   .shelf .book:nth-child(5){transform:translateY(-1px)}
   .book{position:relative;cursor:pointer;perspective:1000px}
   .book .cov{position:relative;border-radius:12px;overflow:hidden;border:1px solid transparent;
-    background:linear-gradient(180deg,rgba(20,26,44,.42),rgba(12,16,28,.36)) padding-box,linear-gradient(135deg,rgba(88,166,255,.55),rgba(138,109,252,.5) 55%,rgba(88,166,255,.32)) border-box;
+    background:transparent;
     box-shadow:0 0 22px rgba(88,166,255,.12),0 14px 34px rgba(0,0,0,.42),inset 0 0 26px rgba(88,166,255,.05);
     transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s;transform-origin:left center}
-  .book .cov img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 30%}
-  .book .glow{position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(6,7,13,.60));opacity:.7;transition:opacity .3s}
+  .book .cov img{display:block;width:100%;aspect-ratio:4/5;object-fit:contain;object-position:center 45%}
+  .book .glow{position:absolute;inset:0;background:linear-gradient(180deg,transparent 72%,rgba(6,7,13,.40));opacity:.55;transition:opacity .3s}
   .book .bt,.book .bs{text-shadow:0 1px 6px rgba(0,0,0,.85)}
   .book .meta{position:absolute;left:0;right:0;bottom:0;padding:16px 16px 15px;z-index:2}
   .book .ic{font-size:22px}
