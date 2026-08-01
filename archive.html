@@ -146,13 +146,13 @@
   footer b{color:var(--sub);font-weight:600}
   .colophon{display:grid;grid-template-columns:272px 1fr;gap:38px;align-items:center;max-width:716px;margin:0 auto;text-align:left;padding-top:34px;border-top:1px solid var(--line)}
   .lp-preview{display:block;text-decoration:none}
-  .lp-preview img{width:100%;height:auto;display:block;border-radius:10px;box-shadow:0 16px 38px rgba(0,0,0,.5);transition:transform .3s,box-shadow .3s}
-  .lp-preview:hover img{transform:translateY(-2px);box-shadow:0 20px 44px rgba(0,0,0,.55)}
+  .lp-preview img{width:100%;height:auto;display:block;border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,.36);opacity:.82;filter:saturate(.93) brightness(.96);transition:opacity .25s ease,transform .25s ease,filter .25s ease}
+  .lp-preview:hover img{opacity:1;filter:saturate(1) brightness(1);transform:translateY(-2px);box-shadow:0 16px 36px rgba(0,0,0,.44)}
   .lp-cap{display:block;margin-top:11px;text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);transition:color .2s}
   .lp-preview:hover .lp-cap{color:var(--sub)}
   .colophon-text{font-size:12.5px;line-height:1.7;text-align:left;text-shadow:0 1px 8px rgba(0,0,0,.72)}
   .colophon-text .col-sub{margin-top:7px;color:var(--mut);line-height:1.65}
-  .colophon-text .curated{margin-top:17px;letter-spacing:.12em;color:var(--sub)}
+  .colophon-text .curated{margin-top:17px;letter-spacing:.12em;color:var(--sub);white-space:nowrap}
   .colophon-text .curated b{color:#8fbaff;font-weight:700;letter-spacing:.04em}
   .colophon-text .curator-links{margin-top:13px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
   .colophon-text .curator-links a{font-size:13px;letter-spacing:.05em;color:var(--info);transition:color .2s,transform .2s}
