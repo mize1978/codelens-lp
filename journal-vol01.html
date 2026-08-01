@@ -77,13 +77,16 @@ html,body{height:100%;overflow:hidden;background:#0b1424;font-family:"Newsreader
 .edge:hover{background:rgba(200,155,84,.2)}
 .edge.left{left:18px}.edge.right{right:18px}
 .edge.hide{opacity:0;pointer-events:none}
+.homelink{position:fixed;top:16px;left:18px;z-index:40;display:inline-flex;align-items:center;gap:7px;font-family:"Inter",sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#e6cf95;text-decoration:none;padding:9px 15px;border:1px solid rgba(200,155,84,.42);border-radius:40px;background:rgba(9,15,28,.5);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);transition:background .2s,border-color .2s,color .2s}
+.homelink:hover{background:rgba(200,155,84,.16);border-color:rgba(200,155,84,.7);color:#f4e6bf}
 .counter{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:30;font-family:ui-monospace,Menlo,monospace;
   font-size:11px;letter-spacing:.14em;color:#b0842f;background:rgba(20,16,10,.3);border:1px solid rgba(200,155,84,.3);
   border-radius:20px;padding:5px 14px;backdrop-filter:blur(3px)}
 @media(max-width:520px){.edge{display:none}}
 </style></head>
 <body>
-<div class="book"><div class="track" id="track">
+<div class="book">
+<a class="homelink" href="archive.html" aria-label="Back to the Library">← Library</a><div class="track" id="track">
   <section class="panel cover">
     <div class="cin">
       <div class="em"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#D9B676" stroke-width="3"/><circle cx="50" cy="50" r="27" fill="none" stroke="#A8B6E8" stroke-width="2.4"/><circle cx="50" cy="50" r="8.5" fill="#7E93DE"/><path d="M50 8 v15 M50 77 v15 M8 50 h15 M77 50 h15" stroke="#D9B676" stroke-width="3"/></svg></div>
