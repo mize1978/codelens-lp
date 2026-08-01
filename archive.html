@@ -144,6 +144,15 @@
 
   footer{border-top:1px solid var(--line);margin-top:60px;padding:30px 0 60px;text-align:center;color:var(--mut);font-size:12.5px;font-family:var(--mono)}
   footer b{color:var(--sub);font-weight:600}
+  .curator{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+  .curator .curated{font-size:12px;letter-spacing:.12em;color:var(--sub)}
+  .curator .curated b{color:var(--ink);font-weight:700;letter-spacing:.05em}
+  .curator-links{margin-top:13px;display:flex;gap:24px;justify-content:center}
+  .curator-links a{font-size:13px;letter-spacing:.06em;color:var(--info);transition:color .2s,transform .2s;display:inline-block}
+  .curator-links a:hover{color:var(--ink);transform:translateY(-1px)}
+  .wsback{margin-top:22px}
+  .wsback a{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);transition:color .2s}
+  .wsback a:hover{color:var(--sub)}
 
   /* ===== book overlay (open spread) ===== */
   .overlay{position:fixed;inset:0;z-index:50;background:rgba(4,5,10,.84);backdrop-filter:blur(7px);
@@ -330,8 +339,15 @@
 
   <footer><div class="wrap">
     <div><b>Repository Intelligence Archive</b> · CodeLensAI</div>
-    <div style="margin-top:6px">This is not documentation. This repository remembers.</div>
-    <div style="margin-top:16px"><a href="https://codelens-ai-vplg.onrender.com/preview" style="font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--info)">⚡ Return to Live Workspace →</a></div>
+    <div style="margin-top:6px">This archive is not documentation. This repository remembers.</div>
+    <div class="curator">
+      <div class="curated">Curated by <b>Mize</b></div>
+      <div class="curator-links">
+        <a href="https://mize1978.github.io" target="_blank" rel="noopener">Portfolio ↗</a>
+        <a href="https://github.com/mize1978" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="wsback"><a href="https://codelens-ai-vplg.onrender.com/preview">⚡ Return to Live Workspace →</a></div>
   </div></footer>
 
 </div>
