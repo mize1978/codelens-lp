@@ -78,10 +78,15 @@ body{background:#0a1020;color:var(--ink);font-family:var(--read)}
     var lmat=new THREE.LineBasicMaterial({color:0xC89B54, transparent:true, opacity:.13});
     var grp=new THREE.Group(); grp.add(ptsO); grp.add(new THREE.LineSegments(lgeo,lmat)); scene.add(grp);
 
-    // 光のカーテンの目標形：縦に広がる一枚の幕（画面の高さいっぱい・奥行きは薄く）
-    var sheetY=new Float32Array(N), sheetZ=new Float32Array(N);
-    for(var s=0;s<N;s++){ sheetY[s]=(Math.random()*2-1)*34; sheetZ[s]=(Math.random()*2-1)*3.2; }
-    var curtain=false, cT0=0, CURT=1.9;
+    // 光のベール：粒をそのまま密度を増して「幅のある柔らかな光の霧」にする。
+    // 一本の線ではなく、中央ほど密・端はまばらな帯（gaussianオフセット）＝ ░░▒▓██▓▒░░
+    var veilX=new Float32Array(N), veilY=new Float32Array(N), veilZ=new Float32Array(N);
+    for(var s=0;s<N;s++){
+      veilX[s]=((Math.random()+Math.random()+Math.random())/1.5-1)*12;  // 帯の横幅（中央寄り・柔らかい端）
+      veilY[s]=(Math.random()*2-1)*32;                                   // 画面の高さいっぱいに広がる
+      veilZ[s]=(Math.random()*2-1)*4;
+    }
+    var curtain=false, cT0=0, CURT=2.1;
     function startCurtain(){ if(curtain) return; curtain=true; cT0=T; }
 
     var mx=0,my=0,tmx=0,tmy=0, run=true, T=0, revealed=false, last=null;
@@ -102,23 +107,23 @@ body{background:#0a1020;color:var(--ink);font-family:var(--read)}
         if(T>2.5){ startCurtain(); }   // …then, without a door, the stars become the curtain
       } else {
         var ct=T-cT0;
-        var gather=cl(ct,0,0.5);                 // 粒が集まり、膨らみ、一枚の幕になる
-        var sweep=eio(cl(ct,0.5,1.75));          // その幕が画面を横切る
-        var sheetX=-30 + sweep*64;               // 左端 → 右端（世界を横切る）
+        var gather=eio(cl(ct,0,0.8));            // 粒 → 密度を増して霧になる（急に棒にしない）
+        var flow=eio(cl(ct,0.6,2.0));            // 霧が一枚の布のように流れる
+        var center=-26 + flow*52;               // 左 → 右、幅を持って画面を横切る
         var pos=geo.attributes.position.array;
         for(var q=0;q<N;q++){
-          var kx=0.16+gather*0.14;
-          pos[q*3]   += (sheetX    - pos[q*3])  *kx;
-          pos[q*3+1] += (sheetY[q] - pos[q*3+1])*(0.10+gather*0.10);
-          pos[q*3+2] += (sheetZ[q] - pos[q*3+2])*0.12;
+          var k=0.05+gather*0.09;               // ゆっくり布に馴染む
+          pos[q*3]   += ((center+veilX[q]) - pos[q*3])  *k + (Math.random()-0.5)*0.06;  // 微かな揺らぎ＝霧の流れ
+          pos[q*3+1] += (veilY[q]          - pos[q*3+1])*(k*0.8) + (Math.random()-0.5)*0.06;
+          pos[q*3+2] += (veilZ[q]          - pos[q*3+2])*0.07;
         }
         geo.attributes.position.needsUpdate=true;
-        grp.rotation.y += (0-grp.rotation.y)*0.12; grp.rotation.x += (0-grp.rotation.x)*0.12;
-        mat.size = 2.6 + gather*6.2;              // 粒がふくらんで光の膜になる
-        mat.opacity = 1;
-        lmat.opacity *= 0.82;                     // 星座線は消える
-        cam.position.x += (0-cam.position.x)*0.12; cam.position.y += (0-cam.position.y)*0.12; cam.lookAt(0,0,0);
-        if(flash){ flash.style.opacity = String(cl(ct,0.7,1.85)); }  // 幕の通過に合わせ、暖色の光が室内へ満ちる
+        grp.rotation.y += (0-grp.rotation.y)*0.06; grp.rotation.x += (0-grp.rotation.x)*0.06;  // 回転はゆっくり止める
+        mat.size = 2.6 + gather*1.9;             // 4.5程度まで：霧の粒のまま（棒にしない）
+        mat.opacity = 0.45 + gather*0.55;        // 星の薄まりから、霧の発光へ滑らかに戻す
+        lmat.opacity *= 0.85;                    // 星座線だけ静かに消える
+        cam.position.x += (0-cam.position.x)*0.10; cam.position.y += (0-cam.position.y)*0.10; cam.lookAt(0,0,0);
+        if(flash){ flash.style.opacity = String(cl(ct,1.35,2.05)*0.9); }  // 通過の終わりに、暖色の光がふわっと満ちる
         if(ct>=CURT){ go(); }
       }
       renderer.render(scene, cam);
