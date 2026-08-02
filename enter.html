@@ -1,6 +1,7 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CodeLens AI · Enter the Archive</title>
+<title>Entering the Library…</title>
+<meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -9,30 +10,18 @@
 --disp:"Fraunces",Georgia,serif;--read:"Newsreader",Georgia,serif;--label:"Inter",system-ui,sans-serif;}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
-body{background:#0a1020;color:var(--ink);font-family:var(--read);cursor:pointer}
-/* the descent: the constellation → the last star → arrival (verbatim from the room) */
+body{background:#0a1020;color:var(--ink);font-family:var(--read)}
+/* the descent: the constellation → the last star → the name. no door — the light itself carries you in. */
 .nameplate{position:fixed;inset:0;z-index:15;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center;overflow:hidden;
-  background:radial-gradient(130% 95% at 50% 42%,#16233d,#0e1830 55%,#0a1020);opacity:1;transition:opacity .9s ease}
-.nameplate.gone{opacity:0;visibility:hidden}
+  background:radial-gradient(130% 95% at 50% 42%,#16233d,#0e1830 55%,#0a1020)}
 #np-sky{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .nameplate .npbox{position:relative;z-index:1;opacity:0;transform:translateY(8px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
 .nameplate.reveal .npbox{opacity:1;transform:none}
 .nameplate .npt{font-family:var(--disp);font-weight:300;font-size:clamp(28px,5vw,60px);letter-spacing:.01em;color:#f6ead0;text-shadow:0 2px 34px rgba(0,0,0,.75)}
 .nameplate .nps{margin-top:16px;font-family:var(--read);font-weight:300;font-size:clamp(14px,1.7vw,19px);color:var(--soft);letter-spacing:.02em}
 .nameplate .nps em{font-style:italic;color:var(--amber-hi)}
-.npenter{position:relative;z-index:1;margin-top:40px;opacity:0;transform:translateY(6px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1);
-  display:inline-flex;align-items:center;gap:12px;pointer-events:auto;cursor:pointer;background:none;
-  border:1px solid rgba(217,182,118,.5);border-radius:44px;padding:14px 32px;
-  font-family:var(--label);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--amber-hi);transition:background .4s,transform .4s,border-color .4s,opacity .9s}
-.npenter.show{opacity:1;transform:none}
-.npenter:hover{background:rgba(217,182,118,.13);border-color:rgba(217,182,118,.85);transform:translateY(-2px)}
-.hint{position:fixed;bottom:30px;left:0;right:0;z-index:16;text-align:center;font-family:var(--label);font-size:10.5px;letter-spacing:.32em;
-  text-transform:uppercase;color:#5f6788;pointer-events:none;opacity:0;transition:opacity 1s ease}
-.hint.show{opacity:1;animation:breathe 3.6s ease-in-out infinite}
-@keyframes breathe{0%,100%{opacity:.35}50%{opacity:.8}}
-#flash{position:fixed;inset:0;z-index:30;background:radial-gradient(120% 90% at 50% 45%,#1a2b52,#0a1020 72%);opacity:0;pointer-events:none;transition:opacity .8s ease}
-body.leaving #flash{opacity:1}
-body.leaving .nameplate,body.leaving .hint{opacity:0}
+/* the curtain's bloom — a warm sheet of light that floods over the room at the very end, then the Library is simply there */
+#flash{position:fixed;inset:0;z-index:30;background:radial-gradient(130% 100% at 50% 45%,#f7ecd0,#eab97b 55%,#2a1a0a 100%);opacity:0;pointer-events:none}
 </style></head>
 <body>
 <div class="nameplate"><canvas id="np-sky"></canvas>
@@ -40,23 +29,21 @@ body.leaving .nameplate,body.leaving .hint{opacity:0}
     <div class="npt">Repository Intelligence Archive</div>
     <div class="nps"><em>Read.</em>&ensp;Understand.&ensp;Remember.</div>
   </div>
-  <button class="npenter" id="enterbtn">Enter the Library →</button>
 </div>
-<div class="hint" id="hint">✦ &nbsp; click anywhere to enter &nbsp; ✦</div>
 <div id="flash"></div>
 <script>
 (function(){
   document.documentElement.classList.add('js');
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var DEST='archive.html', leaving=false, shown=false;
-  function go(){ if(leaving) return; leaving=true; document.body.classList.add('leaving'); setTimeout(function(){ window.location.href=DEST; }, 820); }
-  function showEnter(){ if(shown) return; shown=true; var e=document.getElementById('enterbtn'); if(e) e.classList.add('show'); document.getElementById('hint').classList.add('show'); }
-  document.getElementById('enterbtn').addEventListener('click',function(e){ e.stopPropagation(); go(); });
-  document.body.addEventListener('click',go);
-  window.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' ') go(); });
+  var DEST='archive.html', leaving=false;
+  var flash=document.getElementById('flash');
+  function go(){ if(leaving) return; leaving=true;
+    try{ document.documentElement.style.background='#0e0a06'; document.body.style.background='#0e0a06'; }catch(e){}
+    location.replace(DEST); }
 
-  if(!reduce && window.THREE){ try{ introSky(); }catch(e){ document.querySelector('.nameplate').classList.add('reveal'); showEnter(); } }
-  else { document.querySelector('.nameplate').classList.add('reveal'); showEnter(); }
+  // 星空 → タイトルまでは現状維持。タイトルの少しあと、粒子が一枚の光の幕になり画面を横切る → そのまま archive.html。
+  if(!reduce && window.THREE){ try{ introSky(); }catch(e){ document.querySelector('.nameplate').classList.add('reveal'); setTimeout(go, 900); } }
+  else { document.querySelector('.nameplate').classList.add('reveal'); setTimeout(go, reduce?450:900); }
 
   function introSky(){
     var cv=document.getElementById('np-sky'); if(!cv || !window.THREE) return;
@@ -90,19 +77,50 @@ body.leaving .nameplate,body.leaving .hint{opacity:0}
     var lgeo=new THREE.BufferGeometry(); lgeo.setAttribute('position', new THREE.Float32BufferAttribute(L,3));
     var lmat=new THREE.LineBasicMaterial({color:0xC89B54, transparent:true, opacity:.13});
     var grp=new THREE.Group(); grp.add(ptsO); grp.add(new THREE.LineSegments(lgeo,lmat)); scene.add(grp);
+
+    // 光のカーテンの目標形：縦に広がる一枚の幕（画面の高さいっぱい・奥行きは薄く）
+    var sheetY=new Float32Array(N), sheetZ=new Float32Array(N);
+    for(var s=0;s<N;s++){ sheetY[s]=(Math.random()*2-1)*34; sheetZ[s]=(Math.random()*2-1)*3.2; }
+    var curtain=false, cT0=0, CURT=1.9;
+    function startCurtain(){ if(curtain) return; curtain=true; cT0=T; }
+
     var mx=0,my=0,tmx=0,tmy=0, run=true, T=0, revealed=false, last=null;
     window.addEventListener('pointermove', function(e){ tmx=(e.clientX/window.innerWidth-.5); tmy=(e.clientY/window.innerHeight-.5); }, {passive:true});
     function resize(){ renderer.setSize(window.innerWidth, window.innerHeight); cam.aspect=window.innerWidth/window.innerHeight; cam.updateProjectionMatrix(); }
     window.addEventListener('resize', resize); resize();
     function cl(v,a,b){ return Math.max(0,Math.min(1,(v-a)/(b-a))); }
+    function eio(e){ return e<0.5 ? 2*e*e : 1-Math.pow(-2*e+2,2)/2; }
     (function loop(){ if(!run) return; requestAnimationFrame(loop);
       var now=(window.performance&&performance.now)?performance.now():Date.now(); if(last===null)last=now; var dt=(now-last)/1000; if(dt>0.1)dt=0.1; last=now; T+=dt;
-      mx+=(tmx-mx)*.045; my+=(tmy-my)*.045;
-      grp.rotation.y += 0.0013; grp.rotation.x = my*0.5;
-      var f=cl(T,0.9,2.3); mat.opacity = 1-f*0.55; lmat.opacity = 0.13*(1-cl(T,0.9,2.1)*0.6);  // the field thins, but stays as the entrance sky
-      cam.position.x = mx*10; cam.position.y = -my*7; cam.position.z += (56 - cam.position.z)*0.02; cam.lookAt(0,0,0);
-      if(!revealed && T>1.5){ revealed=true; np.classList.add('reveal'); }   // the name arrives over the settling stars
-      if(T>2.9){ showEnter(); }   // …and the door appears (instead of dissolving into the room)
+
+      if(!curtain){
+        mx+=(tmx-mx)*.045; my+=(tmy-my)*.045;
+        grp.rotation.y += 0.0013; grp.rotation.x = my*0.5;
+        var f=cl(T,0.9,2.3); mat.opacity = 1-f*0.55; lmat.opacity = 0.13*(1-cl(T,0.9,2.1)*0.6);  // the field thins, but stays as the entrance sky
+        cam.position.x = mx*10; cam.position.y = -my*7; cam.position.z += (56 - cam.position.z)*0.02; cam.lookAt(0,0,0);
+        if(!revealed && T>1.5){ revealed=true; np.classList.add('reveal'); }   // the name arrives over the settling stars
+        if(T>2.5){ startCurtain(); }   // …then, without a door, the stars become the curtain
+      } else {
+        var ct=T-cT0;
+        var gather=cl(ct,0,0.5);                 // 粒が集まり、膨らみ、一枚の幕になる
+        var sweep=eio(cl(ct,0.5,1.75));          // その幕が画面を横切る
+        var sheetX=-30 + sweep*64;               // 左端 → 右端（世界を横切る）
+        var pos=geo.attributes.position.array;
+        for(var q=0;q<N;q++){
+          var kx=0.16+gather*0.14;
+          pos[q*3]   += (sheetX    - pos[q*3])  *kx;
+          pos[q*3+1] += (sheetY[q] - pos[q*3+1])*(0.10+gather*0.10);
+          pos[q*3+2] += (sheetZ[q] - pos[q*3+2])*0.12;
+        }
+        geo.attributes.position.needsUpdate=true;
+        grp.rotation.y += (0-grp.rotation.y)*0.12; grp.rotation.x += (0-grp.rotation.x)*0.12;
+        mat.size = 2.6 + gather*6.2;              // 粒がふくらんで光の膜になる
+        mat.opacity = 1;
+        lmat.opacity *= 0.82;                     // 星座線は消える
+        cam.position.x += (0-cam.position.x)*0.12; cam.position.y += (0-cam.position.y)*0.12; cam.lookAt(0,0,0);
+        if(flash){ flash.style.opacity = String(cl(ct,0.7,1.85)); }  // 幕の通過に合わせ、暖色の光が室内へ満ちる
+        if(ct>=CURT){ go(); }
+      }
       renderer.render(scene, cam);
     })();
   }
