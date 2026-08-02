@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CodeLens AI · Enter the Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{--amber:#E8B979;--amber-hi:#F4D19A;--ink:#EADFC8;--soft:#C9B79A;--mut:#9A876A;
+--disp:"Fraunces",Georgia,serif;--read:"Newsreader",Georgia,serif;--label:"Inter",system-ui,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:#0a1020;color:var(--ink);font-family:var(--read);cursor:pointer}
+/* the descent: the constellation → the last star → arrival (verbatim from the room) */
+.nameplate{position:fixed;inset:0;z-index:15;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center;overflow:hidden;
+  background:radial-gradient(130% 95% at 50% 42%,#16233d,#0e1830 55%,#0a1020);opacity:1;transition:opacity .9s ease}
+.nameplate.gone{opacity:0;visibility:hidden}
+#np-sky{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.nameplate .npbox{position:relative;z-index:1;opacity:0;transform:translateY(8px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.nameplate.reveal .npbox{opacity:1;transform:none}
+.nameplate .npt{font-family:var(--disp);font-weight:300;font-size:clamp(28px,5vw,60px);letter-spacing:.01em;color:#f6ead0;text-shadow:0 2px 34px rgba(0,0,0,.75)}
+.nameplate .nps{margin-top:16px;font-family:var(--read);font-weight:300;font-size:clamp(14px,1.7vw,19px);color:var(--soft);letter-spacing:.02em}
+.nameplate .nps em{font-style:italic;color:var(--amber-hi)}
+.npenter{position:relative;z-index:1;margin-top:40px;opacity:0;transform:translateY(6px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1);
+  display:inline-flex;align-items:center;gap:12px;pointer-events:auto;cursor:pointer;background:none;
+  border:1px solid rgba(217,182,118,.5);border-radius:44px;padding:14px 32px;
+  font-family:var(--label);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--amber-hi);transition:background .4s,transform .4s,border-color .4s,opacity .9s}
+.npenter.show{opacity:1;transform:none}
+.npenter:hover{background:rgba(217,182,118,.13);border-color:rgba(217,182,118,.85);transform:translateY(-2px)}
+.hint{position:fixed;bottom:30px;left:0;right:0;z-index:16;text-align:center;font-family:var(--label);font-size:10.5px;letter-spacing:.32em;
+  text-transform:uppercase;color:#5f6788;pointer-events:none;opacity:0;transition:opacity 1s ease}
+.hint.show{opacity:1;animation:breathe 3.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.35}50%{opacity:.8}}
+#flash{position:fixed;inset:0;z-index:30;background:radial-gradient(120% 90% at 50% 45%,#1a2b52,#0a1020 72%);opacity:0;pointer-events:none;transition:opacity .8s ease}
+body.leaving #flash{opacity:1}
+body.leaving .nameplate,body.leaving .hint{opacity:0}
+</style></head>
+<body>
+<div class="nameplate"><canvas id="np-sky"></canvas>
+  <div class="npbox">
+    <div class="npt">Repository Intelligence Archive</div>
+    <div class="nps"><em>Read.</em>&ensp;Understand.&ensp;Remember.</div>
+  </div>
+  <button class="npenter" id="enterbtn">Enter the Library →</button>
+</div>
+<div class="hint" id="hint">✦ &nbsp; click anywhere to enter &nbsp; ✦</div>
+<div id="flash"></div>
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DEST='archive.html', leaving=false, shown=false;
+  function go(){ if(leaving) return; leaving=true; document.body.classList.add('leaving'); setTimeout(function(){ window.location.href=DEST; }, 820); }
+  function showEnter(){ if(shown) return; shown=true; var e=document.getElementById('enterbtn'); if(e) e.classList.add('show'); document.getElementById('hint').classList.add('show'); }
+  document.getElementById('enterbtn').addEventListener('click',function(e){ e.stopPropagation(); go(); });
+  document.body.addEventListener('click',go);
+  window.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' ') go(); });
+
+  if(!reduce && window.THREE){ try{ introSky(); }catch(e){ document.querySelector('.nameplate').classList.add('reveal'); showEnter(); } }
+  else { document.querySelector('.nameplate').classList.add('reveal'); showEnter(); }
+
+  function introSky(){
+    var cv=document.getElementById('np-sky'); if(!cv || !window.THREE) return;
+    var np=document.querySelector('.nameplate');
+    var renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    var scene=new THREE.Scene();
+    var cam=new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, .1, 1000); cam.position.z=64;
+    var tx=document.createElement('canvas'); tx.width=tx.height=64; var c=tx.getContext('2d');
+    var rg=c.createRadialGradient(32,32,0,32,32,32);
+    rg.addColorStop(0,'rgba(255,255,255,1)'); rg.addColorStop(.28,'rgba(255,246,224,.85)'); rg.addColorStop(1,'rgba(255,246,224,0)');
+    c.fillStyle=rg; c.beginPath(); c.arc(32,32,32,0,6.283); c.fill();
+    var spr=new THREE.CanvasTexture(tx);
+    var N=150, P=[], C=[];
+    var gold=new THREE.Color(0xD9B676), warm=new THREE.Color(0xC89B54), blue=new THREE.Color(0x7E93DE);
+    for(var i=0;i<N;i++){
+      var r=24+Math.random()*15, th=Math.acos(2*Math.random()-1), ph=Math.random()*6.283;
+      var x=r*Math.sin(th)*Math.cos(ph), y=r*Math.sin(th)*Math.sin(ph)*0.7, z=r*Math.cos(th);
+      P.push(x,y,z); var col=(i===9)?blue:(Math.random()<0.16?gold:warm); C.push(col.r,col.g,col.b);
+    }
+    var geo=new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(P,3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(C,3));
+    var mat=new THREE.PointsMaterial({size:2.6, map:spr, vertexColors:true, transparent:true, opacity:1, depthWrite:false, blending:THREE.AdditiveBlending});
+    var ptsO=new THREE.Points(geo,mat);
+    var L=[], M=P.length/3;
+    for(var a=0;a<M;a++){ for(var b=a+1;b<M;b++){
+      var dx=P[a*3]-P[b*3], dy=P[a*3+1]-P[b*3+1], dz=P[a*3+2]-P[b*3+2];
+      if(dx*dx+dy*dy+dz*dz < 58){ L.push(P[a*3],P[a*3+1],P[a*3+2], P[b*3],P[b*3+1],P[b*3+2]); }
+    } }
+    var lgeo=new THREE.BufferGeometry(); lgeo.setAttribute('position', new THREE.Float32BufferAttribute(L,3));
+    var lmat=new THREE.LineBasicMaterial({color:0xC89B54, transparent:true, opacity:.13});
+    var grp=new THREE.Group(); grp.add(ptsO); grp.add(new THREE.LineSegments(lgeo,lmat)); scene.add(grp);
+    var mx=0,my=0,tmx=0,tmy=0, run=true, T=0, revealed=false, last=null;
+    window.addEventListener('pointermove', function(e){ tmx=(e.clientX/window.innerWidth-.5); tmy=(e.clientY/window.innerHeight-.5); }, {passive:true});
+    function resize(){ renderer.setSize(window.innerWidth, window.innerHeight); cam.aspect=window.innerWidth/window.innerHeight; cam.updateProjectionMatrix(); }
+    window.addEventListener('resize', resize); resize();
+    function cl(v,a,b){ return Math.max(0,Math.min(1,(v-a)/(b-a))); }
+    (function loop(){ if(!run) return; requestAnimationFrame(loop);
+      var now=(window.performance&&performance.now)?performance.now():Date.now(); if(last===null)last=now; var dt=(now-last)/1000; if(dt>0.1)dt=0.1; last=now; T+=dt;
+      mx+=(tmx-mx)*.045; my+=(tmy-my)*.045;
+      grp.rotation.y += 0.0013; grp.rotation.x = my*0.5;
+      var f=cl(T,0.9,2.3); mat.opacity = 1-f*0.55; lmat.opacity = 0.13*(1-cl(T,0.9,2.1)*0.6);  // the field thins, but stays as the entrance sky
+      cam.position.x = mx*10; cam.position.y = -my*7; cam.position.z += (56 - cam.position.z)*0.02; cam.lookAt(0,0,0);
+      if(!revealed && T>1.5){ revealed=true; np.classList.add('reveal'); }   // the name arrives over the settling stars
+      if(T>2.9){ showEnter(); }   // …and the door appears (instead of dissolving into the room)
+      renderer.render(scene, cam);
+    })();
+  }
+})();
+</script>
+</body></html>
