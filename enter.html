@@ -20,8 +20,6 @@ body{background:#0a1020;color:var(--ink);font-family:var(--read)}
 .nameplate .npt{font-family:var(--disp);font-weight:300;font-size:clamp(28px,5vw,60px);letter-spacing:.01em;color:#f6ead0;text-shadow:0 2px 34px rgba(0,0,0,.75)}
 .nameplate .nps{margin-top:16px;font-family:var(--read);font-weight:300;font-size:clamp(14px,1.7vw,19px);color:var(--soft);letter-spacing:.02em}
 .nameplate .nps em{font-style:italic;color:var(--amber-hi)}
-/* the curtain's bloom — a warm sheet of light that floods over the room at the very end, then the Library is simply there */
-#flash{position:fixed;inset:0;z-index:30;background:radial-gradient(130% 100% at 50% 45%,#f7ecd0,#eab97b 55%,#2a1a0a 100%);opacity:0;pointer-events:none}
 </style></head>
 <body>
 <div class="nameplate"><canvas id="np-sky"></canvas>
@@ -30,18 +28,14 @@ body{background:#0a1020;color:var(--ink);font-family:var(--read)}
     <div class="nps"><em>Read.</em>&ensp;Understand.&ensp;Remember.</div>
   </div>
 </div>
-<div id="flash"></div>
 <script>
 (function(){
   document.documentElement.classList.add('js');
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var DEST='archive.html', leaving=false;
-  var flash=document.getElementById('flash');
-  function go(){ if(leaving) return; leaving=true;
-    try{ document.documentElement.style.background='#0e0a06'; document.body.style.background='#0e0a06'; }catch(e){}
-    location.replace(DEST); }
+  function go(){ if(leaving) return; leaving=true; location.replace(DEST); }
 
-  // 星空 → タイトルまでは現状維持。タイトルの少しあと、横に動く光は無しで、暖色の光が静かに満ちて → そのまま archive.html。
+  // 星空 → タイトルまでは現状維持。タイトルの少しあと、この入場シーンを静かにフェードアウト → そのまま archive.html。
   if(!reduce && window.THREE){ try{ introSky(); }catch(e){ document.querySelector('.nameplate').classList.add('reveal'); setTimeout(go, 900); } }
   else { document.querySelector('.nameplate').classList.add('reveal'); setTimeout(go, reduce?450:900); }
 
@@ -78,8 +72,8 @@ body{background:#0a1020;color:var(--ink);font-family:var(--read)}
     var lmat=new THREE.LineBasicMaterial({color:0xC89B54, transparent:true, opacity:.13});
     var grp=new THREE.Group(); grp.add(ptsO); grp.add(new THREE.LineSegments(lgeo,lmat)); scene.add(grp);
 
-    // 横に動く光は無し。星はそのまま、暖色の光が方向を持たず中心から満ちて Library へ。
-    var curtain=false, cT0=0, CURT=1.35;
+    // 横移動も暖色も無し。星はそのまま、この入場シーンを静かにフェードアウトして Library へ。
+    var curtain=false, cT0=0, CURT=1.2;
     function startCurtain(){ if(curtain) return; curtain=true; cT0=T; }
 
     var mx=0,my=0,tmx=0,tmy=0, run=true, T=0, revealed=false, last=null;
@@ -97,17 +91,16 @@ body{background:#0a1020;color:var(--ink);font-family:var(--read)}
         var f=cl(T,0.9,2.3); mat.opacity = 1-f*0.55; lmat.opacity = 0.13*(1-cl(T,0.9,2.1)*0.6);  // the field thins, but stays as the entrance sky
         cam.position.x = mx*10; cam.position.y = -my*7; cam.position.z += (56 - cam.position.z)*0.02; cam.lookAt(0,0,0);
         if(!revealed && T>1.5){ revealed=true; np.classList.add('reveal'); }   // the name arrives over the settling stars
-        if(T>2.5){ startCurtain(); }   // …then, no door and no sweep — warm light simply fills the room and carries you in
+        if(T>2.5){ startCurtain(); }   // …then, no door, no sweep, no color — the scene simply fades and the Library is there
       } else {
-        // 横移動ゼロ。星はそのまま漂わせ、暖色の光が中心から静かに満ちて Library へ。
+        // カーテン（この入場シーン）を静かにフェードアウト → そのまま Library。暖色も横移動も無し。
         var ct=T-cT0;
         mx+=(tmx-mx)*.045; my+=(tmy-my)*.045;
-        grp.rotation.y += 0.0011; grp.rotation.x = my*0.5;                 // 宇宙は生きたまま
-        mat.opacity = Math.max(0, 0.45 - cl(ct,0.15,1.25)*0.45);          // 星は静かに引いていく
-        lmat.opacity *= 0.9;
-        cam.position.x += (0-cam.position.x)*0.06; cam.position.y += (0-cam.position.y)*0.06;
-        cam.position.z += (56 - cam.position.z)*0.02; cam.lookAt(0,0,0);
-        if(flash){ flash.style.opacity = String(eio(cl(ct,0,1.15))); }     // 暖色の光が方向を持たず満ちる
+        grp.rotation.y += 0.0011; grp.rotation.x = my*0.5;        // 宇宙は最後まで生きたまま
+        var fo=eio(cl(ct,0,1.05));                                // フェード進行 0→1
+        np.style.opacity = String(1-fo);                          // 星＋タイトルごと、シーンがフェードアウト
+        mat.opacity = 0.45*(1-fo); lmat.opacity *= 0.9;
+        cam.lookAt(0,0,0);
         if(ct>=CURT){ go(); }
       }
       renderer.render(scene, cam);
