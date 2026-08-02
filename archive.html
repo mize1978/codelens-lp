@@ -294,6 +294,7 @@
 .jpage .jbody{font-size:15px;line-height:1.95;color:var(--ink);opacity:.9;white-space:pre-line}
 .jpage .jbody.hi{color:var(--ink);opacity:1;font-weight:530}
 .jpage .jquote{border-left:2px solid var(--info);padding:3px 0 3px 15px;margin:6px 0 26px;font-style:italic;font-size:15.5px;line-height:1.6;color:var(--info);opacity:.92}
+#jtoc{max-height:calc(88vh - 250px);overflow-y:auto;min-height:0;flex:none}
 #jtoc .toc-i{align-items:flex-start;padding:7px 8px}
 #jtoc .toc-i .mk{margin-top:5px}
 #jtoc .ix{display:flex;flex-direction:column;gap:1px;overflow:hidden}
@@ -316,7 +317,7 @@
 @media(max-width:720px){.jpage .jt{font-size:24px}.jpage .jb{font-size:15px}}
 #pgnav{display:none!important}
 #reader{max-height:86vh!important;overflow-y:auto!important;min-height:0!important;-webkit-overflow-scrolling:touch}
-@media(max-width:720px){.spread{grid-template-columns:1fr!important}.pg.left.tocpane{max-height:40vh}.reader-inner{max-width:none}#reader{max-height:44vh!important}}
+@media(max-width:720px){.spread{grid-template-columns:1fr!important}.pg.left.tocpane{max-height:40vh}#jtoc{max-height:26vh}.reader-inner{max-width:none}#reader{max-height:44vh!important}}
 </style>
 </head>
 <body>
