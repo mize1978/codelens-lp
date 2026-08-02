@@ -41,7 +41,7 @@ body{background:#0a1020;color:var(--ink);font-family:var(--read)}
     try{ document.documentElement.style.background='#0e0a06'; document.body.style.background='#0e0a06'; }catch(e){}
     location.replace(DEST); }
 
-  // 星空 → タイトルまでは現状維持。タイトルの少しあと、粒子が一枚の光の幕になり画面を横切る → そのまま archive.html。
+  // 星空 → タイトルまでは現状維持。タイトルの少しあと、横に動く光は無しで、暖色の光が静かに満ちて → そのまま archive.html。
   if(!reduce && window.THREE){ try{ introSky(); }catch(e){ document.querySelector('.nameplate').classList.add('reveal'); setTimeout(go, 900); } }
   else { document.querySelector('.nameplate').classList.add('reveal'); setTimeout(go, reduce?450:900); }
 
@@ -78,15 +78,8 @@ body{background:#0a1020;color:var(--ink);font-family:var(--read)}
     var lmat=new THREE.LineBasicMaterial({color:0xC89B54, transparent:true, opacity:.13});
     var grp=new THREE.Group(); grp.add(ptsO); grp.add(new THREE.LineSegments(lgeo,lmat)); scene.add(grp);
 
-    // 光のベール：粒をそのまま密度を増して「幅のある柔らかな光の霧」にする。
-    // 一本の線ではなく、中央ほど密・端はまばらな帯（gaussianオフセット）＝ ░░▒▓██▓▒░░
-    var veilX=new Float32Array(N), veilY=new Float32Array(N), veilZ=new Float32Array(N);
-    for(var s=0;s<N;s++){
-      veilX[s]=((Math.random()+Math.random()+Math.random())/1.5-1)*12;  // 帯の横幅（中央寄り・柔らかい端）
-      veilY[s]=(Math.random()*2-1)*32;                                   // 画面の高さいっぱいに広がる
-      veilZ[s]=(Math.random()*2-1)*4;
-    }
-    var curtain=false, cT0=0, CURT=2.1;
+    // 横に動く光は無し。星はそのまま、暖色の光が方向を持たず中心から満ちて Library へ。
+    var curtain=false, cT0=0, CURT=1.35;
     function startCurtain(){ if(curtain) return; curtain=true; cT0=T; }
 
     var mx=0,my=0,tmx=0,tmy=0, run=true, T=0, revealed=false, last=null;
@@ -104,26 +97,17 @@ body{background:#0a1020;color:var(--ink);font-family:var(--read)}
         var f=cl(T,0.9,2.3); mat.opacity = 1-f*0.55; lmat.opacity = 0.13*(1-cl(T,0.9,2.1)*0.6);  // the field thins, but stays as the entrance sky
         cam.position.x = mx*10; cam.position.y = -my*7; cam.position.z += (56 - cam.position.z)*0.02; cam.lookAt(0,0,0);
         if(!revealed && T>1.5){ revealed=true; np.classList.add('reveal'); }   // the name arrives over the settling stars
-        if(T>2.5){ startCurtain(); }   // …then, without a door, the stars become the curtain
+        if(T>2.5){ startCurtain(); }   // …then, no door and no sweep — warm light simply fills the room and carries you in
       } else {
+        // 横移動ゼロ。星はそのまま漂わせ、暖色の光が中心から静かに満ちて Library へ。
         var ct=T-cT0;
-        var gather=eio(cl(ct,0,0.8));            // 粒 → 密度を増して霧になる（急に棒にしない）
-        var flow=eio(cl(ct,0.6,2.0));            // 霧が一枚の布のように流れる
-        var center=-26 + flow*52;               // 左 → 右、幅を持って画面を横切る
-        var pos=geo.attributes.position.array;
-        for(var q=0;q<N;q++){
-          var k=0.05+gather*0.09;               // ゆっくり布に馴染む
-          pos[q*3]   += ((center+veilX[q]) - pos[q*3])  *k + (Math.random()-0.5)*0.06;  // 微かな揺らぎ＝霧の流れ
-          pos[q*3+1] += (veilY[q]          - pos[q*3+1])*(k*0.8) + (Math.random()-0.5)*0.06;
-          pos[q*3+2] += (veilZ[q]          - pos[q*3+2])*0.07;
-        }
-        geo.attributes.position.needsUpdate=true;
-        grp.rotation.y += (0-grp.rotation.y)*0.06; grp.rotation.x += (0-grp.rotation.x)*0.06;  // 回転はゆっくり止める
-        mat.size = 2.6 + gather*1.9;             // 4.5程度まで：霧の粒のまま（棒にしない）
-        mat.opacity = 0.45 + gather*0.55;        // 星の薄まりから、霧の発光へ滑らかに戻す
-        lmat.opacity *= 0.85;                    // 星座線だけ静かに消える
-        cam.position.x += (0-cam.position.x)*0.10; cam.position.y += (0-cam.position.y)*0.10; cam.lookAt(0,0,0);
-        if(flash){ flash.style.opacity = String(cl(ct,1.35,2.05)*0.9); }  // 通過の終わりに、暖色の光がふわっと満ちる
+        mx+=(tmx-mx)*.045; my+=(tmy-my)*.045;
+        grp.rotation.y += 0.0011; grp.rotation.x = my*0.5;                 // 宇宙は生きたまま
+        mat.opacity = Math.max(0, 0.45 - cl(ct,0.15,1.25)*0.45);          // 星は静かに引いていく
+        lmat.opacity *= 0.9;
+        cam.position.x += (0-cam.position.x)*0.06; cam.position.y += (0-cam.position.y)*0.06;
+        cam.position.z += (56 - cam.position.z)*0.02; cam.lookAt(0,0,0);
+        if(flash){ flash.style.opacity = String(eio(cl(ct,0,1.15))); }     // 暖色の光が方向を持たず満ちる
         if(ct>=CURT){ go(); }
       }
       renderer.render(scene, cam);
