@@ -192,6 +192,16 @@
   .ck .m{color:var(--good);font-weight:800;flex:none}
   .quote{font-size:20px;font-weight:650;line-height:1.5;color:var(--ink)}
   .note{font-size:11.5px;color:var(--mut);margin-top:14px;line-height:1.6;border-top:1px dashed var(--line2);padding-top:12px}
+  .dec-intro{font-size:12px;color:var(--mut);line-height:1.7;border-left:2px solid var(--line2);padding:2px 0 2px 12px;margin-bottom:20px}
+  .dec{margin:6px 0}
+  .dec-row{display:grid;grid-template-columns:84px 1fr;gap:14px;padding:10px 0;border-top:1px solid var(--line)}
+  .dec-row:first-child{border-top:none}
+  .dec-k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);padding-top:3px}
+  .dec-k.pos{color:var(--good)}
+  .dec-k.neg{color:#d98a4a}
+  .dec-v{font-size:13px;line-height:1.8;color:var(--sub)}
+  .dec-v b{color:var(--ink);font-weight:600}
+  @media(max-width:600px){.dec-row{grid-template-columns:1fr;gap:3px}}
   .rlink{display:inline-flex;align-items:center;gap:6px;margin-top:6px;color:var(--info);font-size:13px;font-family:var(--mono)}
   .jday{border-left:2px solid var(--line2);padding:2px 0 12px 14px;margin-bottom:4px}
   .jday .d{font-family:var(--mono);font-size:11px;color:var(--purple);letter-spacing:.08em}
@@ -501,28 +511,49 @@ const BOOKS = [
   },
   {
     id:"design", ic:"📕", cover:"images/cover-design.png",
-    title:"Design Bible", sub:"思想書 · CodeLensAI を貫く8つの原則", repo:"CodeLensAI",
+    title:"Design Bible", sub:"設計判断集 · Why it was designed this way.", repo:"CodeLensAI",
     leaves:[
-      `<h3>I · Experience first</h3>
-       <div class="quote" style="font-size:18px">なぜ、UI から設計するのか。</div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">多くのツールは機能表から作られる。私は逆に、<b style="color:var(--ink)">「使った人が何を感じるか」</b>から設計する。CodeLens のレビュー完了で 95%→100% を 750ms 遅らせたのは、機能ではなく<b style="color:var(--ink)">「終わった、という気持ちよさ」</b>のためだ。体験が先、実装は後ろ。</p>`,
-      `<h3>II · Repository Intelligence とは</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">私は CodeLens を「AI コードレビュー」として作っていない。<b style="color:var(--ink)">リポジトリの記憶装置</b>として作った。<br><br>一度きりの解析で終わらせない。読み、理解し、<b style="color:var(--ink)">記憶し</b>、育てる。同じコミットに同じ評価を返せるようにした瞬間、CodeLens は「毎回答えが変わるデモ」から「<b style="color:var(--ink)">リポジトリの現在地を記録できる道具</b>」に変わった。</p>`,
-      `<h3>III · Never claim what isn't measured</h3>
-       <div class="quote" style="font-size:18px">なぜ、数字を盛らないのか。</div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">RewardMe の Case Study で、セキュリティ 45→70 の全要因はまだ分析中だ。だから私は「確認できた修正のみ」と書き、残りは<b style="color:var(--ink)">「分析中」</b>と正直に添えた。<br><br>盛れば一瞬は良く見える。でも <b style="color:var(--ink)">測っていないことを主張した瞬間、すべての数字が疑わしくなる</b>。</p>`,
-      `<h3>IV · Evidence over marketing</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">私は「すごいです」と言う代わりに、<b style="color:var(--ink)">49 → 66</b> と見せる。「改善しました」と書く代わりに、<b style="color:var(--ink)">直した3つの修正</b>を並べる。<br><br>ポートフォリオの9割は「完成品」を見せて終わる。CodeLens は<b style="color:var(--ink)">「軌跡」</b>を見せる。時間軸の証拠は、一番反論しづらい。</p>`,
-      `<h3>V · The user is the protagonist</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">私はこの原則を、プロダクトごとに別の形にした。DebugMe では AI を「先に喋らせない」。CodeLens では、マスコットの <b style="color:var(--ink)">CodeLensくんを画面の主役にせず、末尾のガイド</b>に下げた。<br><br>ツールが賢く見えることより、<b style="color:var(--ink)">使う人が主役でいられること</b>を選ぶ。Human-First ── AI は舞台裏に徹する。これが私の設計の背骨だ。</p>`,
-      `<h3>VI · Memory as a product</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">私にとってレビューは「終わり」ではなく「<b style="color:var(--ink)">入口</b>」だ。理解し、記憶し、育てる ── その入口がレビューだった。<br><br>だから CodeLens には Library がある。DNA、Review History、Case Study、Journal。<b style="color:var(--ink)">レビュー一件一件が、知識になって積み上がる。</b>記憶そのものを、プロダクトにする。</p>`,
-      `<h3>VII · Determinism</h3>
-       <div class="quote" style="font-size:18px">同じコードには、同じ評価を。</div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">temperature を固定し、コミット SHA でキャッシュし、言語非依存のルーブリックを敷く。<br><br>「毎回ちがう点数を出す AI は<b style="color:var(--ink)">占い</b>。同じコミットに同じ評価を返せて、はじめて<b style="color:var(--ink)">道具</b>なんだ。」占いから道具への境界線 ── それが決定論だった。</p>`,
-      `<h3>VIII · The repository remembers</h3>
-       <div class="quote" style="font-size:20px">This is not documentation.<br>This repository <span style="color:var(--purple)">remembers</span>.</div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">作り切ることが第一歩。改善を続けることがエンジニアリング。<br><br>コードは動けば役目を果たす。でも、記録は「なぜそうしたか」を未来へ残す。<b style="color:var(--ink)">スコアより長く残るやつを、コードに刻む。</b>それが、私が CodeLensAI に込めた思想だ。</p>`
+      `<div class="dec-intro">Engineering Decisions — なぜそう設計したか。コードには残らない“判断”を残す場所。</div>
+       <h3>🗄 Deterministic Reviews</h3>
+       <div class="dec">
+         <div class="dec-row"><span class="dec-k">Context</span><span class="dec-v">同じコミットを2回レビューすると点数が変わり、「毎回答えが違う AI ＝占い」に見えた。</span></div>
+         <div class="dec-row"><span class="dec-k">Decision</span><span class="dec-v">temperature を 0.2 に固定し、結果を <b>コミット SHA 単位でキャッシュ</b>。同じ owner/repo@sha は再解析せず複製する。</span></div>
+         <div class="dec-row"><span class="dec-k pos">Pros</span><span class="dec-v">同じコミット＝必ず同じ評価　·　2回目は Claude を呼ばず 49.9s → 1.5s　·　API コスト削減</span></div>
+         <div class="dec-row"><span class="dec-k neg">Cons</span><span class="dec-v">commit_sha カラムとキャッシュ判定が必要　·　評価はコミット単位でしか更新されない</span></div>
+         <div class="dec-row"><span class="dec-k">Alt</span><span class="dec-v">毎回フル解析（非決定的・高コスト）／ temperature=0 のみ（完全な再現性は保証されない → 保証を担うのはキャッシュ）</span></div>
+       </div>`,
+      `<h3>🔍 AI selects 11 of 170 files</h3>
+       <div class="dec">
+         <div class="dec-row"><span class="dec-k">Context</span><span class="dec-v">全ファイルを LLM に渡すとトークン超過・高コスト・ノイズだらけになる。</span></div>
+         <div class="dec-row"><span class="dec-k">Decision</span><span class="dec-v">パス優先度（Services / Controllers / Jobs ＞ Models）＋サイズで <b>重要ファイルを最大12件</b>抽出してから解析する。</span></div>
+         <div class="dec-row"><span class="dec-k pos">Pros</span><span class="dec-v">高速・安価　·　“どこを読むべきか”という価値そのもの　·　レビューより「理解」を売れる</span></div>
+         <div class="dec-row"><span class="dec-k neg">Cons</span><span class="dec-v">重要ファイルを取りこぼす可能性　·　ヒューリスティックの継続調整が必要</span></div>
+         <div class="dec-row"><span class="dec-k">Alt</span><span class="dec-v">リポジトリ全体を渡す（token limit・コスト）／ ランダムサンプリング（精度が落ちる）</span></div>
+       </div>`,
+      `<h3>⚡ completed_count as Source of Truth</h3>
+       <div class="dec">
+         <div class="dec-row"><span class="dec-k">Context</span><span class="dec-v">（RewardMe）タスク完了数を毎回 COUNT すると、リスト表示やゲージ描画で N+1・遅延が出る。</span></div>
+         <div class="dec-row"><span class="dec-k">Decision</span><span class="dec-v">completed_count を非正規化して保持し、それを <b>唯一の真実（Source of Truth）</b> とする。</span></div>
+         <div class="dec-row"><span class="dec-k pos">Pros</span><span class="dec-v">高速・シンプル　·　ゲージ演出が即時反映</span></div>
+         <div class="dec-row"><span class="dec-k neg">Cons</span><span class="dec-v">完了 / 取消時に同期が必要（ずれるとバグの温床）</span></div>
+         <div class="dec-row"><span class="dec-k">Alt</span><span class="dec-v">毎回 COUNT(*)（常に正確だが遅く、N+1 を生む）</span></div>
+       </div>`,
+      `<h3>🎬 Experience First</h3>
+       <div class="dec">
+         <div class="dec-row"><span class="dec-k">Context</span><span class="dec-v">多くのツールは機能表から作られる。だが人が憶えているのは、機能でなく「体験」だ。</span></div>
+         <div class="dec-row"><span class="dec-k">Decision</span><span class="dec-v">機能でなく <b>「使った人が何を感じるか」</b> から設計する。レビュー完了の 95%→100% を <b>あえて 750ms 遅らせ</b>、“終わった気持ちよさ”を作った。</span></div>
+         <div class="dec-row"><span class="dec-k pos">Pros</span><span class="dec-v">記憶に残る　·　演出が“機能”として効く　·　プロダクトに人格が出る</span></div>
+         <div class="dec-row"><span class="dec-k neg">Cons</span><span class="dec-v">速さと逆行する場面がある　·　やり過ぎると邪魔になる</span></div>
+         <div class="dec-row"><span class="dec-k">Alt</span><span class="dec-v">機能優先で即完了（速いが、何も残らない）</span></div>
+       </div>`,
+      `<h3>Keep the proof. Update the promise.</h3>
+       <div class="quote" style="font-size:20px">Keep the proof.<br>Update the <span style="color:var(--purple)">promise</span>.</div>
+       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">これはコードの話でも UI の話でもない。<b style="color:var(--ink)">プロダクトを育てる憲法</b>だ。だから、この本の最後に置く。</p>
+       <div class="dec">
+         <div class="dec-row"><span class="dec-k">Proof</span><span class="dec-v"><b>構図＝実際に動く証拠は変えない。</b>例：バナー中央の「88 EXCELLENT / 実レビュー結果」。概念でなく、本当に動く証拠が安心を生む。</span></div>
+         <div class="dec-row"><span class="dec-k">Promise</span><span class="dec-v"><b>コピー＝約束は進化させる。</b>「最高レベルのコードレビュー体験を」→「Your repository remembers. / Repository Intelligence, built on memory.」</span></div>
+       </div>
+       <div class="note">背骨：Read → Understand → Remember → Grow.　どこでも4つ揃える（Understand を省かない）。</div>`
     ]
   },
   {
