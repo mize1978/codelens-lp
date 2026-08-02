@@ -225,6 +225,15 @@
   .dna-tbl td b{color:var(--ink)}
   .dna-tbl tr:last-child td{border-bottom:none}
   @media(max-width:600px){.dna-pa{grid-template-columns:1fr}}
+  .dna-lead{font-size:15.5px;line-height:1.95;color:var(--ink);opacity:.92;margin:2px 0 4px}
+  .dna-lead b{font-weight:600}
+  .dna-fine{font-size:11.5px;color:var(--mut);line-height:1.6;margin-top:6px}
+  .dna-grades{display:flex;flex-wrap:wrap;gap:8px 10px;margin:4px 0}
+  .dna-grades span{border:1px solid var(--line);border-radius:20px;padding:5px 13px;font-size:12px;color:var(--mut)}
+  .dna-grades b{color:var(--sub);font-weight:600}
+  .dna-grades .ov{border-color:rgba(63,185,80,.32)}
+  .dna-grades .ov b{color:var(--good)}
+  .dna-div{height:1px;background:linear-gradient(90deg,transparent,var(--line2),transparent);margin:26px 0 4px}
   .rlink{display:inline-flex;align-items:center;gap:6px;margin-top:6px;color:var(--info);font-size:13px;font-family:var(--mono)}
   .jday{border-left:2px solid var(--line2);padding:2px 0 12px 14px;margin-bottom:4px}
   .jday .d{font-family:var(--mono);font-size:11px;color:var(--purple);letter-spacing:.08em}
@@ -425,29 +434,31 @@ const BOOKS = [
     title:"Repository DNA", sub:"AI が読んだカルテ · mize1978/debugme", repo:"mize1978/debugme",
     leaves:[
       `<div class="dna-callout"><b>Repository DNA</b> — the personality of a codebase, read by CodeLens AI.<br>Not a score. <b>A character sheet.</b></div>
-       <div class="dna-sub">mize1978/debugme — AI thought-debugging tool. 悩みをエンジニアの "エラーログ" に変える。</div>
        <h3>🧬 Identity</h3>
-       <p class="dna-p">Rails 7.2 web app that converts personal worries into error-log-style diagnostics, streamed live by AI.</p>`,
+       <p class="dna-lead">DebugMe は、悩みを <b>エンジニアの "エラーログ"</b> に変える Rails 7.2 のアプリ。<br>だが観察していて一番の特徴は、機能ではない——<b>AI が、先に喋らないこと</b>だ。このリポジトリは、静けさで語る。</p>`,
       `<h3>🧭 Design Principle</h3>
-       <div class="quote" style="font-size:18px">DebugMe never speaks first.</div>
+       <div class="quote" style="font-size:20px">DebugMe never speaks first.</div>
        <p class="dna-p">The interface listens before it explains. — 主役はいつもユーザー。AI は舞台裏に徹する。</p>`,
       `<h3>🏛 Architecture</h3>
        <ul class="dna-ul"><li>Rails 7.2（MVC）</li><li>Server-Sent Events — <b>ActionController::Live</b></li><li>Hotwire（Turbo + Stimulus）</li><li>Claude API（streaming）</li></ul>`,
       `<h3>✅ Strengths</h3>
-       <ul class="dna-ul"><li><b>Real-time streaming UX</b> — 解析が目の前でほどけていく</li><li><b>Strong world-building</b> — Neco というキャラクター・一貫したブランド</li><li><b>Clear product philosophy</b> — "never speaks first"</li></ul>`,
+       <ul class="dna-ul"><li><b>Real-time streaming</b> — 解析が目の前でほどけていく</li><li><b>World-building</b> — Neco・一貫したブランド</li><li><b>Clear philosophy</b> — "never speaks first"</li></ul>`,
       `<h3>⚠️ Watch Areas</h3>
-       <ul class="dna-ul"><li><b>Prompt handling</b> — 入力が未サニタイズで LLM へ（Prompt Injection の露出）</li><li><b>Input validation</b> — Strong Parameters なし</li><li><b>Test coverage</b> — 薄い</li></ul>`,
+       <ul class="dna-ul"><li><b>Prompt handling</b> — 入力が未サニタイズで LLM へ</li><li><b>Input validation</b> — Strong Parameters なし</li><li><b>Test coverage</b> — 薄い</li></ul>`,
       `<h3>🧠 Personality</h3>
-       <div class="dna-pa"><div class="box pref"><div class="h">✅ Prefers</div><p>Experience-first design · Streaming over reloads · Consistent branding</p></div><div class="box avoid"><div class="h">🚫 Avoids</div><p>AI speaking before the user · Generic UI · Hidden complexity</p></div></div>`,
+       <div class="dna-pa"><div class="box pref"><div class="h">✅ Prefers</div><p>Experience-first · Streaming over reloads · Consistent branding</p></div><div class="box avoid"><div class="h">🚫 Avoids</div><p>AI speaking first · Generic UI · Hidden complexity</p></div></div>`,
       `<h3>📊 Grades</h3>
-       <table class="dna-tbl"><tr><th>Axis</th><th>Grade</th><th>Score</th></tr><tr><td>Security</td><td>C</td><td>55</td></tr><tr><td>Quality</td><td>B</td><td>62</td></tr><tr><td>Maintainability</td><td>B</td><td>68</td></tr><tr><td><b>Overall</b></td><td><b>GOOD</b></td><td><b>62</b></td></tr></table>`,
+       <div class="dna-grades"><span>Security <b>C · 55</b></span><span>Quality <b>B · 62</b></span><span>Maintainability <b>B · 68</b></span><span class="ov">Overall <b>GOOD · 62</b></span></div>
+       <p class="dna-fine">数字は補助。主役は "AI がこのリポジトリをどう見ているか"。</p>`,
       `<h3>📐 Conventions & Patterns</h3>
-       <ul class="dna-ul"><li><b>SSE-first delivery</b> — 解析は ActionController::Live でストリーム。ポーリングしない</li><li><b>Hotwire over SPA</b> — Stimulus で対話性、サーバーレンダリング主体</li><li><b>Error-log metaphor</b> — 悩み → 構造化されたエラーログ</li><li><b>Character-led, never first</b> — Neco が案内するが、先には喋らない</li></ul>`,
+       <ul class="dna-ul"><li><b>SSE-first delivery</b> — 解析はストリーム。ポーリングしない</li><li><b>Hotwire over SPA</b> — サーバーレンダリング主体</li><li><b>Error-log metaphor</b> — 悩み → 構造化されたエラーログ</li><li><b>Character-led, never first</b> — Neco が案内するが先には喋らない</li></ul>`,
       `<h3>📌 Known Issues</h3>
-       <table class="dna-tbl"><tr><th>Severity</th><th>Issue</th><th>Fix</th></tr><tr><td>🔴 Critical</td><td>show に認可なし — 連番IDで他人の悩みが閲覧可</td><td>slug化 / ip_hash照合</td></tr><tr><td>🟡 Watch</td><td>Test coverage が薄い / 入力長</td><td>主要フローをカバー・length制限</td></tr><tr><td>✅ Fixed</td><td>Prompt Injection / Strong Parameters（#52）</td><td>タグ隔離＋system / permit</td></tr></table>`,
-      `<h3>🕐 Review History</h3>
-       <table class="dna-tbl"><tr><th>#</th><th>Date</th><th>Score</th><th>Note</th></tr><tr><td>1</td><td>07-24</td><td>55 · FAIR</td><td>Baseline — 11/170 files</td></tr><tr><td>2</td><td>07-25</td><td>62 · GOOD</td><td>Prompt Injection & Strong Params 修正 → +7</td></tr></table>
-       <div class="note">2回で 55 → 62（+7）。指摘 → 修正 → 再レビューのループで、DNA が「現在地」から「軌跡」になった。次の一手は show の認可。</div>`,
+       <ul class="dna-ul"><li><b>🔴 show に認可なし</b> — 連番IDで他人の悩みが閲覧可 → slug化 / ip_hash</li><li><b>🟡 Test coverage / 入力長</b> — 主要フローをカバー・length制限</li><li><b>✅ Fixed</b> — Prompt Injection / Strong Parameters（#52）</li></ul>`,
+      `<div class="dna-div"></div>
+       <h3>🕐 Review History</h3>
+       <p class="dna-lead">55 → 62（+7）。<b>このリポジトリは、止まっていない。</b></p>
+       <ul class="dna-ul"><li><b>#1 · 07-24 · 55 FAIR</b> — Baseline scan（11/170 files）</li><li><b>#2 · 07-25 · 62 GOOD</b> — Prompt Injection & Strong Params 修正 → +7</li></ul>
+       <div class="note">指摘 → 修正 → 再レビュー。DNA が「現在地」から「軌跡」になった。次の一手は show の認可。</div>`,
       `<h3>🌱 Evolution</h3>
        <div class="dna-callout grow">Growing toward → <b>Repository Intelligence</b>.<br>DNA is not fixed. It evolves with every commit.</div>`
     ]
