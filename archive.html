@@ -202,6 +202,29 @@
   .dec-v{font-size:13px;line-height:1.8;color:var(--sub)}
   .dec-v b{color:var(--ink);font-weight:600}
   @media(max-width:600px){.dec-row{grid-template-columns:1fr;gap:3px}}
+  .dna-callout{border:1px solid rgba(88,166,255,.26);background:rgba(88,166,255,.05);border-radius:12px;padding:13px 16px;font-size:13px;line-height:1.75;color:var(--sub);margin-bottom:8px}
+  .dna-callout b{color:var(--ink);font-weight:600}
+  .dna-callout.grow{border-color:rgba(63,185,80,.26);background:rgba(63,185,80,.05)}
+  .dna-sub{font-size:12.5px;color:var(--mut);line-height:1.7;margin-bottom:6px;border-bottom:1px dashed var(--line2);padding-bottom:16px}
+  .dna-p{font-size:13.5px;line-height:1.85;color:var(--sub)}
+  .dna-ul{list-style:none;margin:4px 0;display:flex;flex-direction:column;gap:9px}
+  .dna-ul li{position:relative;padding-left:16px;font-size:13px;line-height:1.7;color:var(--sub)}
+  .dna-ul li::before{content:"—";position:absolute;left:0;color:var(--mut)}
+  .dna-ul li b{color:var(--ink);font-weight:600}
+  .dna-pa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0}
+  .dna-pa .box{border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .dna-pa .box.pref{border-color:rgba(63,185,80,.22)}
+  .dna-pa .box.avoid{border-color:rgba(224,120,90,.22)}
+  .dna-pa .box .h{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+  .dna-pa .box.pref .h{color:var(--good)}
+  .dna-pa .box.avoid .h{color:#e0785a}
+  .dna-pa .box p{font-size:12.5px;line-height:1.7;color:var(--sub)}
+  .dna-tbl{width:100%;border-collapse:collapse;margin:8px 0;font-size:12.5px}
+  .dna-tbl th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);padding:8px 10px;border-bottom:1px solid var(--line2);font-weight:600}
+  .dna-tbl td{padding:9px 10px;border-bottom:1px solid var(--line);color:var(--sub);line-height:1.5;vertical-align:top}
+  .dna-tbl td b{color:var(--ink)}
+  .dna-tbl tr:last-child td{border-bottom:none}
+  @media(max-width:600px){.dna-pa{grid-template-columns:1fr}}
   .rlink{display:inline-flex;align-items:center;gap:6px;margin-top:6px;color:var(--info);font-size:13px;font-family:var(--mono)}
   .jday{border-left:2px solid var(--line2);padding:2px 0 12px 14px;margin-bottom:4px}
   .jday .d{font-family:var(--mono);font-size:11px;color:var(--purple);letter-spacing:.08em}
@@ -399,56 +422,34 @@
 const BOOKS = [
   {
     id:"dna", ic:"🧬", cover:"images/cover-dna.png",
-    title:"Repository DNA", sub:"読む本 · mize1978/debugme の思想", repo:"mize1978/debugme",
+    title:"Repository DNA", sub:"AI が読んだカルテ · mize1978/debugme", repo:"mize1978/debugme",
     leaves:[
-      `<h3>1 · Philosophy</h3>
-       <div class="quote" style="font-size:17px">DebugMe never speaks first.<br>It listens. It organizes. It reflects.</div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">AI が先に答えを出すのではなく、ユーザーの言葉を受け止め、整理し、映し返す。DebugMe は<b style="color:var(--ink)">相談 AI ではない</b>。思考を整理するための「デバッグツール」だ。<br><br><b style="color:var(--ink)">AI should support. Users should decide.</b> ── 主役はいつもユーザーで、AI は舞台裏に徹する。</p>`,
-      `<h3>2 · Why DebugMe exists</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">悩みや考えすぎを、そのまま <b style="color:var(--ink)">構造化されたエラーログ</b> に変換する ── ユーモアを添えて。「Overthinking::LoopDetected（考えすぎて同じところをぐるぐるしている）」のように。<br><br>これは同時に、<b style="color:var(--ink)">AI が"やってはいけないこと"</b>のデモでもある。先回りして答えを与えない。指示しない。その抑制こそが、DebugMe の存在理由だ。</p>`,
-      `<h3>3 · Repository Personality</h3>
-       <div style="font-size:11px;color:var(--good);font-family:var(--mono);margin-bottom:7px">PREFERS</div>
-       <div class="ck"><span class="m">✓</span> Experience-first ── まず体験</div>
-       <div class="ck"><span class="m">✓</span> Streaming over reloads ── 待たせず流す</div>
-       <div class="ck"><span class="m">✓</span> Consistent branding ── 世界観を崩さない</div>
-       <div style="font-size:11px;color:var(--crit);font-family:var(--mono);margin:14px 0 7px">AVOIDS</div>
-       <div class="ck"><span class="m" style="color:var(--crit)">✕</span> AI speaking first ── AI が先に喋る</div>
-       <div class="ck"><span class="m" style="color:var(--crit)">✕</span> Generic UI ── どこかで見た UI</div>
-       <div class="ck"><span class="m" style="color:var(--crit)">✕</span> Hidden complexity ── 隠された複雑さ</div>`,
-      `<h3>4 · The "reading" experience</h3>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85">悩みを打つと、システムコンソールに解析が一行ずつ流れる ── <span style="font-family:var(--mono);font-size:12px;color:var(--info)">Booting… / Connecting to Claude API… / Listening to your thoughts…</span><br><br>結果を一枚のカードでポンと出さない。<b style="color:var(--ink)">AI が今あなたの言葉を読んでいる過程</b>を SSE で見せる。深刻度は 0–100%、そして次の一歩は<b style="color:var(--ink)">必ず3つまで</b>。多すぎる助言は、助言をやめる。</p>`,
-      `<h3>5 · Architecture</h3>
-       <div class="row"><span class="k">Pattern</span><span class="v">MVC</span></div>
-       <div class="row"><span class="k">Realtime</span><span class="v">SSE / ActionController::Live</span></div>
-       <div class="row"><span class="k">Risk</span><span class="v">Medium</span></div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85;margin-top:10px">Rails 7.2 の MVC を土台に、Hotwire（Turbo + Stimulus）でフロントを構成。解析結果は <b style="color:var(--ink)">Server-Sent Events</b> でリアルタイムに流し込み、ページリロードを一切挟まない。</p>`,
-      `<h3>6 · Concrete decisions</h3>
-       <div class="ck"><span class="m">›</span> 次の一歩は<b style="color:var(--ink)">3つまで</b> ── 選択肢で溺れさせない</div>
-       <div class="ck"><span class="m">›</span> エラーログに<b style="color:var(--ink)">ユーモア</b>を ── 「Overthinking::LoopDetected」</div>
-       <div class="ck"><span class="m">›</span> 自己肯定感・行動力・コミュ力を<b style="color:var(--ink)">数値化</b> ── 曖昧な悩みに座標を与える</div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85;margin-top:10px">抽象的な原則ではなく、画面に落ちた具体的な判断。これらの積み重ねが「DebugMe らしさ」になる。</p>`,
-      `<h3>7 · Technology</h3>
-       <div class="tags">
-        <span class="tag">Ruby 3.1.4</span><span class="tag">Rails 7.2</span><span class="tag">Hotwire</span><span class="tag">Import Maps</span>
-        <span class="tag">Claude (sonnet-4-6)</span><span class="tag">SSE</span><span class="tag">PostgreSQL</span><span class="tag">Redis</span><span class="tag">Docker</span><span class="tag">Render</span>
-       </div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85;margin-top:10px">Turbo / Stimulus + Import Maps のフルスクラッチ。Claude API を <b style="color:var(--ink)">ActionController::Live</b> でストリーミングし、Redis でキャッシュ。</p>`,
-      `<h3>8 · Evolution</h3>
-       <div class="big" style="font-size:30px">49.9s <span class="ar">→</span> <span class="to">1.5s</span></div>
-       <p style="font-size:13.5px;color:var(--sub);line-height:1.85;margin-top:8px">決定論的レビュー（temperature 固定＋コミット SHA キャッシュ）の導入で、同一コミットの再レビューがキャッシュから返るように。「毎回ちがう点数を出す AI は占い。<b style="color:var(--ink)">同じコミットに同じ評価を返せて、はじめて道具</b>」。</p>`,
-      `<h3>9 · Repository Health</h3>
-       <div class="big" style="color:var(--warn)">55<span style="font-size:17px;color:var(--mut)"> · FAIR</span></div>
-       <div class="row"><span class="k">Security</span><span class="v">C</span></div>
-       <div class="row"><span class="k">Quality</span><span class="v">B</span></div>
-       <div class="row"><span class="k">Maintenance</span><span class="v">C</span></div>
-       <div style="font-size:11px;color:var(--crit);font-family:var(--mono);margin:12px 0 4px">CRITICAL</div>
-       <div class="ck"><span class="m" style="color:var(--crit)">■</span> Prompt Injection 無防備</div>
-       <div class="ck"><span class="m" style="color:var(--crit)">■</span> Strong Parameters 未使用</div>`,
-      `<h3>10 · Future Evolution</h3>
-       <div class="ck"><span class="m">→</span> Prompt Injection 対策（file_content タグで隔離）の深化</div>
-       <div class="ck"><span class="m">→</span> Strong Parameters の導入で Security を C → B へ</div>
-       <div class="ck"><span class="m">→</span> worker 常駐化で解析アニメを復活（sync 脱却）</div>
-       <div class="note">DNA は完成品ではない。レビューのたびに、この本のページが書き換わる。<br><a class="rlink" data-goto="reviews">Review History →</a>　<a class="rlink" data-goto="design">Design Bible →</a></div>`
+      `<div class="dna-callout"><b>Repository DNA</b> — the personality of a codebase, read by CodeLens AI.<br>Not a score. <b>A character sheet.</b></div>
+       <div class="dna-sub">mize1978/debugme — AI thought-debugging tool. 悩みをエンジニアの "エラーログ" に変える。</div>
+       <h3>🧬 Identity</h3>
+       <p class="dna-p">Rails 7.2 web app that converts personal worries into error-log-style diagnostics, streamed live by AI.</p>`,
+      `<h3>🧭 Design Principle</h3>
+       <div class="quote" style="font-size:18px">DebugMe never speaks first.</div>
+       <p class="dna-p">The interface listens before it explains. — 主役はいつもユーザー。AI は舞台裏に徹する。</p>`,
+      `<h3>🏛 Architecture</h3>
+       <ul class="dna-ul"><li>Rails 7.2（MVC）</li><li>Server-Sent Events — <b>ActionController::Live</b></li><li>Hotwire（Turbo + Stimulus）</li><li>Claude API（streaming）</li></ul>`,
+      `<h3>✅ Strengths</h3>
+       <ul class="dna-ul"><li><b>Real-time streaming UX</b> — 解析が目の前でほどけていく</li><li><b>Strong world-building</b> — Neco というキャラクター・一貫したブランド</li><li><b>Clear product philosophy</b> — "never speaks first"</li></ul>`,
+      `<h3>⚠️ Watch Areas</h3>
+       <ul class="dna-ul"><li><b>Prompt handling</b> — 入力が未サニタイズで LLM へ（Prompt Injection の露出）</li><li><b>Input validation</b> — Strong Parameters なし</li><li><b>Test coverage</b> — 薄い</li></ul>`,
+      `<h3>🧠 Personality</h3>
+       <div class="dna-pa"><div class="box pref"><div class="h">✅ Prefers</div><p>Experience-first design · Streaming over reloads · Consistent branding</p></div><div class="box avoid"><div class="h">🚫 Avoids</div><p>AI speaking before the user · Generic UI · Hidden complexity</p></div></div>`,
+      `<h3>📊 Grades</h3>
+       <table class="dna-tbl"><tr><th>Axis</th><th>Grade</th><th>Score</th></tr><tr><td>Security</td><td>C</td><td>55</td></tr><tr><td>Quality</td><td>B</td><td>62</td></tr><tr><td>Maintainability</td><td>B</td><td>68</td></tr><tr><td><b>Overall</b></td><td><b>GOOD</b></td><td><b>62</b></td></tr></table>`,
+      `<h3>📐 Conventions & Patterns</h3>
+       <ul class="dna-ul"><li><b>SSE-first delivery</b> — 解析は ActionController::Live でストリーム。ポーリングしない</li><li><b>Hotwire over SPA</b> — Stimulus で対話性、サーバーレンダリング主体</li><li><b>Error-log metaphor</b> — 悩み → 構造化されたエラーログ</li><li><b>Character-led, never first</b> — Neco が案内するが、先には喋らない</li></ul>`,
+      `<h3>📌 Known Issues</h3>
+       <table class="dna-tbl"><tr><th>Severity</th><th>Issue</th><th>Fix</th></tr><tr><td>🔴 Critical</td><td>show に認可なし — 連番IDで他人の悩みが閲覧可</td><td>slug化 / ip_hash照合</td></tr><tr><td>🟡 Watch</td><td>Test coverage が薄い / 入力長</td><td>主要フローをカバー・length制限</td></tr><tr><td>✅ Fixed</td><td>Prompt Injection / Strong Parameters（#52）</td><td>タグ隔離＋system / permit</td></tr></table>`,
+      `<h3>🕐 Review History</h3>
+       <table class="dna-tbl"><tr><th>#</th><th>Date</th><th>Score</th><th>Note</th></tr><tr><td>1</td><td>07-24</td><td>55 · FAIR</td><td>Baseline — 11/170 files</td></tr><tr><td>2</td><td>07-25</td><td>62 · GOOD</td><td>Prompt Injection & Strong Params 修正 → +7</td></tr></table>
+       <div class="note">2回で 55 → 62（+7）。指摘 → 修正 → 再レビューのループで、DNA が「現在地」から「軌跡」になった。次の一手は show の認可。</div>`,
+      `<h3>🌱 Evolution</h3>
+       <div class="dna-callout grow">Growing toward → <b>Repository Intelligence</b>.<br>DNA is not fixed. It evolves with every commit.</div>`
     ]
   },
   {
